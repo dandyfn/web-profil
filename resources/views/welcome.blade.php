@@ -120,6 +120,7 @@
         </section>
 
         <!-- SEKSI: MY SKILLS & TOOLS (Dipecah per Sub-Kategori) -->
+               <!-- SEKSI: MY SKILLS & TOOLS (Disesuaikan Warna Tiap Logo) -->
         <section class="mb-20">
 
             <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-12">
@@ -131,54 +132,61 @@
                 <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Computer Networks</h4>
                 <div class="flex flex-wrap gap-5">
 
-                    <!-- Cisco -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-cyan-400/30 backdrop-blur-sm rounded-xl text-cyan-300 font-medium text-lg shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition duration-300">
+                    <!-- Cisco (Cyan) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-cyan-500/30 backdrop-blur-sm rounded-xl text-cyan-300 font-medium text-lg shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/cisco.png') }}" alt="Cisco" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/cisco.png';">
                         <span>Cisco</span>
                     </div>
 
-                    <!-- MikroTik -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-pink-500/30 backdrop-blur-sm rounded-xl text-pink-400 font-medium text-lg shadow-[0_0_15px_rgba(244,63,94,0.1)] hover:border-pink-500 hover:shadow-[0_0_20px_rgba(244,63,94,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/mikrotik.png') }}" alt="MikroTik" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/mikrotik.png';">
-                        <span>MikroTik</span>
+                    <!-- Eve NG (Deep Pink) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-pink-500/30 backdrop-blur-sm rounded-xl text-pink-400 font-medium text-lg shadow-[0_0_15px_rgba(244,63,94,0.1)] hover:border-pink-400 hover:shadow-[0_0_20px_rgba(244,63,94,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/eveng.png') }}" alt="Eve NG" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/network.png';">
+                        <span>Eve NG</span>
                     </div>
 
-                    <!-- Wireshark -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-blue-500/30 backdrop-blur-sm rounded-xl text-blue-300 font-medium text-lg shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition duration-300">
+                    <!-- Wireshark (Sky Blue) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-blue-500/30 backdrop-blur-sm rounded-xl text-blue-300 font-medium text-lg shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/wireshark.png') }}" alt="Wireshark" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/wireshark.png';">
                         <span>Wireshark</span>
                     </div>
 
-                    <!-- Huawei -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-red-500/30 backdrop-blur-sm rounded-xl text-red-400 font-medium text-lg shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/huawei.png') }}" alt="Huawei" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/huawei.png';">
-                        <span>Huawei</span>
+                    <!-- GNS3 (Teal/Indigo) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-indigo-500/30 backdrop-blur-sm rounded-xl text-indigo-300 font-medium text-lg shadow-[0_0_15px_rgba(99,102,241,0.1)] hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/gns3.png') }}" alt="GNS3" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/hub.png';">
+                        <span>GNS3</span>
+                    </div>
+
+                    <!-- WinSCP (Slate Gray Theme) -->
+
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-slate-500/30 backdrop-blur-sm rounded-xl text-slate-300 font-medium text-lg shadow-[0_0_15px_rgba(148,163,184,0.1)] hover:border-slate-400 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/winscp.png') }}" alt="WinSCP" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/open-folder.png';">
+                        <span>WinSCP</span>
                     </div>
 
                 </div>
             </div>
 
-            <!-- SUB-KATEGORI 2: EDUCATION -->
+            <!-- SUB-KATEGORI 2: TECH EDUCATION -->
             <div class="mb-12">
-                <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Education</h4>
+                <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Tech Education</h4>
                 <div class="flex flex-wrap gap-5">
 
-                    <!-- NetAcad -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-teal-500/30 backdrop-blur-sm rounded-xl text-teal-300 font-medium text-lg shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:border-teal-500 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/netacad.png') }}" alt="NetAcad" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(20,184,166,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/education.png';">
-                        <span>Cisco NetAcad</span>
+                    <!-- Moodle (Teal) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-teal-500/30 backdrop-blur-sm rounded-xl text-teal-300 font-medium text-lg shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/moodle.png') }}" alt="Moodle" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(20,184,166,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/moodle.png';">
+                        <span>Moodle</span>
                     </div>
 
-                    <!-- Udemy -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-purple-500/30 backdrop-blur-sm rounded-xl text-purple-300 font-medium text-lg shadow-[0_0_15px_rgba(168,85,247,0.1)] hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/udemy.png') }}" alt="Udemy" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/udemy.png';">
-                        <span>Udemy</span>
+                    <!-- Canva (Violet/Purple) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-violet-500/30 backdrop-blur-sm rounded-xl text-violet-300 font-medium text-lg shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:border-violet-400 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/canva.png') }}" alt="Canva" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/canva.png';">
+                        <span>Canva</span>
                     </div>
 
-                    <!-- Coursera -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-indigo-500/30 backdrop-blur-sm rounded-xl text-indigo-300 font-medium text-lg shadow-[0_0_15px_rgba(99,102,241,0.1)] hover:border-indigo-500 hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/coursera.png') }}" alt="Coursera" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/coursera.png';">
-                        <span>Coursera</span>
+                    <!-- GDevelop (Deep Purple) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-purple-500/30 backdrop-blur-sm rounded-xl text-purple-300 font-medium text-lg shadow-[0_0_15px_rgba(168,85,247,0.1)] hover:border-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/gdevelop.jpeg') }}" alt="GDevelop" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/google-play-game-services.png';">
+                        <span>GDevelop</span>
                     </div>
 
                 </div>
@@ -189,66 +197,84 @@
                 <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Programming & Database</h4>
                 <div class="flex flex-wrap gap-5">
 
-                    <!-- Python -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-yellow-500/30 backdrop-blur-sm rounded-xl text-yellow-300 font-medium text-lg shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:border-yellow-500 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/python.png') }}" alt="Python" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/python.png';">
-                        <span>Python</span>
+                    <!-- Java (Yellow/Gold) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-yellow-500/30 backdrop-blur-sm rounded-xl text-yellow-300 font-medium text-lg shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/java.png') }}" alt="Java" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/java-files.png';">
+                        <span>Java</span>
                     </div>
 
-                    <!-- Laravel -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-orange-500/30 backdrop-blur-sm rounded-xl text-orange-400 font-medium text-lg shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-orange-500 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/laravel.png') }}" alt="Laravel" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/fluency/48/laravel.png';">
+                                        <!-- Laravel (Warm Coklat / Amber Theme) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-amber-600/30 backdrop-blur-sm rounded-xl text-amber-500 font-medium text-lg shadow-[0_0_15px_rgba(217,119,6,0.1)] hover:border-amber-500 hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/laravel.png') }}" alt="Laravel" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(217,119,6,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/fluency/48/laravel.png';">
                         <span>Laravel</span>
                     </div>
 
-                    <!-- Docker -->
+                    <!-- HTML CSS (Sky Blue) -->
                     <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-sky-400/30 backdrop-blur-sm rounded-xl text-sky-300 font-medium text-lg shadow-[0_0_15px_rgba(56,189,248,0.1)] hover:border-sky-400 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/docker.png') }}" alt="Docker" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/docker.png';">
-                        <span>Docker</span>
+                        <img src="{{ asset('images/logos/htmlcss.png') }}" alt="HTML CSS" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/html-5.png';">
+                        <span>HTML CSS</span>
                     </div>
 
-                    <!-- PostgreSQL -->
+                    <!-- DBeaver (Indigo/Brown) -->
                     <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-indigo-400/30 backdrop-blur-sm rounded-xl text-indigo-300 font-medium text-lg shadow-[0_0_15px_rgba(99,102,241,0.1)] hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/postgres.png') }}" alt="PostgreSQL" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/postgreesql.png';">
-                        <span>PostgreSQL</span>
+                        <img src="{{ asset('images/logos/dbeaver.png') }}" alt="DBeaver" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/database.png';">
+                        <span>DBeaver</span>
                     </div>
 
-                    <!-- MySQL -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-cyan-500/30 backdrop-blur-sm rounded-xl text-cyan-400 font-medium text-lg shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:border-cyan-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition duration-300">
+                    <!-- MySQL (Cyan) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-cyan-500/30 backdrop-blur-sm rounded-xl text-cyan-400 font-medium text-lg shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/mysql.png') }}" alt="MySQL" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/mysql.png';">
                         <span>MySQL</span>
+                    </div>
+
+                    <!-- VS Code (Blue) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-blue-500/30 backdrop-blur-sm rounded-xl text-blue-300 font-medium text-lg shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/vscode.png') }}" alt="VS Code" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/visual-studio-code-2019.png';">
+                        <span>VS Code</span>
+                    </div>
+
+                    <!-- Intellij IDEA (Purple/Violet) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-violet-500/30 backdrop-blur-sm rounded-xl text-violet-300 font-medium text-lg shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:border-violet-400 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/intelej.png') }}" alt="Intellij IDEA" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/intellij-idea.png';">
+                        <span>Intelej</span>
                     </div>
 
                 </div>
             </div>
 
-            <!-- SUB-KATEGORI 4: GAMING -->
+            <!-- SUB-KATEGORI 4: OPERATING SYSTEM -->
             <div class="mb-12">
-                <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Gaming</h4>
+                <h4 class="text-lg text-gray-400 uppercase tracking-widest mb-8">Operating System</h4>
                 <div class="flex flex-wrap gap-5">
 
-                    <!-- Steam -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-slate-500/30 backdrop-blur-sm rounded-xl text-slate-300 font-medium text-lg shadow-[0_0_15px_rgba(148,163,184,0.1)] hover:border-slate-400 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/steam.png') }}" alt="Steam" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/steam.png';">
-                        <span>Steam</span>
+                    <!-- Debian (Rose) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-rose-500/30 backdrop-blur-sm rounded-xl text-rose-300 font-medium text-lg shadow-[0_0_15px_rgba(244,63,94,0.1)] hover:border-rose-400 hover:shadow-[0_0_20px_rgba(244,63,94,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/debian.png') }}" alt="Debian" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/debian.png';">
+                        <span>Debian</span>
                     </div>
 
-                    <!-- Discord -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-indigo-400/30 backdrop-blur-sm rounded-xl text-indigo-300 font-medium text-lg shadow-[0_0_15px_rgba(129,140,248,0.1)] hover:border-indigo-400 hover:shadow-[0_0_20px_rgba(129,140,248,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/discord.png') }}" alt="Discord" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(129,140,248,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/discord-logo.png';">
-                        <span>Discord</span>
+                    <!-- Ubuntu (Orange) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-orange-500/30 backdrop-blur-sm rounded-xl text-orange-400 font-medium text-lg shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-orange-400 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/ubuntu.png') }}" alt="Ubuntu" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/ubuntu.png';">
+                        <span>Ubuntu</span>
                     </div>
 
-                    <!-- OBS Studio -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-zinc-500/30 backdrop-blur-sm rounded-xl text-zinc-300 font-medium text-lg shadow-[0_0_15px_rgba(161,161,170,0.1)] hover:border-zinc-400 hover:shadow-[0_0_20px_rgba(161,161,170,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/obs.png') }}" alt="OBS Studio" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(161,161,170,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/obs-studio.png';">
-                        <span>OBS Studio</span>
-                    </div>
-
-                    <!-- Linux Mint (Gaming) -->
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-green-500/30 backdrop-blur-sm rounded-xl text-green-300 font-medium text-lg shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:border-green-500 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] transition duration-300">
+                    <!-- Linux Mint (Green) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-green-500/30 backdrop-blur-sm rounded-xl text-green-300 font-medium text-lg shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:border-green-400 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/linuxmint.png') }}" alt="Linux Mint" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/linuxmint.png';">
                         <span>Linux Mint</span>
+                    </div>
+
+                    <!-- VMware (Teal) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-teal-500/30 backdrop-blur-sm rounded-xl text-teal-300 font-medium text-lg shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/vmware.png') }}" alt="VMware" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(20,184,166,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/vmware.png';">
+                        <span>VM Ware</span>
+                    </div>
+
+                    <!-- Virtual Box (Emerald) -->
+                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-emerald-500/30 backdrop-blur-sm rounded-xl text-emerald-300 font-medium text-lg shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/virtualbox.png') }}" alt="Virtual Box" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/virtualbox.png';">
+                        <span>Virtual Box</span>
                     </div>
 
                 </div>

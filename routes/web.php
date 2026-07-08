@@ -2,31 +2,42 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Blog;
 
-// 1. Route untuk Halaman Utama Beranda
+// 1. Route untuk Halaman Utama Beranda (Mengambil 3 artikel terbaru saja)
 Route::get('/', function () {
-    return view('welcome');
+    $recentBlogs = Blog::latest()->take(3)->get();
+    return view('welcome', compact('recentBlogs'));
 })->name('home');
 
-// 2. Route Dinamis untuk Detail Pencapaian (Menggunakan slug card1, card2, dst)
-Route::get('/achievement/{slug}', function ($slug) {
+// 2. Route baru untuk Halaman Khusus Daftar Semua Blog
+Route::get('/blog', function () {
+    // Ambil seluruh artikel tanpa batasan limit, diurutkan dari yang terbaru
+    $blogs = Blog::latest()->get();
+    return view('blog', compact('blogs'));
+})->name('blog.index');
 
-    // Mengambil seluruh isi data dari file config/achievements.php otomatis
+// 3. Route Dinamis untuk Detail Pencapaian
+Route::get('/achievement/{slug}', function ($slug) {
     $achievements = config('achievements');
 
-    // Pengaman: Jika slug (misal card99) tidak ada di file config, lempar ke error 404
     if (!array_key_exists($slug, $achievements)) {
         abort(404);
     }
 
-    // Ambil data spesifik sesuai card yang di-klik
     $data = $achievements[$slug];
-
-    // Kirim data tersebut ke file template detail
     return view('achievement-detail', compact('data'));
 })->name('achievement.detail');
 
-// 3. Route Dashboard & Profile Bawaan Laravel Breeze (Tetap Aman)
+// 4. Route Dinamis untuk Detail Isi Blog (Views Tracker)
+Route::get('/blog/{slug}', function ($slug) {
+    $blog = Blog::where('slug', $slug)->firstOrFail();
+    $blog->increment('views'); // Counter otomatis pembaca
+
+    return view('blog-detail', compact('blog'));
+})->name('blog.detail');
+
+// 5. Route Dashboard & Profile Bawaan Laravel Breeze
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -28,6 +28,23 @@
 </head>
 <body class="bg-[#0b071e] text-gray-200 antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
+    <!-- MODAL ACCESS CYBERPUNK (Input nama pengunjung interaktif) -->
+    <div id="user-access-modal" class="fixed inset-0 bg-[#070414]/90 backdrop-blur-md z-[100] hidden items-center justify-center p-4 transition-all duration-300">
+        <div class="w-full max-w-md bg-[#130d31] border border-cyan-500/40 p-8 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.15)] text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div>
+            <div class="mb-6">
+                <span class="text-xs uppercase tracking-widest font-mono text-cyan-400">// SECURITY CHALLENGE</span>
+                <h3 class="text-2xl font-bold text-gray-100 mt-2">Identify Yourself</h3>
+                <p class="text-sm text-gray-400 mt-2 font-light">Masukkan nama akses Anda untuk login ke dalam node jaringan portofolio ini.</p>
+            </div>
+            <input type="text" id="user-access-input" placeholder="Masukkan nama..." class="w-full bg-[#0b071e] border border-purple-500/30 rounded-xl px-4 py-3 text-cyan-300 placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition text-center font-mono uppercase tracking-wider mb-6">
+            <div class="flex gap-4">
+                <button id="user-access-submit" class="flex-grow py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-[#0b071e] font-bold font-mono rounded-xl hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition active:scale-95">ACCESS NODE</button>
+                <button id="user-access-skip" class="px-5 py-3 border border-purple-500/30 text-gray-400 font-mono rounded-xl hover:border-pink-500/40 hover:text-pink-400 transition">SKIP</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Efek Cahaya Neon Global Mengikuti Kursor -->
     <div id="cursor-glow" class="fixed top-0 left-0 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-full blur-[130px] pointer-events-none z-0 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out opacity-0 md:opacity-100"></div>
 
@@ -57,49 +74,73 @@
         </div>
     </header>
 
-    <!-- NAVIGATION BAR -->
+   <!-- NAVIGATION BAR -->
     <nav class="sticky top-0 z-50 bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]">
         <div class="w-full md:pl-24 flex justify-start py-5 px-8 gap-12 font-semibold tracking-wider text-base">
-            <a href="#" class="text-cyan-400 border-b-2 border-cyan-400 pb-1">HOME</a>
-            <a href="#" class="text-gray-400 hover:text-purple-400 transition duration-300">BLOG</a>
+            <a href="{{ route('home') }}" class="text-cyan-400 border-b-2 border-cyan-400 pb-1">HOME</a>
+            <a href="{{ route('blog.index') }}" class="text-gray-400 hover:text-purple-400 transition duration-300">BLOG</a>
         </div>
     </nav>
 
     <!-- CONTENT UTAMA -->
     <main class="w-full md:pl-24 pr-8 md:pr-16 py-16 flex-grow relative z-10">
 
-        <!-- SEKSI: MY ACHIEVEMENT (Urut 4 Kolom di Layar PC, Klik Mengecil) -->
+        <!-- SEKSI: MY ACHIEVEMENT -->
         <section class="mb-20 w-full">
             <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-8 flex items-center gap-3">
                 <span>🏆</span> My Achievement
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full">
-    @foreach(config('achievements') as $slug => $achievement)
-        <!-- CARD DINAMIS (Otomatis me-looping semua isi config/achievements.php) -->
-        <a href="{{ route('achievement.detail', ['slug' => $slug]) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-            <div>
-                <!-- Mengambil Judul dari Config -->
-                <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">
-                    {{ $achievement['title'] }}
-                </h4>
 
-                <!-- Mengambil Deskripsi dari Config (Diberi line-clamp agar tinggi box tetap rapi & seragam) -->
-                <p class="text-lg text-gray-400 mt-3 leading-relaxed line-clamp-4">
-                    {{ $achievement['desc_1'] }}
-                </p>
+                <!-- CARD 1 -->
+                <a href="{{ route('achievement.detail', ['slug' => 'card1']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">CCNA Certification</h4>
+                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah</p>
+                    </div>
+                </a>
+
+                <!-- CARD 2 -->
+                <a href="{{ route('achievement.detail', ['slug' => 'card2']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">NetAcad Top Student</h4>
+                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskrisp blah blah</p>
+                    </div>
+                </a>
+
+                <!-- CARD 3 -->
+                <a href="{{ route('achievement.detail', ['slug' => 'card3']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #3</h4>
+                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-3</p>
+                    </div>
+                </a>
+
+                <!-- CARD 4 -->
+                <a href="{{ route('achievement.detail', ['slug' => 'card4']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #4</h4>
+                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-4</p>
+                    </div>
+                </a>
+
+                <!-- CARD 5 -->
+                <a href="{{ route('achievement.detail', ['slug' => 'card5']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #5</h4>
+                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Kartu kelima otomatis membuat baris vertikal baru.</p>
+                    </div>
+                </a>
+
             </div>
-        </a>
-    @endforeach
-</div>
         </section>
 
-        <!-- SEKSI: MY SKILLS & TOOLS (Dipecah per Sub-Kategori) -->
-               <!-- SEKSI: MY SKILLS & TOOLS (Disesuaikan Warna Tiap Logo) -->
+        <!-- SEKSI: MY SKILLS & TOOLS (Disesuaikan Warna Tiap Logo) -->
         <section class="mb-20">
 
             <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-12">
-                <span>⚙️</span> My Skills & Tools
+                My Skills & Tools
             </h3>
 
             <!-- SUB-KATEGORI 1: COMPUTER NETWORKS -->
@@ -132,8 +173,7 @@
                     </div>
 
                     <!-- WinSCP (Slate Gray Theme) -->
-
-                    <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-slate-500/30 backdrop-blur-sm rounded-xl text-slate-300 font-medium text-lg shadow-[0_0_15px_rgba(148,163,184,0.1)] hover:border-slate-400 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] transition duration-300">
+                     <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-slate-500/30 backdrop-blur-sm rounded-xl text-slate-300 font-medium text-lg shadow-[0_0_15px_rgba(148,163,184,0.1)] hover:border-slate-400 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/winscp.png') }}" alt="WinSCP" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/open-folder.png';">
                         <span>WinSCP</span>
                     </div>
@@ -178,7 +218,7 @@
                         <span>Java</span>
                     </div>
 
-                                        <!-- Laravel (Warm Coklat / Amber Theme) -->
+                    <!-- Laravel (Warm Coklat / Amber Theme) -->
                     <div class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-amber-600/30 backdrop-blur-sm rounded-xl text-amber-500 font-medium text-lg shadow-[0_0_15px_rgba(217,119,6,0.1)] hover:border-amber-500 hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] transition duration-300">
                         <img src="{{ asset('images/logos/laravel.png') }}" alt="Laravel" class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(217,119,6,0.5)]" onerror="this.onerror=null; this.src='https://img.icons8.com/fluency/48/laravel.png';">
                         <span>Laravel</span>
@@ -257,67 +297,39 @@
 
         </section>
 
-        <!-- ==================== SEKSI: RECENT BLOG (3 KOLOM) ==================== -->
+        <!-- SEKSI: RECENT BLOG (Dinamis dari Database) -->
         <section class="mb-20 w-full">
             <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-8 flex items-center gap-3">
                 <span>✍️</span> Recent Blog
             </h3>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-
-                <!-- Blog Card 1: Networking -->
-                <a href="#" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <!-- Meta Info Tag -->
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 bg-cyan-950/50 text-cyan-400 border border-cyan-500/30 text-xs font-mono rounded">NETWORKING</span>
-                            <span class="text-xs text-gray-500 font-mono">July 7, 2026</span>
+                @forelse($recentBlogs as $blog)
+                    <!-- Kartu Blog Dinamis -->
+                    <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <!-- Meta Info Tag -->
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 bg-cyan-950/50 text-cyan-400 border border-cyan-500/30 text-xs font-mono rounded uppercase">{{ $blog->category }}</span>
+                                <span class="text-xs text-gray-500 font-mono">{{ $blog->created_at->format('M d, Y') }}</span>
+                            </div>
+                            <h4 class="font-bold text-gray-200 text-xl group-hover:text-cyan-400 transition duration-300 line-clamp-2">{{ $blog->title }}</h4>
+                            <p class="text-base text-gray-400 mt-3 leading-relaxed line-clamp-3">{{ $blog->description }}</p>
                         </div>
-                        <h4 class="font-bold text-gray-200 text-xl group-hover:text-cyan-400 transition duration-300">Panduan Lengkap Konfigurasi OSPF Single Area</h4>
-                        <p class="text-base text-gray-400 mt-3 leading-relaxed">Pelajari cara mudah melakukan konfigurasi protokol routing dinamis OSPF di router Cisco beserta langkah troubleshooting dasarnya.</p>
-                    </div>
-                    <div class="mt-6 flex items-center justify-between border-t border-purple-500/10 pt-4">
-                        <span class="text-xs text-purple-400 font-mono">5 Min Read</span>
-                        <span class="text-cyan-400 text-sm group-hover:translate-x-2 transition duration-200">Read More →</span>
-                    </div>
-                </a>
-
-                <!-- Blog Card 2: OS / Linux -->
-                <a href="#" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <!-- Meta Info Tag -->
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 bg-purple-950/50 text-purple-400 border border-purple-500/30 text-xs font-mono rounded">LINUX MINT</span>
-                            <span class="text-xs text-gray-500 font-mono">June 28, 2026</span>
+                        <div class="mt-6 flex items-center justify-between border-t border-purple-500/10 pt-4">
+                            <span class="text-xs text-purple-400 font-mono">Views: {{ $blog->views }}</span>
+                            <span class="text-cyan-400 text-sm group-hover:translate-x-2 transition duration-200">Read More →</span>
                         </div>
-                        <h4 class="font-bold text-gray-200 text-xl group-hover:text-purple-400 transition duration-300">Kenapa Network Engineer Wajib Pakai Linux Mint?</h4>
-                        <p class="text-base text-gray-400 mt-3 leading-relaxed">Ulasan mendalam mengapa Linux Mint menjadi OS harian terbaik untuk menunjang aktivitas networking, administrasi server, hingga scripting Python.</p>
+                    </a>
+                @empty
+                    <!-- Tampilan Jika Blog Masih Kosong -->
+                    <div class="col-span-3 text-center py-12 border border-dashed border-purple-500/20 rounded-xl">
+                        <p class="text-gray-500 font-mono">// DATABASE COLD_START: NO BLOGS LOGGED YET</p>
                     </div>
-                    <div class="mt-6 flex items-center justify-between border-t border-purple-500/10 pt-4">
-                        <span class="text-xs text-purple-400 font-mono">8 Min Read</span>
-                        <span class="text-purple-400 text-sm group-hover:translate-x-2 transition duration-200">Read More →</span>
-                    </div>
-                </a>
-
-                <!-- Blog Card 3: Security -->
-                <a href="#" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <!-- Meta Info Tag -->
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 bg-pink-950/50 text-pink-400 border border-pink-500/30 text-xs font-mono rounded">CYBER SECURITY</span>
-                            <span class="text-xs text-gray-500 font-mono">June 15, 2026</span>
-                        </div>
-                        <h4 class="font-bold text-gray-200 text-xl group-hover:text-pink-400 transition duration-300">Mengamankan Switch Layer 2 dari Mac Flooding</h4>
-                        <p class="text-base text-gray-400 mt-3 leading-relaxed">Cara praktis mengaktifkan fitur Port Security di switch Cisco untuk mencegah eksploitasi keamanan tabel MAC Address dari ancaman luar.</p>
-                    </div>
-                    <div class="mt-6 flex items-center justify-between border-t border-purple-500/10 pt-4">
-                        <span class="text-xs text-purple-400 font-mono">6 Min Read</span>
-                        <span class="text-pink-400 text-sm group-hover:translate-x-2 transition duration-200">Read More →</span>
-                    </div>
-                </a>
-
+                @endforelse
             </div>
         </section>
+
     </main>
 
     <!-- FOOTER -->

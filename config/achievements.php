@@ -83,6 +83,66 @@ return [
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
         ]
+    ],
+
+        'card5' => [
+        'title' => 'SOI Asia Online Course: Understanding the Internet',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 27 February 2026',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/soi ui.png',
+        'credential_url' => 'https://inxignia.soi.asia/public/assertions/n78PnjEuTb6D1PD2ye20fw?certId=',
+                'desc_1' => 'Program kursus komprehensif dari SOI Asia yang membahas tuntas sejarah evolusi internet, landasan teknis, struktur operasional, proses standardisasi global, hingga sistem tata kelola (Internet Governance). Program ini menjelaskan bagaimana data digital diproses melalui pengalamatan IP, mekanisme transmisi paket, protokol komunikasi utama, serta prinsip desain arsitektural aman seperti Public Key Infrastructure (PKI) yang menopang ketahanan dan skalabilitas web modern.',
+        'skills' => [
+            'Internet Architecture & Governance Foundations',
+            'Digital Data Transmission & IP Addressing Mechanics',
+            'Communication Models (Client-Server & Peer-to-Peer)',
+            'Public Key Infrastructure (PKI) & Web Security'
+        ],
+        'quote' => 'Memahami bagaimana internet dikoordinasikan secara global membantu kita melihat dunia siber bukan sekadar kabel dan server, melainkan ruang kolaborasi tanpa batas.',
+        'attachments' => [
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
+        ]
+    ],
+
+        'card6' => [
+        'title' => 'SOI Asia Online Course: Operating the Internet',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 16 Maret 2026',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/soi oti.png',
+        'credential_url' => 'https://inxignia.soi.asia/public/assertions/2wVYyIAeQjKfOSGrE8iB_w?certId=',
+               'desc_1' => 'Kursus berbasis studi kasus operasional di mana siswa bertindak sebagai Network Operator untuk merancang, mengonfigurasi, dan mengelola infrastruktur jaringan berskala luas (kampus/perusahaan). Program ini menekankan kemampuan taktis seperti perutean dinamis dengan OSPF, manajemen DNS Server menggunakan BIND pada sistem operasi Linux, teknik migrasi/penerapan IPv6, serta pemahaman mendalam tentang peran operator dalam menjaga stabilitas internet global.',
+        'skills' => [
+            'Campus & Enterprise Network Design',
+            'OSPF Dynamic Routing & Switch Configuration',
+            'DNS Server Administration (BIND on Linux)',
+            'IPv6 Deployment & Virtual Lab Network Operations'
+        ],
+        'quote' => 'Stabilitas internet global tidak bergantung pada satu server besar, melainkan pada ketepatan ribuan operator lokal dalam mengelola DNS, routing OSPF, dan alokasi IPv6.',
+        'attachments' => [
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
+        ]
+    ],
+
+        'card7' => [
+        'title' => 'APIE e-Workshop',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 27 April 2026',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/apie ew.png',
+        'credential_url' => 'https://inxignia.soi.asia/public/assertions/FbYYCxyiQliVPe5nFTHqUQ?certId=FbYYCxyiQliVPe5nFTHqUQ',
+               'desc_1' => 'Lokakarya interaktif dua mingguan yang mempertemukan para profesional industri internet, akademisi, dan praktisi tata kelola dari wilayah Asia-Pasifik. Workshop ini memadukan sesi diskusi isu teknologi siber terkini dengan praktikum langsung (hands-on) di lingkungan Virtual Machine (VM), mencakup administrasi dasar Linux, konfigurasi jaringan Layer 2 & Layer 3, serta simulasi manajemen perutean jaringan (OSPF).',
+        'skills' => [
+            'Layer 2 & Layer 3 Network Configuration',
+            'Linux Administration & Virtual Machine (VM) Setup',
+            'Hands-on Routing Operations (OSPF Practices)',
+            'Cross-Border Collaboration & Internet Industry Insights'
+        ],
+        'quote' => 'Kolaborasi lintas negara di Asia-Pasifik membuktikan bahwa di balik rumitnya infrastruktur internet, ada komunitas manusia yang terus bertukar ide demi menjaga dunia tetap terkoneksi.',
+        'attachments' => [
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
+        ]
     ]
 
 

@@ -348,7 +348,7 @@
                 <div class="flex flex-wrap justify-center lg:justify-end gap-4">
 
                     <!-- WHATSAPP (Green Neon Glow) -->
-                    <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp"
+                    <a href="https://wa.me/6285707593597" target="_blank" title="WhatsApp"
                        class="p-3 bg-[#130d31]/50 border border-emerald-500/20 rounded-xl text-emerald-400 hover:text-emerald-300 hover:border-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.503-5.734-1.46L0 24zm6.59-4.846l.397.235c1.558.925 3.35 1.411 5.183 1.412 5.675 0 10.293-4.613 10.296-10.29C22.527 7.55 21.47 4.98 19.55 3.06c-1.92-1.92-4.493-2.975-7.539-2.976-5.676 0-10.292 4.613-10.296 10.29-.001 1.89.493 3.731 1.432 5.34l.258.443L2.445 20.53l4.202-1.376zm11.168-5.75c-.328-.164-1.938-.955-2.23-1.062-.294-.107-.508-.16-.723.164-.214.32-.83.106-1.018 1.258-.188.152-.375.115-.7.049-.328-.066-1.385-.51-2.637-1.63-.974-.871-1.632-1.947-1.823-2.275-.19-.328-.02-.505.144-.669.148-.148.328-.383.492-.574.164-.192.218-.328.328-.547.11-.219.055-.41-.027-.574-.082-.164-.723-1.74-.991-2.385-.262-.63-.53-.545-.723-.555-.188-.01-.403-.012-.617-.012-.215 0-.566.08-.863.407-.297.324-1.137 1.113-1.137 2.717 0 1.604 1.168 3.154 1.328 3.37.16.216 2.3 3.511 5.572 4.92.778.335 1.386.535 1.86.686.782.249 1.494.213 2.057.129.627-.093 1.938-.792 2.212-1.558.275-.766.275-1.422.193-1.558-.081-.137-.296-.219-.624-.383z"/>
@@ -356,7 +356,7 @@
                     </a>
 
                     <!-- GMAIL (Red Neon Glow) -->
-                    <a href="mailto:dandy@yourdomain.com" target="_blank" title="Gmail"
+                    <a href="dandy.alfarisi18@gmail.com" target="_blank" title="Gmail"
                        class="p-3 bg-[#130d31]/50 border border-red-500/20 rounded-xl text-red-400 hover:text-red-300 hover:border-red-400 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -364,7 +364,7 @@
                     </a>
 
                     <!-- INSTAGRAM (Pink Neon Glow) -->
-                    <a href="https://instagram.com/yourusername" target="_blank" title="Instagram"
+                    <a href="https://instagram.com/_kosnown" target="_blank" title="Instagram"
                        class="p-3 bg-[#130d31]/50 border border-pink-500/20 rounded-xl text-pink-400 hover:text-pink-300 hover:border-pink-400 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.75 2h8.5C19.42 2 22 4.58 22 7.75v8.5c0 3.17-2.58 5.75-5.75 5.75h-8.5C4.58 22 2 19.42 2 16.25v-8.5C2 4.58 4.58 2 7.75 2z"></path>
@@ -373,7 +373,7 @@
                     </a>
 
                     <!-- LINKEDIN (Blue Neon Glow) -->
-                    <a href="https://linkedin.com/in/yourusername" target="_blank" title="LinkedIn"
+                    <a href="https://linkedin.com/in/dandyalfarisi18-0960a9249" target="_blank" title="LinkedIn"
                        class="p-3 bg-[#130d31]/50 border border-blue-500/20 rounded-xl text-blue-400 hover:text-blue-300 hover:border-blue-400 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
@@ -389,7 +389,7 @@
                     </a>
 
                     <!-- GITHUB (Slate/White Neon Glow) -->
-                    <a href="https://github.com/yourusername" target="_blank" title="GitHub"
+                    <a href="https://github.com/dandyfn" target="_blank" title="GitHub"
                        class="p-3 bg-[#130d31]/50 border border-slate-400/20 rounded-xl text-slate-300 hover:text-white hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.25)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />

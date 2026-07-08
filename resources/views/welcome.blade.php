@@ -75,48 +75,23 @@
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full">
+    @foreach(config('achievements') as $slug => $achievement)
+        <!-- CARD DINAMIS (Otomatis me-looping semua isi config/achievements.php) -->
+        <a href="{{ route('achievement.detail', ['slug' => $slug]) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+            <div>
+                <!-- Mengambil Judul dari Config -->
+                <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">
+                    {{ $achievement['title'] }}
+                </h4>
 
-                <!-- CARD 1 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card1']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">CCNA Certification</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah</p>
-                    </div>
-                </a>
-
-                <!-- CARD 2 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card2']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">NetAcad Top Student</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskrisp blah blah</p>
-                    </div>
-                </a>
-
-                <!-- CARD 3 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card3']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #3</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-3</p>
-                    </div>
-                </a>
-
-                <!-- CARD 4 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card4']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #4</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-4</p>
-                    </div>
-                </a>
-
-                <!-- CARD 5 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card5']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #5</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Kartu kelima otomatis membuat baris vertikal baru.</p>
-                    </div>
-                </a>
-
+                <!-- Mengambil Deskripsi dari Config (Diberi line-clamp agar tinggi box tetap rapi & seragam) -->
+                <p class="text-lg text-gray-400 mt-3 leading-relaxed line-clamp-4">
+                    {{ $achievement['desc_1'] }}
+                </p>
             </div>
+        </a>
+    @endforeach
+</div>
         </section>
 
         <!-- SEKSI: MY SKILLS & TOOLS (Dipecah per Sub-Kategori) -->
@@ -124,7 +99,7 @@
         <section class="mb-20">
 
             <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-12">
-                My Skills & Tools
+                <span>⚙️</span> My Skills & Tools
             </h3>
 
             <!-- SUB-KATEGORI 1: COMPUTER NETWORKS -->
@@ -355,6 +330,9 @@
                 <div class="flex items-center justify-center lg:justify-start gap-3">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]"></span>
                     <span class="text-xs uppercase tracking-widest font-mono text-emerald-400">System Secure // Live Node</span>
+                    <span class="text-xs text-purple-600/60 font-mono">|</span>
+                    <!-- Format ON SITE dinamis sesuai permintaan -->
+                    <span id="on-site-status" class="text-xs uppercase tracking-widest font-mono text-cyan-400 animate-pulse">ON SITE : GUEST</span>
                 </div>
                 <p class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider">
                     Dandy Al-Farisi Natanegara
@@ -538,6 +516,50 @@
 
         initParticles();
         animate();
+
+
+         // --- 3. Logika Menyimpan Identitas Pengunjung (Local Storage) ---
+        const onSiteStatus = document.getElementById('on-site-status');
+        const userModal = document.getElementById('user-access-modal');
+        const userInput = document.getElementById('user-access-input');
+        const userSubmit = document.getElementById('user-access-submit');
+        const userSkip = document.getElementById('user-access-skip');
+
+        // Mengambil nama dari penyimpanan browser
+        let savedUser = localStorage.getItem('cyberpunk_user');
+
+        if (savedUser) {
+            onSiteStatus.textContent = `ON SITE : ${savedUser}`;
+        } else {
+            // Tampilkan modal akses cyberpunk yang super estetik setelah 1.5 detik web terbuka
+            setTimeout(() => {
+                userModal.classList.remove('hidden');
+                userModal.classList.add('flex');
+            }, 1500);
+        }
+
+        // Ketika tombol Akses ditekan
+        userSubmit.addEventListener('click', () => {
+            const name = userInput.value.trim().toUpperCase() || 'GUEST';
+            localStorage.setItem('cyberpunk_user', name);
+            onSiteStatus.textContent = `ON SITE : ${name}`;
+            closeModal();
+        });
+
+        // Ketika tombol Skip ditekan
+        userSkip.addEventListener('click', () => {
+            localStorage.setItem('cyberpunk_user', 'GUEST');
+            onSiteStatus.textContent = `ON SITE : GUEST`;
+            closeModal();
+        });
+
+        function closeModal() {
+            userModal.classList.add('opacity-0');
+            setTimeout(() => {
+                userModal.classList.remove('flex');
+                userModal.classList.add('hidden');
+            }, 300);
+        }
     </script>
 
 </body>

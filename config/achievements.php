@@ -3,19 +3,19 @@
 return [
     // --- DATA CARD 1 ---
     'card1' => [
-        'title' => 'CCNA Certification (Cisco Certified Network Associate)',
-        'category' => 'Cisco Certification',
-        'date' => 'Issued: July 2026',
-        'badge' => 'https://via.placeholder.com/600x400/130d31/06b6d4?text=Sertifikat+CCNA+Preview',
-        'credential_url' => 'https://www.credly.com', // Ganti dengan tautan verifikasi aslimu nanti
-        'desc_1' => 'Berhasil menyelesaikan sertifikasi CCNA (200-301) yang memvalidasi kemampuan fundamental dalam mengelola dan mengamankan infrastruktur jaringan modern. Program ini mencakup pemahaman mendalam tentang teknologi routing, switching, IP connectivity, IP services, hingga dasar-dasar otomatisasi jaringan.',
+        'title' => 'CCNA: Introduction to Networks',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 4 September 2025',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/ccna itn.jpeg',
+        'credential_url' => 'https://www.credly.com/badges/a88f5798-d0b5-4fd3-94d4-2f8c04a8c760/linked_in_profile', // Ganti dengan tautan verifikasi aslimu nanti
+            'desc_1' => 'Validasi pencapaian akademis tingkat siswa dari Cisco yang mengonfirmasi pemahaman komprehensif tentang arsitektur jaringan komputer. Program ini fokus pada pengenalan protokol jaringan, pengalamatan IP (IPv4 & IPv6), subnetting, operasi Ethernet di lapisan fisik dan data link, serta konfigurasi dasar router, switch, dan perangkat akhir (end devices) untuk konektivitas sumber daya lokal maupun jarak jauh melalui akumulasi praktikum lab intensif.',
         'skills' => [
-            'Konfigurasi dan Troubleshooting OSPFv2 IPv4 & IPv6',
-            'Implementasi keamanan layer 2 menggunakan Port Security & DHCP Snooping',
-            'Manajemen arsitektur nirkabel menggunakan Cisco Wireless LAN Controller (WLC)',
-            'Dasar Otomatisasi Jaringan menggunakan REST API, JSON, dan arsitektur Controller-Based'
+            'IPv4 and IPv6 Addressing & IP Subnetting',
+            'Ethernet Protocols (Physical & Data Link Layers)',
+            'Basic Switch & Router Connectivity Configuration',
+            'Network and Security Fundamentals'
         ],
-        'quote' => 'Pencapaian ini memperkuat basis saya sebagai Network Engineer untuk merancang topologi jaringan yang skalabel, aman, berstandar industri global, serta siap bertransisi ke era programmable infrastructure.',
+        'quote' => 'Memahami dasar-dasar aliran paket data dan subnetting adalah fondasi mutlak untuk menjadi seorang arsitek jaringan yang tangguh.',
         'attachments' => [
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Topology+Lab'],
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Cisco+Router+Physical'],
@@ -25,41 +25,65 @@ return [
 
     // --- DATA CARD 2 ---
     'card2' => [
-        'title' => 'Cisco Networking Academy Top Student',
-        'category' => 'NetAcad Award',
-        'date' => 'Issued: January 2026',
-        'badge' => 'https://via.placeholder.com/600x400/130d31/a855f7?text=NetAcad+Badge+Preview',
-        'credential_url' => 'https://www.netacad.com',
-        'desc_1' => 'Penghargaan bergengsi yang diberikan kepada siswa dengan performa akademis dan nilai ujian praktikum lab terbaik di kelas Cisco Networking Academy.',
+        'title' => 'CCNA: Switching, Routing, and Wireless Essentials',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 4 October 2025',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/ccna srwe.jpeg',
+        'credential_url' => 'https://www.credly.com/badges/d022f06f-0c50-4065-889d-0f5435aaa817/linked_in_profile',
+                'desc_1' => 'Pencapaian sertifikasi tingkat siswa dari Cisco yang membuktikan kepemilikan kompetensi dasar kuat dalam operasional switching, teknologi routing, dan infrastruktur nirkabel (Wireless). Mencakup konfigurasi LAN berkabel dan nirkabel menggunakan praktik keamanan terbaik, protokol redundansi seperti FHRP untuk ketersediaan tinggi (High Availability), serta pengembangan kemampuan analisis pemecahan masalah jaringan secara sistematis.',
         'skills' => [
-            'Nilai sempurna pada ujian teori Routing & Switching',
-            'Kecepatan penyelesaian Lab Packet Tracer terkendali',
-            'Kemampuan pemecahan masalah (Troubleshooting) jaringan tingkat lanjut'
+            'VLANs, Inter-VLAN Routing & Switching Protocols',
+            'First-hop Redundancy Protocols (FHRP) & High Availability',
+            'Wireless LAN Configuration & Wireless LAN Controllers (WLC)',
+            'Access Connectivity & Device Hardening Security'
         ],
-        'quote' => 'Konsistensi dan pemahaman mendalam pada materi basic routing mengantarkan saya menjadi lulusan terbaik.',
+        'quote' => 'Sistem jaringan yang handal tidak hanya berfokus pada kecepatan transfer data, tetapi juga seberapa cepat ia memulihkan diri secara otomatis saat terjadi kegagalan perangkat keras.',
         'attachments' => [
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
             ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
         ]
     ],
 
-    // --- DATA CARD 3 (Contoh Template Kosong buat Nambah Belasan Card Lain) ---
-    /*
-    'slug-achievement-baru' => [
-        'title' => 'Nama Sertifikat / Kompetisi',
-        'category' => 'Kategori',
-        'date' => 'Issued: Tanggal',
-        'badge' => 'URL_Gambar_Badge',
-        'credential_url' => 'URL_Verifikasi',
-        'desc_1' => 'Deskripsi panjang...',
+        // --- DATA CARD  ---
+    'card3' => [
+        'title' => 'CCNA: Enterprise Networking, Security, and Automation',
+        'category' => 'Network Engineering',
+        'date' => 'Issued: 4 October 2025',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/ccna ensa.jpeg',
+        'credential_url' => 'https://www.credly.com/badges/0f1dd38e-ff03-45a7-9b61-9736dae99776/linked_in_profile',
+                'desc_1' => 'Sertifikasi tingkat lanjut dari kurikulum CCNA Cisco yang memvalidasi kemampuan merancang, mengamankan, dan mengotomatisasi infrastruktur jaringan skala Enterprise (perusahaan). Kurikulum ini mencakup pemahaman routing dinamis (OSPF), teknologi WAN (Wide Area Network), manajemen alokasi bandwidth menggunakan QoS, virtualisasi jaringan, mitigasi ancaman keamanan siber, hingga konsep otomatisasi jaringan berbasis programmable SDN (Software-Defined Networks).',
         'skills' => [
-            'Skill Kelompok 1',
-            'Skill Kelompok 2'
+            'Dynamic Routing (OSPFv2) & Wide Area Networks (WAN)',
+            'Network Security Threats Mitigation & Access Control Lists (ACL)',
+            'Quality of Service (QoS) & Network Virtualization',
+            'Network Automation Basics & Software Driven Networks (SDN)'
         ],
-        'quote' => 'Kata-kata mutiara...',
+        'quote' => 'Otomatisasi jaringan adalah jembatan yang menghubungkan manajemen infrastruktur tradisional dengan era komputasi awan yang serba dinamis dan terprogram.',
         'attachments' => [
-            ['type' => 'image', 'url' => 'URL_Foto_Pendukung']
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
         ]
     ],
-    */
+
+        'card4' => [
+        'title' => 'CSS Essentials',
+        'category' => 'Programming',
+        'date' => 'Issued: 27 October 2025',
+        'badge' => '/home/dandy/web-profil/public/images/achievement/css.jpeg',
+        'credential_url' => 'https://www.credly.com/badges/72c5e381-40cc-4557-a32a-a6371c68ec29/linked_in_profile',
+        'desc_1' => 'Pencapaian ini memvalidasi keahlian fundamental dalam CSS3 yang diselenggarakan oleh Cisco berkolaborasi dengan JS Institute. Program ini mencakup pemahaman mendalam tentang styling halaman web, teknik tata letak modern (Layout), implementasi desain responsif, serta memastikan aspek aksesibilitas dan kegunaan (usability) halaman web agar siap menghadapi ujian sertifikasi industri WDA™ (Certified Associate Web Developer)',
+        'skills' => [
+            'CSS Fundamentals & Styling Web Pages',
+            'CSS Grid, Flexbox, and Advanced Layout Techniques',
+            'Responsive Web Design (RWD) & CSS Animations',
+            'Web Accessibility, Usability, and Front-End Best Practices'
+        ],
+        'quote' => 'Desain yang luar biasa bukan hanya tentang bagaimana ia terlihat, melainkan bagaimana ia merespons pengguna dan dapat diakses dengan mudah oleh semua kalangan.',
+        'attachments' => [
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Certificate+Handover'],
+            ['type' => 'image', 'url' => 'https://via.placeholder.com/300x200/1a1242/fff?text=Class+Photo']
+        ]
+    ]
+
+
 ];

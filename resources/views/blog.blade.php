@@ -86,7 +86,18 @@
 
             @forelse($blogs as $blog)
                 <!-- Kartu Blog Dinamis -->
-                <div class="blog-card w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl overflow-hidden hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-[0.98] transform transition duration-300 cursor-pointer flex flex-col justify-between group" data-title="{{ strtolower($blog->title) }}">
+                <div class="blog-card w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl overflow-hidden hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-[0.98] transform transition duration-300 cursor-pointer flex flex-col justify-between group relative" data-title="{{ strtolower($blog->title) }}">
+
+                    <!-- 🛡️ TOMBOL EDIT KUSTOM: Hanya muncul jika Dandy sedang login sebagai admin -->
+                    @auth
+                        <a href="/admin/blogs/{{ $blog->id }}/edit" class="absolute top-4 right-4 z-30 px-3 py-1.5 bg-[#0b071e]/90 border border-purple-500/50 text-purple-300 hover:text-cyan-300 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] rounded-lg transition-all duration-300 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 flex items-center gap-1.5 text-[10px] font-mono tracking-wider">
+                            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                            EDIT NODE
+                        </a>
+                    @endauth
+
                     <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" class="flex flex-col h-full justify-between">
 
                         <!-- Gambar Banner -->
@@ -180,3 +191,4 @@
 
 </body>
 </html>
+

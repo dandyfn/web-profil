@@ -152,14 +152,17 @@ class AdminPanelProvider extends PanelProvider
                         .trix-content *,
                         .fi-fo-rich-editor *,
                         .fi-fo-rich-editor-content,
-                        .fi-fo-rich-editor-content * {
+                        .fi-fo-rich-editor-content *,
+                        .ProseMirror,
+                        .ProseMirror * {
                             color: #f1f5f9 !important; /* Teks artikel yang diketik dipaksa abu-abu terang */
                             -webkit-text-fill-color: #f1f5f9 !important;
                         }
 
-                        /* Mengubah kursor ketikan trix editor agar berwarna Cyan neon */
-                        trix-editor {
-                            caret-color: #22d3ee !important;
+                        /* 🚀 MEMAKSA TINGGI AREA KETIK TIPTAP DAN BERI PADDING AGAR LEBIH LEGA */
+                        .ProseMirror, .tiptap {
+                            min-height: 100px !important;
+                            padding: 1.5rem !important;
                         }
 
                         /* Memastikan warna tombol toolbar Rich Editor terlihat */

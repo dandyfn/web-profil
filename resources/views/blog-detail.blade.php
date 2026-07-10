@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ⚡ SECURE ANTI-CACHE META TAGS (Menjamin Sinkronisasi Tombol Edit Setelah Logout) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>{{ $blog->title }} - Cyberpunk Log</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -14,7 +21,77 @@
                 linear-gradient(90deg, rgba(18, 10, 50, 0.4) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        /* Style tambahan agar gambar di dalam artikel tidak meluap & rapi */
+
+        /* 🚀 CYBERPUNK NEON SYNTAX HIGHLIGHTING (Mencegah Kode Menjadi Invisible) */
+        .prose pre, pre {
+            background-color: #060411 !important;
+            border: 1px solid rgba(168, 85, 247, 0.4) !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.15) !important;
+        }
+
+        .prose pre code, pre code {
+            color: #e2e8f0 !important; /* Warna teks dasar di dalam kode (Putih Terang) */
+        }
+
+        /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
+        .prose pre code .hljs-comment,
+        .prose pre code .hljs-quote,
+        .prose pre code .comment,
+        .hljs-comment,
+        .hljs-quote {
+            color: #94a3b8 !important; /* Slate gray terang, 100% terbaca di background gelap */
+            font-style: italic !important;
+        }
+
+        /* Warna Keyword utama (php, composer, sudo, systemctl, dll) */
+        .prose pre code .hljs-keyword,
+        .prose pre code .hljs-selector-tag,
+        .prose pre code .hljs-literal,
+        .prose pre code .hljs-section,
+        .prose pre code .hljs-link,
+        .prose pre code .keyword,
+        .hljs-keyword,
+        .hljs-selector-tag {
+            color: #22d3ee !important; /* Cyan Neon */
+            font-weight: bold !important;
+        }
+
+        /* Warna Atribut, Strings, dan Variabel */
+        .prose pre code .hljs-string,
+        .prose pre code .hljs-title,
+        .prose pre code .hljs-name,
+        .prose pre code .hljs-type,
+        .prose pre code .hljs-attr,
+        .prose pre code .hljs-attribute,
+        .prose pre code .string,
+        .hljs-string,
+        .hljs-title,
+        .hljs-name {
+            color: #a78bfa !important; /* Ungu Neon */
+        }
+
+        /* Warna Angka dan Simbol */
+        .prose pre code .hljs-number,
+        .prose pre code .hljs-regexp,
+        .prose pre code .hljs-symbol,
+        .prose pre code .hljs-variable,
+        .prose pre code .hljs-template-variable,
+        .prose pre code .number,
+        .hljs-number,
+        .hljs-symbol {
+            color: #f472b6 !important; /* Pink Neon */
+        }
+
+        /* Warna Built-in Command */
+        .prose pre code .hljs-built_in,
+        .prose pre code .hljs-builtin-name,
+        .prose pre code .built_in,
+        .hljs-built_in {
+            color: #38bdf8 !important; /* Biru Langit */
+        }
+
+        /* ⚡ Efek Hover Gambar di Dalam Artikel (Mendukung Tampilan Siber Interaktif) */
         .prose img {
             border-radius: 12px;
             border: 1px solid rgba(168, 85, 247, 0.2);
@@ -22,6 +99,13 @@
             box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
             max-width: 100%;
             height: auto;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .prose img:hover {
+            transform: scale(1.025) translateY(-4px);
+            border-color: rgba(6, 182, 212, 0.6);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.35);
         }
     </style>
 </head>
@@ -35,11 +119,12 @@
         <span class="text-emerald-400">✔</span> System: Code copied to clipboard!
     </div>
 
-    <!-- NAVIGATION BAR -->
+    <!-- NAVIGATION BAR (Dibuat Edge-to-Edge Tanpa Batas max-w) -->
     <nav class="sticky top-0 z-50 bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]">
-        <div class="w-full md:pl-24 flex justify-between items-center py-5 px-8 gap-12 font-semibold tracking-wider text-base">
+        <div class="w-full px-6 md:px-16 lg:px-24 flex justify-between items-center py-5 gap-12 font-semibold tracking-wider text-base">
             <div class="flex gap-12">
-                <a href="{{ route('home') }}" class="text-gray-400 hover:text-cyan-400 transition duration-300 flex items-center gap-2">
+                <!-- 🚀 DIARAHKAN KE DAFTAR ARTIKEL PUBLIK (/blog) -->
+                <a href="{{ route('blog.index') }}" class="text-gray-400 hover:text-cyan-400 transition duration-300 flex items-center gap-2">
                     <span>←</span> BACK TO MAIN NODE
                 </a>
             </div>
@@ -49,22 +134,17 @@
         </div>
     </nav>
 
-    <!-- CONTENT UTAMA -->
-    <main class="w-full md:pl-24 pr-8 md:pr-16 py-12 flex-grow relative z-10 max-w-4xl mx-auto space-y-10">
+    <!-- CONTENT UTAMA (Diubah Menjadi Murni Lebar Penuh dengan Margin Pengaman Fleksibel) -->
+    <main class="w-full px-6 md:px-16 lg:px-24 py-12 flex-grow relative z-10 space-y-10">
 
-        <!-- BACK TO LIST BUTTON -->
-        <a href="{{ route('home') }}" class="text-gray-400 hover:text-cyan-400 font-mono text-sm transition flex items-center gap-2">
-            ← BACK TO BERANDA
-        </a>
-
-        <!-- BANNER IMAGE -->
-        <div class="w-full h-64 md:h-96 rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)]">
+        <!-- BANNER IMAGE (Dilengkapi Animasi Hover Zoom, Border Glowing Cyan, dan Skala Halus) -->
+        <div class="w-full h-64 md:h-[550px] rounded-2xl overflow-hidden border border-purple-500/25 relative shadow-[0_0_40px_rgba(0,0,0,0.5)] group transition-all duration-500 ease-out hover:border-cyan-400 hover:shadow-[0_0_45px_rgba(6,182,212,0.25)]">
             @if($blog->image)
-                <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
+                <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]">
             @else
-                <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="w-full h-full object-cover">
+                <img src="https://placehold.co/1600x800/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]">
             @endif
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-80"></div>
         </div>
 
         <!-- HEADER INFO -->
@@ -130,9 +210,9 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#070414]/90 backdrop-blur-md border-t border-purple-900/40 py-10 px-8 text-center relative z-10 mt-20">
-        <div class="w-full md:pl-24 pr-8 md:pr-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <!-- FOOTER (Melebar Sempurna) -->
+    <footer class="bg-[#070414]/90 backdrop-blur-md border-t border-purple-900/40 py-10 px-6 md:px-16 lg:px-24 text-center relative z-10 mt-20">
+        <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-6">
             <p class="text-sm text-gray-500">&copy; 2026 Dandy. Built with Laravel on Linux Mint.</p>
             <div class="text-sm font-mono text-gray-600">STATUS: SECURE_BLOG_NODE_STABLE</div>
         </div>
@@ -160,7 +240,8 @@
                 const idUnik = 'code-block-' + index;
                 if(codeBlock) {
                     codeBlock.id = idUnik;
-                    codeBlock.className = "font-mono text-sm text-green-400 block p-6 overflow-x-auto";
+                    // Beri kelas pendukung agar styling dari syntax highlighting buatan kita teraplikasikan utuh
+                    codeBlock.className = "font-mono text-sm block p-6 overflow-x-auto";
                 }
 
                 // Buat Header Kontrol Terminal Cyberpunk di atas kode
@@ -203,7 +284,15 @@
                 }, 2500);
             });
         }
+
+        // --- 4. FORCE RELOAD ON BACK (Menghindari Stale Edit Button Setelah Logout) ---
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
     </script>
 
 </body>
 </html>
+

@@ -279,17 +279,26 @@ class AdminPanelProvider extends PanelProvider
                             box-shadow: 0 0 15px rgba(6, 182, 212, 0.5) !important;
                         }
 
-                        /* 5. SOLUSI TOTAL TULISAN TRIX WRITING CONTENT */
-                        /* Memaksa tulisan ketikan di dalam area editor trix dan semua sub-elementnya berwarna putih terang */
+                        /* 5. SOLUSI TOTAL TULISAN WRITING CONTENT (Trix & TipTap Editor) & NEON SYNTAX HIGHLIGHTING */
                         trix-editor,
                         .trix-content,
                         .trix-editor *,
                         .trix-content *,
                         .fi-fo-rich-editor *,
                         .fi-fo-rich-editor-content,
-                        .fi-fo-rich-editor-content * {
-                            color: #f1f5f9 !important; /* Teks artikel yang diketik dipaksa abu-abu terang */
+                        .fi-fo-rich-editor-content *,
+                        .ProseMirror,
+                        .ProseMirror *,
+                        .tiptap,
+                        .tiptap * {
+                            color: #f1f5f9 !important; /* Teks artikel default dipaksa abu-abu terang */
                             -webkit-text-fill-color: #f1f5f9 !important;
+                        }
+
+                        /* 🚀 MEMAKSA TINGGI AREA KETIK TIPTAP DAN BERI PADDING AGAR LEBIH LEGA */
+                        .ProseMirror, .tiptap {
+                            min-height: 500px !important;
+                            padding: 1.5rem !important;
                         }
 
                         /* Mengubah kursor ketikan trix editor agar berwarna Cyan neon */
@@ -297,7 +306,78 @@ class AdminPanelProvider extends PanelProvider
                             caret-color: #22d3ee !important;
                         }
 
-                        /* Memastikan warna tombol toolbar Rich Editor terlihat */
+                        /* 🚀 CYBERPUNK NEON SYNTAX HIGHLIGHTING (Mencegah Kode Menjadi Invisible) */
+                        .ProseMirror pre, .tiptap pre, .prose pre {
+                            background-color: #060411 !important;
+                            border: 1px solid rgba(168, 85, 247, 0.4) !important;
+                            border-radius: 0.75rem !important;
+                        }
+
+                        .ProseMirror pre code, .tiptap pre code, .prose pre code {
+                            color: #e2e8f0 !important; /* Warna teks dasar di dalam kode (Putih Terang) */
+                        }
+
+                        /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
+                        .ProseMirror pre code .hljs-comment,
+                        .ProseMirror pre code .hljs-quote,
+                        .tiptap pre code .hljs-comment,
+                        .tiptap pre code .hljs-quote,
+                        .hljs-comment,
+                        .hljs-quote {
+                            color: #94a3b8 !important; /* Slate gray terang, 100% terbaca di background gelap */
+                            font-style: italic !important;
+                        }
+
+                        /* Warna Keyword utama (php, composer, sudo, systemctl, dll) */
+                        .ProseMirror pre code .hljs-keyword,
+                        .ProseMirror pre code .hljs-selector-tag,
+                        .ProseMirror pre code .hljs-literal,
+                        .ProseMirror pre code .hljs-section,
+                        .ProseMirror pre code .hljs-link,
+                        .tiptap pre code .hljs-keyword,
+                        .tiptap pre code .hljs-selector-tag,
+                        .hljs-keyword,
+                        .hljs-selector-tag {
+                            color: #22d3ee !important; /* Cyan Neon */
+                            font-weight: bold !important;
+                        }
+
+                        /* Warna Atribut, Strings, dan Variabel */
+                        .ProseMirror pre code .hljs-string,
+                        .ProseMirror pre code .hljs-title,
+                        .ProseMirror pre code .hljs-name,
+                        .ProseMirror pre code .hljs-type,
+                        .ProseMirror pre code .hljs-attr,
+                        .ProseMirror pre code .hljs-attribute,
+                        .tiptap pre code .hljs-string,
+                        .tiptap pre code .hljs-title,
+                        .hljs-string,
+                        .hljs-title,
+                        .hljs-name {
+                            color: #a78bfa !important; /* Ungu Neon */
+                        }
+
+                        /* Warna Angka dan Simbol */
+                        .ProseMirror pre code .hljs-number,
+                        .ProseMirror pre code .hljs-regexp,
+                        .ProseMirror pre code .hljs-symbol,
+                        .ProseMirror pre code .hljs-variable,
+                        .ProseMirror pre code .hljs-template-variable,
+                        .tiptap pre code .hljs-number,
+                        .hljs-number,
+                        .hljs-symbol {
+                            color: #f472b6 !important; /* Pink Neon */
+                        }
+
+                        /* Warna Built-in Command */
+                        .ProseMirror pre code .hljs-built_in,
+                        .ProseMirror pre code .hljs-builtin-name,
+                        .tiptap pre code .hljs-built_in,
+                        .hljs-built_in {
+                            color: #38bdf8 !important; /* Biru Langit */
+                        }
+
+                        /* Memasukkan pendaran tombol editor TipTap */
                         .trix-button-row button,
                         .trix-button-group button,
                         .fi-fo-rich-editor-toolbar button {
@@ -365,5 +445,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
+
     }
 }

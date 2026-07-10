@@ -177,6 +177,123 @@ class AdminPanelProvider extends PanelProvider
                         });
                     </script>
 
+                    <!-- 🛠️ TRIX INTERACTIVE IMAGE RESIZER ENGINE (CYBERPUNK FLOATING TOOLBAR) -->
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // Delegasi event klik pada seluruh body halaman admin
+                            document.body.addEventListener("click", function(e) {
+                                // Deteksi jika elemen yang diklik adalah gambar di dalam editor Trix
+                                if (e.target.tagName === "IMG" && e.target.closest("trix-editor")) {
+                                    const img = e.target;
+
+                                    // Cari atau buat wadah toolbar resizer mengambang
+                                    let toolbar = document.getElementById("trix-img-resizer");
+                                    if (!toolbar) {
+                                        toolbar = document.createElement("div");
+                                        toolbar.id = "trix-img-resizer";
+                                        toolbar.style.position = "absolute";
+                                        toolbar.style.zIndex = "99999";
+                                        toolbar.style.display = "flex";
+                                        toolbar.style.gap = "8px";
+                                        toolbar.style.alignItems = "center";
+                                        toolbar.style.background = "#130d31";
+                                        toolbar.style.border = "1.5px solid #22d3ee";
+                                        toolbar.style.padding = "6px 12px";
+                                        toolbar.style.borderRadius = "10px";
+                                        toolbar.style.boxShadow = "0 0 20px rgba(6, 182, 212, 0.45)";
+                                        toolbar.style.fontFamily = "monospace";
+                                        document.body.appendChild(toolbar);
+                                    }
+
+                                    // Posisikan toolbar tepat di tengah atas gambar yang sedang diklik (diperlebar penyeimbang kirinya karena tombol bertambah)
+                                    const rect = img.getBoundingClientRect();
+                                    toolbar.style.top = (window.scrollY + rect.top - 48) + "px";
+                                    toolbar.style.left = (window.scrollX + rect.left + (rect.width / 2) - 180) + "px";
+                                    toolbar.style.display = "flex";
+
+                                    // Kosongkan tombol lama agar tidak menumpuk
+                                    toolbar.innerHTML = "";
+
+                                    // 🌟 SUNTIKKAN UKURAN BERURUTAN KELIPATAN 10% (30% - 100%)
+                                    const sizes = ["30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"];
+
+                                    sizes.forEach(size => {
+                                        const btn = document.createElement("button");
+                                        btn.innerText = size;
+                                        btn.style.background = "rgba(168, 85, 247, 0.2)";
+                                        btn.style.border = "1px solid rgba(168, 85, 247, 0.5)";
+                                        btn.style.color = "#22d3ee";
+                                        btn.style.padding = "3px 8px";
+                                        btn.style.fontSize = "11px";
+                                        btn.style.fontWeight = "bold";
+                                        btn.style.borderRadius = "4px";
+                                        btn.style.cursor = "pointer";
+                                        btn.style.transition = "all 0.2s";
+
+                                        // Efek hover tombol siber
+                                        btn.onmouseover = () => {
+                                            btn.style.background = "#06b6d4";
+                                            btn.style.color = "#130d31";
+                                        };
+                                        btn.onmouseout = () => {
+                                            btn.style.background = "rgba(168, 85, 247, 0.2)";
+                                            btn.style.color = "#22d3ee";
+                                        };
+
+                                        // Aksi saat ukuran diklik
+                                        btn.onclick = function(event) {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+
+                                            // Suntikkan style ukuran langsung ke gambar
+                                            img.style.width = size;
+                                            img.style.maxWidth = "100%";
+                                            img.style.height = "auto";
+                                            img.style.display = "block";
+                                            img.style.margin = "2rem auto";
+
+                                            // Terapkan atribut HTML murni agar terserialisasi permanen ke database
+                                            img.setAttribute("width", size);
+
+                                            // Trigger event input pada trix editor agar Laravel mendeteksi perubahan HTML
+                                            const trixEditor = img.closest("trix-editor");
+                                            if (trixEditor) {
+                                                trixEditor.dispatchEvent(new Event("change"));
+                                                trixEditor.dispatchEvent(new Event("input"));
+                                            }
+
+                                            // Sembunyikan kembali toolbar
+                                            toolbar.style.display = "none";
+                                        };
+                                        toolbar.appendChild(btn);
+                                    });
+
+                                    // Tambahkan tombol tutup/cancel (X) merah
+                                    const closeBtn = document.createElement("button");
+                                    closeBtn.innerText = "✕";
+                                    closeBtn.style.color = "#ef4444";
+                                    closeBtn.style.background = "none";
+                                    closeBtn.style.border = "none";
+                                    closeBtn.style.marginLeft = "6px";
+                                    closeBtn.style.fontWeight = "bold";
+                                    closeBtn.style.cursor = "pointer";
+                                    closeBtn.onclick = function(event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        toolbar.style.display = "none";
+                                    };
+                                    toolbar.appendChild(closeBtn);
+                                } else {
+                                    // Sembunyikan toolbar jika mengklik area kosong lain di luar gambar/toolbar
+                                    const toolbar = document.getElementById("trix-img-resizer");
+                                    if (toolbar && !e.target.closest("#trix-img-resizer")) {
+                                        toolbar.style.display = "none";
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+
                     <style>
                         /* 1. Latar Belakang Gelap Utama Hanya di Body */
                         body {
@@ -293,6 +410,28 @@ class AdminPanelProvider extends PanelProvider
                         .tiptap * {
                             color: #f1f5f9 !important; /* Teks artikel default dipaksa abu-abu terang */
                             -webkit-text-fill-color: #f1f5f9 !important;
+                        }
+
+                        /* 🚀 STYLE BAWAAN UNTUK GAMBAR DI DALAM TEKS EDITOR AGAR PROPORSIONAL JIKA BELUM DIRESIZE */
+                        trix-editor img,
+                        .trix-content img,
+                        .fi-fo-rich-editor-content img,
+                        .trix-editor img {
+                            max-width: 100% !important; /* Batas responsif */
+                            height: auto !important;
+                            display: block !important;
+                            margin: 2rem auto !important; /* Memosisikan gambar pas di tengah secara otomatis */
+                            border-radius: 12px !important;
+                            border: 1.5px solid rgba(168, 85, 247, 0.4) !important; /* Bingkai neon ungu tipis */
+                            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important; /* Efek bayangan siber */
+                            transition: all 0.3s ease !important;
+                            cursor: pointer; /* Memberitahu user bahwa gambar bisa diklik untuk di-resize */
+                        }
+
+                        trix-editor img:hover,
+                        .trix-content img:hover {
+                            border-color: rgba(6, 182, 212, 0.8) !important; /* Glow berubah cyan saat diarahkan mouse */
+                            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.35) !important;
                         }
 
                         /* 🚀 MEMAKSA TINGGI AREA KETIK TIPTAP DAN BERI PADDING AGAR LEBIH LEGA */

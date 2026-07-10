@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use FilamentTiptapEditor\TiptapEditor; // 🚀 Import TipTap Editor untuk Rich Content (Alignments, Headings H1-H6, Tables, Coret Tengah)
 use Illuminate\Support\Str;
 
 class BlogResource extends Resource
@@ -18,7 +17,7 @@ class BlogResource extends Resource
     protected static ?string $model = Blog::class;
 
     // Icon bawaan Filament (bisa diabaikan karena navigasi disembunyikan)
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     /**
      * 🛡️ MENYEMBUNYIKAN MENU "BLOGS" DI SIDEBAR KIRI FILAMENT
@@ -64,12 +63,29 @@ class BlogResource extends Resource
                             ->rows(3)
                             ->maxLength(255),
 
-                        // 🌟 TIPTAP EDITOR: Kanvas utama penulisan artikel berukuran luas (500px+)
-                        TiptapEditor::make('content')
+                        // 🚀 RICH EDITOR NATIVE FILAMENT (SUPER STABIL & ANTI-TERPOTONG)
+                        // Menyediakan fungsionalitas penulisan handal tanpa bug potong string code
+                        Forms\Components\RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->profile('default') // Menggunakan setelan default lengkap (H1-H6, alignment teks, dll)
-                            ->directory('blog-attachments'), // Folder penyimpanan upload gambar/file pendukung
+                            ->fileAttachmentsDirectory('blog-attachments')
+                            ->toolbarButtons([
+                                'attachFiles',
+                                'blockquote',
+                                'bold',
+                                'bulletList',
+                                'codeBlock',
+                                'h1',
+                                'h2',
+                                'h3',
+                                'italic',
+                                'link',
+                                'orderedList',
+                                'redo',
+                                'strike',
+                                'underline',
+                                'undo',
+                            ]),
 
                         // Upload Gambar Banner Utama Artikel
                         Forms\Components\FileUpload::make('image')
@@ -86,7 +102,7 @@ class BlogResource extends Resource
                         // Tautan Berkas Latihan / Download Modul / File .PKT Packet Tracer
                         Forms\Components\TextInput::make('source_link')
                             ->url()
-                            ->placeholder('Link referensi luar')
+                            ->placeholder('Link referensi luar (Drive, Github, dll)')
                             ->nullable(),
                     ])
                     ->columns(2),
@@ -100,10 +116,18 @@ class BlogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->searchable(),
-                Tables\Columns\TextColumn::make('category')->searchable(),
-                Tables\Columns\TextColumn::make('views')->integer(),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->square(),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('category')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('views')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime('d M Y')
+                    ->sortable(),
             ])
             ->filters([])
             ->actions([

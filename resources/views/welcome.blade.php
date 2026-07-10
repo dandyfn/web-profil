@@ -86,55 +86,38 @@
     <main class="w-full md:pl-24 pr-8 md:pr-16 py-16 flex-grow relative z-10">
 
         <!-- SEKSI: MY ACHIEVEMENT -->
-        <section class="mb-20 w-full">
-            <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-8 flex items-center gap-3">
-                <span>🏆</span> My Achievement
-            </h3>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full">
+<section class="mb-20 w-full">
+    <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-8 flex items-center gap-3">
+        <span>🏆</span> My Achievement
+    </h3>
 
-                <!-- CARD 1 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card1']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">CCNA Certification</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah Network Enthusiast Engineering blah blah</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full">
+        @foreach(config('achievements') as $slug => $achievement)
+            <!-- CARD DINAMIS (Otomatis membaca isi config/achievements.php) -->
+            <a href="{{ route('achievement.detail', ['slug' => $slug]) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <!-- Category Badge Terstruktur dalam Bentuk Kotak Cyberpunk -->
+                    <div class="flex">
+                        <span class="px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-purple-300 bg-purple-950/30 border border-purple-500/30 rounded-md shadow-[0_0_8px_rgba(168,85,247,0.15)]">
+                            {{ $achievement['category'] ?? 'CERTIFICATION' }}
+                        </span>
                     </div>
-                </a>
 
-                <!-- CARD 2 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card2']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">NetAcad Top Student</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskrisp blah blah</p>
-                    </div>
-                </a>
+                    <!-- Judul Dinamis -->
+                    <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300 leading-tight">
+                        {{ $achievement['title'] }}
+                    </h4>
 
-                <!-- CARD 3 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card3']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #3</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-3</p>
-                    </div>
-                </a>
-
-                <!-- CARD 4 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card4']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #4</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Deskripsi testing kartu ke-4</p>
-                    </div>
-                </a>
-
-                <!-- CARD 5 -->
-                <a href="{{ route('achievement.detail', ['slug' => 'card5']) }}" class="w-full bg-[#130d31]/40 border border-purple-500/20 backdrop-blur-md rounded-xl p-6 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] active:scale-95 transform transition duration-200 cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <h4 class="font-bold text-cyan-400 text-2xl group-hover:text-pink-400 transition duration-300">Achievement #5</h4>
-                        <p class="text-lg text-gray-400 mt-3 leading-relaxed">Kartu kelima otomatis membuat baris vertikal baru.</p>
-                    </div>
-                </a>
-
-            </div>
-        </section>
+                    <!-- Deskripsi Dinamis dengan line-clamp agar tinggi box tetap seragam & presisi -->
+                    <p class="text-sm text-gray-400 leading-relaxed line-clamp-4">
+                        {{ $achievement['desc_1'] }}
+                    </p>
+                </div>
+            </a>
+        @endforeach
+    </div>
+</section>
 
         <!-- SEKSI: MY SKILLS & TOOLS (Disesuaikan Warna Tiap Logo) -->
         <section class="mb-20">

@@ -9,65 +9,81 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use FilamentTiptapEditor\TiptapEditor; // 🚀 1. IMPORT TIPTAP EDITOR DI ATAS SINI
+use FilamentTiptapEditor\TiptapEditor; // 🚀 Import TipTap Editor untuk Rich Content (Alignments, Headings H1-H6, Tables, Coret Tengah)
 use Illuminate\Support\Str;
 
 class BlogResource extends Resource
 {
+    // Mengikat resource ini ke Model Eloquent Blog
     protected static ?string $model = Blog::class;
 
+    // Icon bawaan Filament (bisa diabaikan karena navigasi disembunyikan)
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    // Menyembunyikan navigasi menu "Blogs" bawaan karena kita memakai tombol kustom
+    /**
+     * 🛡️ MENYEMBUNYIKAN MENU "BLOGS" DI SIDEBAR KIRI FILAMENT
+     * Kita return false karena kita memakai tombol navigasi manual [ DEPLOY NEW NODE ] dan [ EDIT NODE ]
+     * di halaman publik agar pengalaman pengguna (UX) jauh lebih interaktif dan estetik.
+     */
     public static function shouldRegisterNavigation(): bool
     {
         return false;
     }
 
+    /**
+     * ✍️ FORMULIR PENGISIAN DATA BLOG (ADMIN PANEL)
+     */
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Card::make()
                     ->schema([
+                        // Input Judul Artikel
                         Forms\Components\TextInput::make('title')
                             ->required()
                             ->maxLength(255)
                             ->lazy()
+                            // Otomatis men-generate slug ramah SEO saat lu mengetik judul
                             ->afterStateUpdated(fn ($set, $state) => $set('slug', Str::slug($state))),
 
+                        // Input Slug (URL unik artikel)
                         Forms\Components\TextInput::make('slug')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
 
+                        // Kategori Artikel (NETWORKING, LINUX MINT, CYBER SECURITY)
                         Forms\Components\TextInput::make('category')
                             ->required()
                             ->maxLength(255),
 
+                        // Deskripsi singkat untuk tampilan kartu di grid depan
                         Forms\Components\Textarea::make('description')
                             ->required()
                             ->rows(3)
                             ->maxLength(255),
 
-                        // 🌟 2. TIPTAP EDITOR SUDAH TERPASANG DI SINI (Menggantikan RichEditor lama)
+                        // 🌟 TIPTAP EDITOR: Kanvas utama penulisan artikel berukuran luas (500px+)
                         TiptapEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->profile('default') // 🚀 DIUBAH KE 'default' AGAR TIDAK ERROR (Berisi H1-H6, Alignments, Strike, Tables, dll)
-                            ->directory('blog-attachments'), // Folder upload gambar
+                            ->profile('default') // Menggunakan setelan default lengkap (H1-H6, alignment teks, dll)
+                            ->directory('blog-attachments'), // Folder penyimpanan upload gambar/file pendukung
 
-
+                        // Upload Gambar Banner Utama Artikel
                         Forms\Components\FileUpload::make('image')
                             ->image()
                             ->directory('blog-banners')
                             ->nullable(),
 
+                        // Tautan Video Youtube Demonstrasi Lab (Jika ada)
                         Forms\Components\TextInput::make('video_url')
                             ->url()
                             ->placeholder('https://www.youtube.com/embed/...')
                             ->nullable(),
 
+                        // Tautan Berkas Latihan / Download Modul / File .PKT Packet Tracer
                         Forms\Components\TextInput::make('source_link')
                             ->url()
                             ->placeholder('Link referensi luar')
@@ -77,6 +93,9 @@ class BlogResource extends Resource
             ]);
     }
 
+    /**
+     * 📊 TABEL REKAP DATA BLOG DI BELAKANG LAYAR (DATABASE STORAGE INDEX)
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -102,6 +121,9 @@ class BlogResource extends Resource
         return [];
     }
 
+    /**
+     * 🛣️ DAFTAR RUTE SUB-HALAMAN RESOURCE BLOG
+     */
     public static function getPages(): array
     {
         return [

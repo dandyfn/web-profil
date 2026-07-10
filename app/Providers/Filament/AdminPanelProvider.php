@@ -55,25 +55,160 @@ class AdminPanelProvider extends PanelProvider
                         document.documentElement.style.colorScheme = "dark";
                     </script>
 
+                    <!-- LOGIKA NEURAL NETWORK CANVAS DI BACKGROUND ADMIN & HALAMAN LOGIN -->
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // Deteksi jika canvas belum dibuat di body, buat baru secara otomatis
+                            let canvas = document.getElementById("neural-canvas");
+                            if (!canvas) {
+                                canvas = document.createElement("canvas");
+                                canvas.id = "neural-canvas";
+                                canvas.style.position = "fixed";
+                                canvas.style.top = "0";
+                                canvas.style.left = "0";
+                                canvas.style.width = "100vw";
+                                canvas.style.height = "100vh";
+                                canvas.style.zIndex = "-1"; // Ditempatkan di dasar paling belakang
+                                canvas.style.pointerEvents = "none"; // Tidak memblokir klik kursor ke form
+                                document.body.prepend(canvas);
+                            }
+
+                            const ctx = canvas.getContext("2d");
+
+                            function setCanvasSize() {
+                                canvas.width = window.innerWidth;
+                                canvas.height = window.innerHeight;
+                            }
+                            setCanvasSize();
+                            window.addEventListener("resize", setCanvasSize);
+
+                            const particles = [];
+                            const particleCount = 75; // Jumlah titik saraf
+                            const mouseRadius = 150; // Radius tarikan kursor
+                            const mouse = { x: null, y: null };
+
+                            window.addEventListener("mousemove", (e) => {
+                                mouse.x = e.clientX;
+                                mouse.y = e.clientY;
+                            });
+
+                            window.addEventListener("mouseout", () => {
+                                mouse.x = null;
+                                mouse.y = null;
+                            });
+
+                            class Particle {
+                                constructor(x, y, dx, dy, size) {
+                                    this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size;
+                                }
+                                draw() {
+                                    ctx.beginPath();
+                                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                                    ctx.fillStyle = "rgba(6, 182, 212, 0.6)"; // Warna biru cyan bercahaya
+                                    ctx.fill();
+                                }
+                                update() {
+                                    if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                                    if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                                    this.x += this.dx;
+                                    this.y += this.dy;
+                                    this.draw();
+                                }
+                            }
+
+                            function initParticles() {
+                                particles.length = 0;
+                                for (let i = 0; i < particleCount; i++) {
+                                    const size = Math.random() * 2 + 1;
+                                    const x = Math.random() * canvas.width;
+                                    const y = Math.random() * canvas.height;
+                                    const dx = (Math.random() - 0.5) * 0.4;
+                                    const dy = (Math.random() - 0.5) * 0.4;
+                                    particles.push(new Particle(x, y, dx, dy, size));
+                                }
+                            }
+
+                            function connectParticles() {
+                                let opacity = 1;
+                                for (let a = 0; a < particles.length; a++) {
+                                    // Tarikan garis ke posisi mouse kursor
+                                    const mouseDx = particles[a].x - mouse.x;
+                                    const mouseDy = particles[a].y - mouse.y;
+                                    const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
+
+                                    if (mouse.x !== null && mouseDistance < mouseRadius) {
+                                        opacity = 1 - (mouseDistance / mouseRadius);
+                                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`; // Garis ungu ke kursor
+                                        ctx.lineWidth = 1;
+                                        ctx.beginPath();
+                                        ctx.moveTo(particles[a].x, particles[a].y);
+                                        ctx.lineTo(mouse.x, mouse.y);
+                                        ctx.stroke();
+                                    }
+
+                                    // Garis penghubung antar titik terdekat
+                                    for (let b = a; b < particles.length; b++) {
+                                        const pdx = particles[a].x - particles[b].x;
+                                        const pdy = particles[a].y - particles[b].y;
+                                        const distance = Math.sqrt(pdx * pdx + pdy * pdy);
+
+                                        if (distance < 80) {
+                                            opacity = 1 - (distance / 80);
+                                            ctx.strokeStyle = `rgba(168, 85, 247, ${opacity * 0.35})`;
+                                            ctx.lineWidth = 1;
+                                            ctx.beginPath();
+                                            ctx.moveTo(particles[a].x, particles[a].y);
+                                            ctx.lineTo(particles[b].x, particles[b].y);
+                                            ctx.stroke();
+                                        }
+                                    }
+                                }
+                            }
+
+                            function animate() {
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                particles.forEach(p => p.update());
+                                connectParticles();
+                                requestAnimationFrame(animate);
+                            }
+
+                            initParticles();
+                            animate();
+                        });
+                    </script>
+
                     <style>
-                        /* 1. Latar Belakang Gelap dengan Efek Grid Cyberpunk */
-                        body,
-                        .fi-layout,
-                        .fi-main,
-                        .fi-topbar,
-                        .fi-section,
-                        .fi-card,
-                        .fi-panel,
-                        main {
+                        /* 1. Latar Belakang Gelap Utama Hanya di Body */
+                        body {
                             background-color: #0b071e !important;
                             background-image:
                                 linear-gradient(rgba(18, 10, 50, 0.4) 1px, transparent 1px),
                                 linear-gradient(90deg, rgba(18, 10, 50, 0.4) 1px, transparent 1px) !important;
                             background-size: 40px 40px !important;
-                            color: #f1f5f9 !important; /* Warna teks default abu-abu terang */
+                            color: #f1f5f9 !important; /* Warna teks default */
                         }
 
-                        /* 2. PEMBERSIHAN ELEMEN BAWAAN: Sembunyikan Logo & Breadcrumbs Tanpa Merusak Container */
+                        /* 2. PEMBERSIHAN LAYER CONTAINER: Dipaksa Transparan Agar Canvas Terlihat */
+                        .fi-layout,
+                        .fi-main,
+                        .fi-topbar,
+                        .fi-simple-layout,
+                        .fi-simple-main,
+                        main {
+                            background: transparent !important;
+                        }
+
+                        /* 3. EFEK MELAYANG: Membuat Box Login / Box Form Menjadi Semi-Transparan Ber-blur */
+                        .fi-card,
+                        .fi-panel,
+                        .fi-section {
+                            background-color: rgba(19, 13, 49, 0.85) !important;
+                            border: 1px solid rgba(168, 85, 247, 0.3) !important;
+                            backdrop-filter: blur(8px) !important;
+                            box-shadow: 0 0 35px rgba(168, 85, 247, 0.15) !important;
+                        }
+
+                        /* 4. PEMBERSIHAN ELEMEN BAWAAN: Sembunyikan Logo & Breadcrumbs Tanpa Merusak Container */
                         .fi-topbar-header-container > a,
                         .fi-topbar-brand,
                         .fi-topbar-brand-name,
@@ -152,17 +287,14 @@ class AdminPanelProvider extends PanelProvider
                         .trix-content *,
                         .fi-fo-rich-editor *,
                         .fi-fo-rich-editor-content,
-                        .fi-fo-rich-editor-content *,
-                        .ProseMirror,
-                        .ProseMirror * {
+                        .fi-fo-rich-editor-content * {
                             color: #f1f5f9 !important; /* Teks artikel yang diketik dipaksa abu-abu terang */
                             -webkit-text-fill-color: #f1f5f9 !important;
                         }
 
-                        /* 🚀 MEMAKSA TINGGI AREA KETIK TIPTAP DAN BERI PADDING AGAR LEBIH LEGA */
-                        .ProseMirror, .tiptap {
-                            min-height: 100px !important;
-                            padding: 1.5rem !important;
+                        /* Mengubah kursor ketikan trix editor agar berwarna Cyan neon */
+                        trix-editor {
+                            caret-color: #22d3ee !important;
                         }
 
                         /* Memastikan warna tombol toolbar Rich Editor terlihat */

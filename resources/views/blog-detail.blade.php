@@ -1,3 +1,38 @@
+@php
+    // 1. Ambil URL IP/Domain aktif saat ini secara dinamis (contoh: http://localhost:8080 atau http://127.0.0.1:8080)
+    $currentHost = request()->getSchemeAndHttpHost();
+
+    // 2. Sapu bersih semua link lama yang masih mengunci port 8000 di database, ganti otomatis ke port aktif saat ini
+    $cleanedContent = preg_replace(
+        '/http:\/\/(127\.0\.0\.1|localhost):8000/',
+        $currentHost,
+        $blog->content
+    );
+
+    // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX:
+    // Kita langsung bedah tag <pre><code> lewat PHP di server!
+    // Ini mematikan Javascript DOM Injector, sehingga DUPLIKASI TERMINAL DIJAMIN LENYAP SELAMANYA!
+    $cleanedContent = preg_replace_callback(
+        '/<pre><code([^>]*)>(.*?)<\/code><\/pre>/s',
+        function($matches) {
+            static $index = 0;
+            $index++;
+            $codeAttr = $matches[1];
+            $codeContent = $matches[2];
+            $idUnik = "code-block-" . $index;
+
+            return '
+            <div class="relative bg-[#060411] border border-purple-500/30 rounded-xl overflow-hidden my-6">
+                <div class="terminal-header bg-[#130d31]/80 px-4 py-2 border-b border-purple-500/20 flex justify-between items-center text-xs font-mono text-purple-400 select-none">
+                    <span>TERMINAL // LOG_CODE_BLOCK_' . $index . '</span>
+                    <button type="button" onclick="copyCodeAction(\'' . $idUnik . '\', this)" class="bg-purple-900/40 text-purple-300 px-3 py-1 rounded hover:bg-cyan-500 hover:text-[#0b071e] transition-all duration-200 cursor-pointer relative z-50">COPY CODE</button>
+                </div>
+                <pre class="p-6 overflow-x-auto m-0 bg-transparent border-0"><code id="' . $idUnik . '"' . $codeAttr . '>' . $codeContent . '</code></pre>
+            </div>';
+        },
+        $cleanedContent
+    );
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,6 +46,7 @@
     <title>{{ $blog->title }} - Cyberpunk Log</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -35,7 +71,7 @@
             transform: scale(1.04); /* Efek zoom-in halus */
         }
 
-        /* 📸 ATURAN UKURAN GAMBAR OTOMATIS (SINKRON 70% DI DESKTOP, 100% DI HP) */
+        /* 🚀 ATURAN UKURAN GAMBAR OTOMATIS & INTEGRASI CAPTION (SINKRON 50% DI DESKTOP, 100% DI HP) */
         .prose img {
             border-radius: 12px;
             border: 1.5px solid rgba(168, 85, 247, 0.4);
@@ -49,38 +85,42 @@
             box-shadow: 0 12px 30px rgba(6, 182, 212, 0.35) !important;
         }
 
-        /* Responsive Breakpoint: Memaksa gambar & figurnya selalu 70% di PC dan tengah halaman */
+        /* Responsive Breakpoint: Aturan Penempatan Gambar & Lampiran Berkas secara presisi */
         @media (min-width: 768px) {
-            .prose img {
-                width: 70% !important;
-                margin: 2.5rem auto !important;
+            /* 1. Gambar mandiri (tanpa figure) */
+            .prose > img {
+                width: 50% !important;
+                margin: 2rem auto !important;
             }
-            /* Hanya menengahkan dan merubah ukuran figure yang memiliki gambar di dalamnya */
-            .prose figure:has(img) {
-                width: 70% !important;
+            /* 2. Figure yang membungkus gambar (kita ciptakan wadah 50% di tengah) */
+            .prose figure:has(img),
+            .prose figure.attachment--preview {
+                width: 50% !important;
                 margin: 2.5rem auto !important;
                 text-align: center !important;
             }
-            /* Memaksa figure non-gambar (seperti link PDF/PPT) agar selebar 100% dan rata kiri */
+            /* 3. Maksa gambar di dalam figure agar berukuran penuh 100% dari wadahnya (supaya sinkron dengan caption) */
+            .prose figure img {
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+            /* 4. Lampiran berkas non-gambar (seperti file PDF, Word, PPT) dipaksa tetap lebar 100% dan rata kiri */
             .prose figure:not(:has(img)) {
                 width: 100% !important;
                 margin: 2rem 0 !important;
                 text-align: left !important;
             }
         }
-        /* Mobile Breakpoint: Mengembang kembali 100% di layar HP agar jelas terbaca */
+
         @media (max-width: 767px) {
-            .prose img {
-                width: 100% !important;
-                margin: 1.5rem auto !important;
-            }
+            .prose img,
             .prose figure {
                 width: 100% !important;
                 margin: 1.5rem auto !important;
             }
         }
 
-        /* 🚀 CAPTION GAMBAR SINKRONISASI PERSIS TENGAH DI BAWAH GAMBAR */
+        /* 🎨 CAPTION / KETERANGAN GAMBAR (Dipaksa simetris tepat di tengah bawah gambar) */
         .prose figcaption,
         .prose .attachment__caption {
             text-align: center !important;
@@ -92,38 +132,41 @@
             width: 100% !important;
         }
 
-        /* Untuk link lampiran non-gambar, pastikan teks keterangannya tetap rata kiri */
+        /* Teks keterangan lampiran non-gambar harus tetap mengikuti struktur rata kiri */
         .prose figure:not(:has(img)) figcaption,
         .prose figure:not(:has(img)) .attachment__caption {
             text-align: left !important;
             margin-left: 0 !important;
         }
 
-        /* 🚀 FORCE HEADING SIZES (Solusi Masalah Judul H1, H2, H3 yang Tidak Membesar & Berbeda Ukuran) */
+        /* 🚀 PERBAIKAN UKURAN HEADING 1, 2, DAN 3 (DIPAKSA BERBEDA & TAMPIL TEBAL) */
         .prose h1, .prose h1 * {
             font-size: 2.25rem !important; /* text-4xl */
-            color: #22d3ee !important;
+            color: #22d3ee !important; /* Cyan */
             font-weight: 700 !important;
             margin-top: 2.5rem !important;
             margin-bottom: 1.25rem !important;
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3) !important;
+            display: block !important;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.35) !important;
         }
 
         .prose h2, .prose h2 * {
             font-size: 1.875rem !important; /* text-3xl */
-            color: #22d3ee !important;
+            color: #22d3ee !important; /* Cyan */
             font-weight: 700 !important;
             margin-top: 2rem !important;
             margin-bottom: 1rem !important;
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.2) !important;
+            display: block !important;
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.2) !important;
         }
 
         .prose h3, .prose h3 * {
             font-size: 1.5rem !important; /* text-2xl */
-            color: #a78bfa !important;
+            color: #a78bfa !important; /* Ungu */
             font-weight: 600 !important;
             margin-top: 1.75rem !important;
             margin-bottom: 0.75rem !important;
+            display: block !important;
             text-shadow: 0 0 8px rgba(167, 139, 250, 0.2) !important;
         }
 
@@ -132,8 +175,7 @@
             background-color: #060411 !important;
             border: 1px solid rgba(168, 85, 247, 0.4) !important;
             border-radius: 0.75rem !important;
-            padding: 1.5rem !important; /* Padding langsung di dalam pre block agar bersih */
-            margin: 1.5rem 0 !important;
+            padding: 0 !important;
         }
 
         .prose pre code {
@@ -186,15 +228,20 @@
 </head>
 <body class="bg-[#0b071e] text-gray-200 antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-    <!-- Glowing Cursor Effect -->
-    <div id="cursor-glow" class="fixed top-0 left-0 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-full blur-[130px] pointer-events-none z-0 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out opacity-0 md:opacity-100"></div>
+    <!-- 🛡️ HANCURKAN PERISAI HANTU: Glow dipaksa ke dasar terdalam z-[-10] agar mustahil menghalangi klik jarimu! -->
+    <div id="cursor-glow" class="fixed top-0 left-0 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-full blur-[130px] pointer-events-none z-[-10] -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out opacity-0 md:opacity-100" style="z-index: -10 !important;"></div>
 
-    <!-- NAVIGATION BAR (Menggunakan model full-width tanpa batasan max-width) -->
-    <nav class="sticky top-0 z-50 bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]">
+    <!-- Toast Notification for "Copy Code" Success -->
+    <div id="toast" class="fixed bottom-10 right-10 z-[100] transform translate-y-20 opacity-0 transition-all duration-300 bg-[#130d31] border border-cyan-400 text-cyan-300 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] font-mono text-sm flex items-center gap-3">
+        <span class="text-emerald-400">✔</span> System: Code copied to clipboard!
+    </div>
+
+    <!-- 🛡️ POSISI NAVIGASI SANGAT STABIL DI ATAS LAYOUT -->
+    <nav class="sticky top-0 z-[9999] bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]" style="position: sticky; z-index: 9999 !important;">
         <div class="w-full px-6 md:px-16 lg:px-24 flex justify-between items-center py-5 gap-12 font-semibold tracking-wider text-base">
             <div class="flex gap-12">
-                <!-- Rute tombol dialihkan langsung ke rute list blog -->
-                <a href="{{ route('blog.index') }}" class="text-gray-400 hover:text-cyan-400 transition duration-300 flex items-center gap-2">
+                <!-- Tombol Kembali Murni Tanpa Javascript Pengganggu & Kebal Cache -->
+                <a href="/blog" class="text-gray-400 hover:text-cyan-400 transition duration-300 flex items-center gap-2 cursor-pointer" style="position: relative; z-index: 99999 !important;">
                     <span>←</span> BACK TO MAIN NODE
                 </a>
             </div>
@@ -248,7 +295,8 @@
 
         <!-- ARTIKEL UTAMA -->
         <article class="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed space-y-6">
-            {!! $blog->content !!}
+            <!-- Render isi konten yang sudah dibersihkan secara aman & dinamis -->
+            {!! $cleanedContent !!}
         </article>
 
         <!-- SUB-SEKSI: VIDEO DEMONSTRASI (Dipusatkan secara simetris ke tengah halaman dengan mx-auto) -->
@@ -297,7 +345,40 @@
             glow.style.top = `${y}px`;
         });
 
-        // --- 2. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
+        // --- 2. FUNGSI COPY-TO-CLIPBOARD MANDIRI & AMAN (Sederhana & Tanpa Crash!) ---
+        function copyCodeAction(elementId, buttonElement) {
+            const targetElement = document.getElementById(elementId);
+            if (!targetElement) return;
+
+            const codeText = targetElement.innerText;
+
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            const originalText = buttonElement.innerText;
+            buttonElement.innerText = "COPIED!";
+            buttonElement.style.backgroundColor = "#10b981";
+            buttonElement.style.color = "#070414";
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+
+                buttonElement.innerText = originalText;
+                buttonElement.style.backgroundColor = "";
+                buttonElement.style.color = "";
+            }, 2500);
+        }
+
+        // --- 3. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.reload();

@@ -35,15 +35,13 @@
             transform: scale(1.04); /* Efek zoom-in halus */
         }
 
-        /* 📸 EFEK HOVER UNTUK GAMBAR DI DALAM ARTIKEL (Rich Editor) */
+        /* 📸 ATURAN UKURAN GAMBAR OTOMATIS (SINKRON 70% DI DESKTOP, 100% DI HP) */
         .prose img {
             border-radius: 12px;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            margin: 2rem auto;
-            max-width: 100%;
-            height: auto;
+            border: 1.5px solid rgba(168, 85, 247, 0.4);
+            display: block;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
         .prose img:hover {
             transform: translateY(-4px) scale(1.015); /* Melayang sedikit ke atas */
@@ -51,12 +49,91 @@
             box-shadow: 0 12px 30px rgba(6, 182, 212, 0.35) !important;
         }
 
+        /* Responsive Breakpoint: Memaksa gambar & figurnya selalu 70% di PC dan tengah halaman */
+        @media (min-width: 768px) {
+            .prose img {
+                width: 70% !important;
+                margin: 2.5rem auto !important;
+            }
+            /* Hanya menengahkan dan merubah ukuran figure yang memiliki gambar di dalamnya */
+            .prose figure:has(img) {
+                width: 70% !important;
+                margin: 2.5rem auto !important;
+                text-align: center !important;
+            }
+            /* Memaksa figure non-gambar (seperti link PDF/PPT) agar selebar 100% dan rata kiri */
+            .prose figure:not(:has(img)) {
+                width: 100% !important;
+                margin: 2rem 0 !important;
+                text-align: left !important;
+            }
+        }
+        /* Mobile Breakpoint: Mengembang kembali 100% di layar HP agar jelas terbaca */
+        @media (max-width: 767px) {
+            .prose img {
+                width: 100% !important;
+                margin: 1.5rem auto !important;
+            }
+            .prose figure {
+                width: 100% !important;
+                margin: 1.5rem auto !important;
+            }
+        }
+
+        /* 🚀 CAPTION GAMBAR SINKRONISASI PERSIS TENGAH DI BAWAH GAMBAR */
+        .prose figcaption,
+        .prose .attachment__caption {
+            text-align: center !important;
+            margin: 0.75rem auto 0 auto !important;
+            color: #94a3b8 !important; /* Abu-abu siber terang */
+            font-size: 0.875rem !important;
+            font-style: italic !important;
+            display: block !important;
+            width: 100% !important;
+        }
+
+        /* Untuk link lampiran non-gambar, pastikan teks keterangannya tetap rata kiri */
+        .prose figure:not(:has(img)) figcaption,
+        .prose figure:not(:has(img)) .attachment__caption {
+            text-align: left !important;
+            margin-left: 0 !important;
+        }
+
+        /* 🚀 FORCE HEADING SIZES (Solusi Masalah Judul H1, H2, H3 yang Tidak Membesar & Berbeda Ukuran) */
+        .prose h1, .prose h1 * {
+            font-size: 2.25rem !important; /* text-4xl */
+            color: #22d3ee !important;
+            font-weight: 700 !important;
+            margin-top: 2.5rem !important;
+            margin-bottom: 1.25rem !important;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3) !important;
+        }
+
+        .prose h2, .prose h2 * {
+            font-size: 1.875rem !important; /* text-3xl */
+            color: #22d3ee !important;
+            font-weight: 700 !important;
+            margin-top: 2rem !important;
+            margin-bottom: 1rem !important;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.2) !important;
+        }
+
+        .prose h3, .prose h3 * {
+            font-size: 1.5rem !important; /* text-2xl */
+            color: #a78bfa !important;
+            font-weight: 600 !important;
+            margin-top: 1.75rem !important;
+            margin-bottom: 0.75rem !important;
+            text-shadow: 0 0 8px rgba(167, 139, 250, 0.2) !important;
+        }
+
         /* 🚀 CYBERPUNK SYNTAX HIGHLIGHTING (Agar script/komentar // tidak berwarna hitam/invisible) */
         .prose pre {
             background-color: #060411 !important;
             border: 1px solid rgba(168, 85, 247, 0.4) !important;
             border-radius: 0.75rem !important;
-            padding: 0 !important; /* Diatur oleh pembungkus terminal */
+            padding: 1.5rem !important; /* Padding langsung di dalam pre block agar bersih */
+            margin: 1.5rem 0 !important;
         }
 
         .prose pre code {
@@ -64,14 +141,14 @@
             font-family: 'Fira Code', monospace !important;
         }
 
-        /* Warna Komentar (Simbol // dan keterangannya dipaksa menyala slate gray terang) */
+        /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
         .prose pre code .hljs-comment,
         .prose pre code .hljs-quote {
-            color: #94a3b8 !important; /* Sangat terbaca di background hitam */
+            color: #94a3b8 !important; /* Slate gray terang, 100% terbaca di background gelap */
             font-style: italic !important;
         }
 
-        /* Warna Keyword utama (php, composer, sudo, systemctl, R1, dll) */
+        /* Warna Keyword utama (php, composer, sudo, systemctl, dll) */
         .prose pre code .hljs-keyword,
         .prose pre code .hljs-selector-tag,
         .prose pre code .hljs-literal,
@@ -112,11 +189,6 @@
     <!-- Glowing Cursor Effect -->
     <div id="cursor-glow" class="fixed top-0 left-0 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-full blur-[130px] pointer-events-none z-0 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out opacity-0 md:opacity-100"></div>
 
-    <!-- Toast Notification for "Copy Code" Success -->
-    <div id="toast" class="fixed bottom-10 right-10 z-[100] transform translate-y-20 opacity-0 transition-all duration-300 bg-[#130d31] border border-cyan-400 text-cyan-300 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] font-mono text-sm flex items-center gap-3">
-        <span class="text-emerald-400">✔</span> System: Code copied to clipboard!
-    </div>
-
     <!-- NAVIGATION BAR (Menggunakan model full-width tanpa batasan max-width) -->
     <nav class="sticky top-0 z-50 bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]">
         <div class="w-full px-6 md:px-16 lg:px-24 flex justify-between items-center py-5 gap-12 font-semibold tracking-wider text-base">
@@ -156,11 +228,12 @@
                 <span class="text-xs font-mono text-cyan-400">Views: {{ $blog->views }}</span>
             </div>
 
-            <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 leading-tight">
+            <!-- 🚀 MASTERPIECE JUDUL UTAMA (1.4x LEBIH BESAR & GRADASI GRADIENT BARU ULTRA-Siber) -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 leading-none tracking-tight pb-2">
                 {{ $blog->title }}
             </h1>
 
-            <div class="flex items-center gap-3 pt-2">
+            <div class="flex items-center gap-3 pt-4">
                 <div class="w-10 h-10 rounded-full bg-[#130d31] border border-purple-500/30 flex items-center justify-center font-bold text-sm font-mono text-cyan-400">
                     DA
                 </div>
@@ -224,60 +297,7 @@
             glow.style.top = `${y}px`;
         });
 
-        // --- 2. JAVASCRIPT DETEKTOR KOTAK KODE (Code Block) DAN TOMBOL COPY ---
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('article pre').forEach((preBlock, index) => {
-                preBlock.className = "relative bg-[#060411] border border-purple-500/30 rounded-xl overflow-hidden my-6";
-
-                const codeBlock = preBlock.querySelector('code');
-                const idUnik = 'code-block-' + index;
-                if(codeBlock) {
-                    codeBlock.id = idUnik;
-                    codeBlock.className = "font-mono text-sm block p-6 overflow-x-auto";
-                }
-
-                const headerTerminal = document.createElement('div');
-                headerTerminal.className = "bg-[#130d31]/80 px-4 py-2 border-b border-purple-500/20 flex justify-between items-center text-xs font-mono text-purple-400";
-                headerTerminal.innerHTML = `
-                    <span>TERMINAL // LOG_CODE_BLOCK_${index + 1}</span>
-                    <button onclick="copyCodeAction('${idUnik}', this)" class="bg-purple-900/40 text-purple-300 px-3 py-1 rounded hover:bg-cyan-500 hover:text-[#0b071e] transition-all duration-200">COPY CODE</button>
-                `;
-
-                preBlock.parentNode.insertBefore(headerTerminal, preBlock);
-            });
-        });
-
-        // --- 3. FUNGSI COPY-TO-CLIPBOARD NYATA ---
-        function copyCodeAction(elementId, buttonElement) {
-            const codeText = document.getElementById(elementId).innerText;
-
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = codeText;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-
-            const toast = document.getElementById('toast');
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            const originalText = buttonElement.innerText;
-            buttonElement.innerText = "COPIED!";
-            buttonElement.style.backgroundColor = "#10b981";
-            buttonElement.style.color = "#070414";
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-
-                buttonElement.innerText = originalText;
-                buttonElement.style.backgroundColor = "";
-                buttonElement.style.color = "";
-            }, 2500);
-        }
-
-        // --- 4. PROTEKSI BACK BUTTON ANTI-CACHE (Mencegah tombol edit membayangi setelah logout) ---
+        // --- 2. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.reload();

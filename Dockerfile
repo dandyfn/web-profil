@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-apache
 
 # 1. Pasang paket dependensi sistem operasi Linux dasar
 RUN apt-get update && apt-get install -y \
@@ -31,6 +31,11 @@ COPY . /var/www
 
 # 7. Atur hak kepemilikan file agar aman dibaca oleh web server Linux (www-data)
 RUN chown -R www-data:www-data /var/www
+
+ENV APACHE_DOCUMENT_ROOT /var/www/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN a2enmod rewrite
 
 EXPOSE 9000
 CMD ["php-fpm"]

@@ -52,7 +52,7 @@
         </div>
     </nav>
 
-    <main class="w-full md:pl-24 pr-8 md:pr-16 py-12 flex-grow relative z-10">
+    <main class="w-full px-6 md:pl-24 md:pr-16 py-12 flex-grow relative z-10">
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full items-start">
 
@@ -154,7 +154,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-[#070414]/90 backdrop-blur-md border-t border-purple-900/40 py-10 px-8 text-center relative z-10">
-        <div class="w-full md:pl-24 pr-8 md:pr-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="w-full px-6 md:pl-24 md:pr-16 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p class="text-sm text-gray-500">&copy; 2026 Dandy. Built with Laravel on Linux Mint.</p>
             <div class="text-sm font-mono text-gray-600">STATUS: SECURE_CONNECTION_ESTABLISHED</div>
         </div>

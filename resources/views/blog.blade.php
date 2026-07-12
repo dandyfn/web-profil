@@ -36,7 +36,7 @@
     </nav>
 
     <!-- CONTENT UTAMA -->
-    <main class="w-full md:pl-24 pr-8 md:pr-16 py-12 flex-grow relative z-10 space-y-10">
+    <main class="w-full px-6 md:pl-24 md:pr-16 py-12 flex-grow relative z-10 space-y-10">
 
         <!-- HEADER KATEGORI & FILTER -->
          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-purple-500/20 pb-8">
@@ -46,7 +46,7 @@
                     KNOWLEDGE BASE LOGS
                 </h1>
                 <p class="text-gray-400 text-sm font-light max-w-xl">
-                    Semua dokumentasi lab siber, konfigurasi routing, otomatisasi python, dan catatanku selama bereksplorasi di dunia infrastruktur jaringan.
+                    Semua dokumentasi pemrograman dan catatanku selama bereksplorasi di dunia infrastruktur jaringan.
                 </p>
             </div>
 
@@ -148,7 +148,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-[#070414]/90 backdrop-blur-md border-t border-purple-900/40 py-10 px-8 text-center relative z-10 mt-20">
-        <div class="w-full md:pl-24 pr-8 md:pr-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="w-full px-6 md:pl-24 md:pr-16 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p class="text-sm text-gray-500">&copy; 2026 Dandy. Built with Laravel on Linux Mint.</p>
             <div id="on-site-status" class="text-sm font-mono text-cyan-400">STATUS: NETWORK_ARCHIVE_STABLE</div>
         </div>

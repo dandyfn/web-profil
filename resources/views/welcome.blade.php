@@ -55,8 +55,8 @@
 
         <div class="w-full flex flex-col md:flex-row items-start justify-start gap-20 md:px-16 relative z-10">
 
-            <div class="w-80 h-[26rem] flex-shrink-0 relative">
-                <img src="{{ asset('images/foto profil.png') }}" alt="Foto Profil" class="w-full h-full object-cover rounded-none filter drop-shadow-[0_0_25px_rgba(0,234,255,0.45)]">
+            <div class="w-80 h-[26rem] flex-shrink-0 relative mx-auto md:mx-0">
+                <img src="{{ asset('images/fotoprofil.png') }}" alt="Foto Profil" class="w-full h-full object-cover rounded-none filter drop-shadow-[0_0_25px_rgba(0,234,255,0.45)]">
             </div>
 
             <div class="text-center md:text-left flex-grow w-full max-w-none pt-4">
@@ -64,10 +64,17 @@
                     DANDY AL-FARISI NATANEGARA
                 </h1>
                 <h2 class="text-xl md:text-2xl font-semibold text-cyan-400 mt-4 tracking-widest uppercase">
-                    NETWORK ENGINEERS, IT ENTHUSIASM
+                    NETWORK ENGINEER, IT ENTHUSIASM
                 </h2>
                 <p class="text-gray-400 mt-6 text-lg md:text-xl leading-relaxed font-light text-justify md:text-left w-full max-w-none">
-                    Network Enthusiast & Content Creator. Specializing in Network Infrastructures and Tech Education. Network Enthusiast & Content Creator. Specializing in Network Infrastructures and Tech Education. Network Enthusiast & Content Creator. Specializing in Network Infrastructures and Tech Education.
+                    Saya adalah mahasiswa Fakultas Ilmu Komputer yang aktif mengeksplorasi dunia infrastruktur jaringan dan rekayasa web modern.
+                    Sebagai seorang Network Engineer yang sedang berkembang, saya fokus mendalami perancangan, konfigurasi, dan simulasi jaringan
+                    komputer untuk memastikan konektivitas yang andal. Di samping infrastruktur jaringan, ketertarikan saya sebagai
+                    IT enthusiast mendorong saya untuk mempelajari web programming, manajemen database, serta sistem operasi Linux.
+                    Saya juga aktif sebagai creator edukasi teknologi, menyajikan dokumentasi lab di dalam blog yang saya bangun sendiri
+                    dan merancang game edukasi digital sebagai media pembelajaran digital inovatif. Sinergi antara
+                    pemahaman jaringan, pengembangan web, dan dedikasi di bidang edukasi ini menjadi langkah awal saya untuk terus belajar
+                    dan berkontribusi bagi kemajuan industri teknologi siber.
                 </p>
             </div>
 
@@ -83,7 +90,7 @@
     </nav>
 
     <!-- CONTENT UTAMA -->
-    <main class="w-full md:pl-24 pr-8 md:pr-16 py-16 flex-grow relative z-10">
+    <main class="w-full px-6 md:pl-24 md:pr-16 py-16 flex-grow relative z-10">
 
         <!-- SEKSI: MY ACHIEVEMENT -->
 
@@ -110,7 +117,7 @@
                     </h4>
 
                     <!-- Deskripsi Dinamis dengan line-clamp agar tinggi box tetap seragam & presisi -->
-                    <p class="text-sm text-gray-400 leading-relaxed line-clamp-4">
+                    <p class="text-lg md:text-xl text-gray-400 mt-3 leading-relaxed font-light line-clamp-3">
                         {{ $achievement['desc_1'] }}
                     </p>
                 </div>
@@ -323,7 +330,7 @@
     <!-- FOOTER -->
 <!-- FOOTER (Seksi Baru: High-End Cyberpunk Grid, Glowing Contacts, SVGs) -->
     <footer class="bg-[#070414]/95 border-t border-purple-900/40 py-12 px-8 relative z-10 backdrop-blur-md">
-        <div class="w-full md:pl-24 pr-8 md:pr-16 flex flex-col lg:flex-row items-center justify-between gap-10">
+        <div class="w-full px-6 md:pl-24 md:pr-16 flex flex-col lg:flex-row items-center justify-between gap-10">
 
             <!-- SISI KIRI: Brand, Status, dan Copyright -->
             <div class="text-center lg:text-left space-y-4">

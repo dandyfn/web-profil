@@ -28,6 +28,7 @@ WORKDIR /var/www
 
 # 6. Salin semua file kodingan Laravel dari laptopmu ke dalam kontainer
 COPY . /var/www
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
 # 7. Atur hak kepemilikan file agar aman dibaca oleh web server Linux (www-data)
 RUN chown -R www-data:www-data /var/www

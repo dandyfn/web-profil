@@ -40,4 +40,5 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 # 10. Aktifkan modul rewrite Apache untuk routing Laravel
 RUN a2enmod rewrite
 
+ENV PORT=80
 EXPOSE 80

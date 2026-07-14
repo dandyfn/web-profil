@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Blog;
 
 // 1. Route untuk Halaman Utama Beranda (Mengambil 3 artikel terbaru saja)
-// Route::get('/', function () {
-//     $recentBlogs = Blog::latest()->take(3)->get();
-//     return view('welcome', compact('recentBlogs'));
-// })->name('home');
+Route::get('/', function () {
+    $recentBlogs = Blog::latest()->take(3)->get();
+    return view('welcome', compact('recentBlogs'));
+})->name('home');
 
 Route::get('/', function () {
     return 'Laravel is running!';

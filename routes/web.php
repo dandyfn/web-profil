@@ -19,9 +19,9 @@ Route::get('/run-migration-cloud', function () {
     }
 });
 
-Route::get('/', function () {
-    return 'Laravel is running!';
-});
+// Route::get('/', function () {
+//     return 'Laravel is running!';
+// });
 
 // 2. Route baru untuk Halaman Khusus Daftar Semua Blog
 Route::get('/blog', function () {

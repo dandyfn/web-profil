@@ -28,8 +28,8 @@ WORKDIR /var/www/html
 # 6. Salin semua file kodingan Laravel dari laptopmu ke dalam kontainer
 COPY . /var/www/html
 
-# 7. Jalankan Composer install
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
+# 7. Jalankan Composer install tanpa memicu scripts bawaan dulu
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-scripts
 
 # 8. Atur hak kepemilikan file agar aman dibaca oleh web server Linux (www-data)
 RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
@@ -40,5 +40,6 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 # 10. Aktifkan modul rewrite Apache untuk routing Laravel
 RUN a2enmod rewrite
 
+# 11. Paksa port internal kontainer
 ENV PORT=80
 EXPOSE 80

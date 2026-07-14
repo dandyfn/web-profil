@@ -10,6 +10,15 @@ Route::get('/', function () {
     return view('welcome', compact('recentBlogs'));
 })->name('home');
 
+Route::get('/run-migration-cloud', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true]);
+        return 'Selamat Dandy, migrasi database Supabase berhasil dijalankan!';
+    } catch (\Exception $e) {
+        return 'Gagal migrasi: ' . $e->getMessage();
+    }
+});
+
 Route::get('/', function () {
     return 'Laravel is running!';
 });

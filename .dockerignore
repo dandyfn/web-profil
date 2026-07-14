@@ -1,4 +1,5 @@
 .env
 /vendor
-/storage/*.key
+/node_modules
 /bootstrap/cache/*
+/storage/framework/cache/*

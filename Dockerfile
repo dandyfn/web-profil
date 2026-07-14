@@ -10,35 +10,33 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libicu-dev \
-    libpq-dev
+    libpq-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. Bersihkan cache instalasi agar ukuran kontainer sangat ringan
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# 3. Pasang ekstensi PHP yang dibutuhkan wajib oleh Laravel, Filament, & PostgreSQL
+# 2. Pasang ekstensi PHP wajib
 RUN docker-php-ext-configure intl \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql pgsql exif pcntl bcmath gd intl
 
-# 4. Ambil dan pasang Composer versi terbaru langsung dari server pusatnya
+# 3. Ambil Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 5. Tentukan folder kerja utama menggunakan standar Apache
+# 4. Tentukan folder kerja
 WORKDIR /var/www/html
 
-# 6. Salin semua file kodingan Laravel dari laptopmu ke dalam kontainer
-COPY . /var/www/html
-
-# 7. Jalankan Composer install tanpa memicu scripts bawaan dulu
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-scripts
-
-# 8. Atur hak kepemilikan file agar aman dibaca oleh web server Linux (www-data)
-RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
-
-# 9. Gunakan file konfigurasi apache.conf buatan kita untuk menggantikan konfigurasi bawaan
+# 5. Salin konfigurasi Apache terlebih dahulu
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
-
-# 10. Aktifkan modul rewrite Apache untuk routing Laravel
 RUN a2enmod rewrite
 
-# Kembalikan ke instruksi port standar bawaan image php-apache
+# 6. Salin semua file projek
+COPY . /var/www/html
+
+# 7. Jalankan Composer install tanpa scripts
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-scripts
+
+# 8. Setel izin akses secara spesifik & cepat (HANYA folder storage & cache, jangan seluruh folder html!)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# 9. Deklarasikan Port Apache secara tegas
+ENV PORT=80
 EXPOSE 80

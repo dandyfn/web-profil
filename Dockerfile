@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# 1. Pasang paket dependensi sistem operasi Linux dasar (Termasuk libpq-dev untuk Postgres)
+# 1. Pasang paket dependensi sistem operasi Linux dasar
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -34,9 +34,10 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader --igno
 # 8. Atur hak kepemilikan file agar aman dibaca oleh web server Linux (www-data)
 RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 9. Set Document Root Apache langsung mengarah ke folder public Laravel secara aman
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/default-ssl.conf
+# 9. Gunakan file konfigurasi apache.conf buatan kita untuk menggantikan konfigurasi bawaan
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
+# 10. Aktifkan modul rewrite Apache untuk routing Laravel
 RUN a2enmod rewrite
 
 EXPOSE 80

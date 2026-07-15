@@ -255,15 +255,16 @@
     <main class="w-full px-6 md:px-16 lg:px-24 py-12 flex-grow relative z-10 space-y-10">
 
         <!-- BANNER IMAGE -->
-        <div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
-            @if($blog->image)
-                {{-- ✅ PERBAIKAN: Jika isinya link eksternal (http/https), langsung tampilkan URL-nya tanpa dibungkus asset() --}}
-                <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
-            @else
-                <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="banner-img w-full h-full object-cover">
-            @endif
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent"></div>
-        </div>
+<!-- BANNER IMAGE -->
+<div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
+    @if($blog->image)
+        {{-- ✅ JALUR AMAN: Jika URL berisi http (Postimages), langsung tampilkan. Jika tidak, ambil dari storage lokal. --}}
+        <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
+    @else
+        <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="banner-img w-full h-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent"></div>
+</div>
 
         <!-- HEADER INFO -->
         <div class="space-y-4">

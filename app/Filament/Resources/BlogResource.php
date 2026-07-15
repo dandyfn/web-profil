@@ -63,13 +63,13 @@ class BlogResource extends Resource
                             ->rows(3)
                             ->maxLength(255),
 
-                        // 🚀 RICH EDITOR NATIVE FILAMENT (SUPER STABIL & ANTI-TERPOTONG)
-                        // Menyediakan fungsionalitas penulisan handal tanpa bug potong string code
+                        // 🚀 RICH EDITOR NATIVE FILAMENT (DENGAN DUKUNGAN LINK GAMBAR EKSTERNAL)
                         Forms\Components\RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            // DI-NONAKTIFKAN: Tombol attachFiles dimatikan agar user tidak mengunggah file langsung ke penyimpanan lokal Render yang sementara (ephemeral)
+                            // Mengaktifkan attachFiles khusus untuk menyisipkan URL gambar pihak ketiga (Postimages)
                             ->toolbarButtons([
+                                'attachFiles',
                                 'blockquote',
                                 'bold',
                                 'bulletList',

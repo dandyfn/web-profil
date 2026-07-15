@@ -68,9 +68,8 @@ class BlogResource extends Resource
                         Forms\Components\RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->fileAttachmentsDirectory('blog-attachments')
+                            // DI-NONAKTIFKAN: Tombol attachFiles dimatikan agar user tidak mengunggah file langsung ke penyimpanan lokal Render yang sementara (ephemeral)
                             ->toolbarButtons([
-                                'attachFiles',
                                 'blockquote',
                                 'bold',
                                 'bulletList',
@@ -87,10 +86,11 @@ class BlogResource extends Resource
                                 'undo',
                             ]),
 
-                        // Upload Gambar Banner Utama Artikel
-                        Forms\Components\FileUpload::make('image')
-                            ->image()
-                            ->directory('blog-banners')
+                        // 🌐 MENGGANTI FILE UPLOAD MENJADI TEXT INPUT URL (ANTI-GAGAL CLOUD STORAGE)
+                        Forms\Components\TextInput::make('image')
+                            ->label('Banner Image URL')
+                            ->placeholder('Masukkan URL gambar langsung (misal: https://imgur.com/xyz.png atau dari Postimages)')
+                            ->maxLength(255)
                             ->nullable(),
 
                         // Tautan Video Youtube Demonstrasi Lab (Jika ada)

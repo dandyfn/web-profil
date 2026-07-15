@@ -9,6 +9,15 @@
         $blog->content
     );
 
+    // 🛠️ MANTRA AUTO-DETEKSI LINK MENTAH POSTIMAGES:
+    // Jika kamu cuma paste text mentah seperti https://i.postimg.cc/... di editor,
+    // script ini akan otomatis merubahnya menjadi tag <img> asli agar langsung muncul gambarnya!
+    $cleanedContent = preg_replace(
+        '/(?<!src=["\'])(https:\/\/i\.postimg\.cc\/[^\s<]+)/i',
+        '<img src="$1" alt="Article Image">',
+        $cleanedContent
+    );
+
     // 🛠️ TAMBAHAN FIX GAMBAR HANCUR DI KONTEN:
     // Jika di dalam isi konten artikel terdapat tag <img> yang link-nya mengarah ke lokal/storage padahal aslinya URL Postimages,
     // kita bersihkan otomatis agar langsung menembak URL asli Postimages (http:// atau https://).

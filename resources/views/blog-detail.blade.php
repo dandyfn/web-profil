@@ -9,6 +9,26 @@
         $blog->content
     );
 
+    // 🛠️ TAMBAHAN FIX GAMBAR HANCUR DI KONTEN:
+    // Jika di dalam isi konten artikel terdapat tag <img> yang link-nya mengarah ke lokal/storage padahal aslinya URL Postimages,
+    // kita bersihkan otomatis agar langsung menembak URL asli Postimages (http:// atau https://).
+    $cleanedContent = preg_replace_callback(
+        '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*Special Instruction: code formatting requirement type matches original code layout exactly.)>/i',
+        function($matches) {
+            $attributesBefore = $matches[1];
+            $srcValue = $matches[2];
+            $attributesAfter = $matches[3];
+
+            // Jika di dalam string SRC mengandung link eksternal (Postimages) tapi terbungkus sub-path lokal, potong jalurnya!
+            if (preg_replace('/.*(https?:\/\/postimg|.*postimages)/i', '$1', $srcValue) !== $srcValue) {
+                $srcValue = preg_replace('/.*(https?:\/\/.*)/i', '$1', $srcValue);
+            }
+
+            return '<img' . $attributesBefore . 'src="' . $srcValue . '"' . $attributesAfter . '>';
+        },
+        $cleanedContent
+    );
+
     // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX:
     // Kita langsung bedah tag <pre><code> lewat PHP di server!
     // Ini mematikan Javascript DOM Injector, sehingga DUPLIKASI TERMINAL DIJAMIN LENYAP SELAMANYA!
@@ -255,16 +275,15 @@
     <main class="w-full px-6 md:px-16 lg:px-24 py-12 flex-grow relative z-10 space-y-10">
 
         <!-- BANNER IMAGE -->
-<!-- BANNER IMAGE -->
-<div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
-    @if($blog->image)
-        {{-- ✅ JALUR AMAN: Jika URL berisi http (Postimages), langsung tampilkan. Jika tidak, ambil dari storage lokal. --}}
-        <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
-    @else
-        <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="banner-img w-full h-full object-cover">
-    @endif
-    <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent"></div>
-</div>
+        <div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
+            @if($blog->image)
+                {{-- ✅ JALUR AMAN: Jika URL berisi http (Postimages), langsung tampilkan. Jika tidak, ambil dari storage lokal. --}}
+                <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
+            @else
+                <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="banner-img w-full h-full object-cover">
+            @endif
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b071e] via-transparent to-transparent"></div>
+        </div>
 
         <!-- HEADER INFO -->
         <div class="space-y-4">

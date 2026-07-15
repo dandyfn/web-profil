@@ -103,7 +103,8 @@
                         <!-- Gambar Banner -->
                         <div class="h-48 overflow-hidden relative">
                             @if($blog->image)
-                                <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                {{-- ✅ DIJAMIN AMAN: Cek otomatis apakah image dari Postimages (http/https) atau lokal --}}
+                                <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             @else
                                 <img src="https://placehold.co/800x450/130d31/38bdf8?text=Cyber+Log" alt="Placeholder" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             @endif
@@ -191,4 +192,3 @@
 
 </body>
 </html>
-

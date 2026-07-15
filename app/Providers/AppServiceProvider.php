@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract; // Import Contract bawaan Filament
 use App\Http\Responses\LogoutResponse; // Import Response kustom kita
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {

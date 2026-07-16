@@ -6,7 +6,7 @@
     $cleanedContent = preg_replace(
         '/http:\/\/(127\.0\.0\.1|localhost):8000/',
         $currentHost,
-        $blog->content
+        $blog->content,
     );
 
     // 🛠️ MANTRA AUTO-DETEKSI LINK MENTAH POSTIMAGES:
@@ -15,7 +15,7 @@
     $cleanedContent = preg_replace(
         '/(?<!src=["\'])(https:\/\/i\.postimg\.cc\/[^\s<]+)/i',
         '<img src="$1" alt="Article Image">',
-        $cleanedContent
+        $cleanedContent,
     );
 
     // 🛠️ TAMBAHAN FIX GAMBAR HANCUR DI KONTEN:
@@ -23,7 +23,7 @@
     // kita bersihkan otomatis agar langsung menembak URL asli Postimages (http:// atau https://).
     $cleanedContent = preg_replace_callback(
         '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*Special Instruction: code formatting requirement type matches original code layout exactly.)>/i',
-        function($matches) {
+        function ($matches) {
             $attributesBefore = $matches[1];
             $srcValue = $matches[2];
             $attributesAfter = $matches[3];
@@ -35,31 +35,51 @@
 
             return '<img' . $attributesBefore . 'src="' . $srcValue . '"' . $attributesAfter . '>';
         },
-        $cleanedContent
+        $cleanedContent,
     );
 
     // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX:
     // Kita langsung bedah tag <pre><code> lewat PHP di server!
     // Ini mematikan Javascript DOM Injector, sehingga DUPLIKASI TERMINAL DIJAMIN LENYAP SELAMANYA!
+    // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX (DENGAN AUTO LINE NUMBERING):
+    // Memecah kode per baris secara dinamis agar baris sambungan bisa dibedakan dengan jelas!
     $cleanedContent = preg_replace_callback(
         '/<pre><code([^>]*)>(.*?)<\/code><\/pre>/s',
-        function($matches) {
+        function ($matches) {
             static $index = 0;
             $index++;
             $codeAttr = $matches[1];
             $codeContent = $matches[2];
-            $idUnik = "code-block-" . $index;
+            $idUnik = 'code-block-' . $index;
+
+            // Pecah kode berdasarkan line break (\n)
+            $lines = explode("\n", $codeContent);
+            $formattedLines = '';
+            $lineNumber = 1;
+
+            foreach ($lines as $line) {
+                // Abaikan baris kosong terakhir akibat explode
+                if ($line === '' && end($lines) === $line) {
+                    continue;
+                }
+
+                $formattedLines .= '<div class="code-line flex items-start" data-line="' . $lineNumber . '">';
+                $formattedLines .= '<span class="line-number select-none text-purple-600/50 font-mono text-xs text-right pr-4 w-8 min-w-[2rem] block">' . $lineNumber . '</span>';
+                $formattedLines .= '<span class="line-content flex-1">' . ($line === '' ? ' ' : $line) . '</span>';
+                $formattedLines .= '</div>';
+                $lineNumber++;
+            }
 
             return '
-            <div class="relative bg-[#060411] border border-purple-500/30 rounded-xl overflow-hidden my-6">
-                <div class="terminal-header bg-[#130d31]/80 px-4 py-2 border-b border-purple-500/20 flex justify-between items-center text-xs font-mono text-purple-400 select-none">
-                    <span>TERMINAL // LOG_CODE_BLOCK_' . $index . '</span>
-                    <button type="button" onclick="copyCodeAction(\'' . $idUnik . '\', this)" class="bg-purple-900/40 text-purple-300 px-3 py-1 rounded hover:bg-cyan-500 hover:text-[#0b071e] transition-all duration-200 cursor-pointer relative z-50">COPY CODE</button>
-                </div>
-                <pre class="p-6 overflow-x-auto m-0 bg-transparent border-0"><code id="' . $idUnik . '"' . $codeAttr . '>' . $codeContent . '</code></pre>
-            </div>';
+<div class="relative bg-[#060411] border border-purple-500/30 rounded-xl overflow-hidden my-6">
+<div class="terminal-header bg-[#130d31]/80 px-4 py-2 border-b border-purple-500/20 flex justify-between items-center text-xs font-mono text-purple-400 select-none">
+<span>TERMINAL // LOG_CODE_BLOCK_' . $index . '</span>
+<button type="button" onclick="copyCodeAction(\'' . $idUnik . '\', this)" class="bg-purple-900/40 text-purple-300 px-3 py-1 rounded hover:bg-cyan-500 hover:text-[#0b071e] transition-all duration-200 cursor-pointer relative z-50">COPY CODE</button>
+</div>
+<pre class="p-4 overflow-x-auto m-0 bg-transparent border-0"><code id="' . $idUnik . '"' . $codeAttr . ' class="block w-full">' . $formattedLines . '</code></pre>
+</div>';
         },
-        $cleanedContent
+        $cleanedContent,
     );
 @endphp
 <!DOCTYPE html>
@@ -100,7 +120,7 @@
             transform: scale(1.04); /* Efek zoom-in halus */
         }
 
-        /* 🚀 ATURAN UKURAN GAMBAR OTOMATIS & INTEGRASI CAPTION (SINKRON 50% DI DESKTOP, 100% DI HP) */
+        /* 🚀 ATURAN UKURAN GAMBAR OTOMATIS & INTEGRASI CAPTION (SINKRON 70% DI DESKTOP, 100% DI HP) */
         .prose img {
             border-radius: 12px;
             border: 1.5px solid rgba(168, 85, 247, 0.4);
@@ -114,11 +134,18 @@
             box-shadow: 0 12px 30px rgba(6, 182, 212, 0.35) !important;
         }
 
+        /* 🔗 FIX TAMPILAN LINK PANJANG AGAR TIDAK MERUSAK LAYOUT PADA HP */
+        .prose a {
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            overflow-wrap: break-word !important;
+        }
+
         /* Responsive Breakpoint: Aturan Penempatan Gambar & Lampiran Berkas secara presisi */
         @media (min-width: 768px) {
             /* 1. Gambar mandiri (tanpa figure / hasil Postimages mentah) dipaksa 70% dan pas di tengah */
             .prose img,
-            .prose > img {
+            .prose>img {
                 width: 50% !important;
                 margin: 2.5rem auto !important;
             }
@@ -170,7 +197,8 @@
         }
 
         /* 🚀 PERBAIKAN UKURAN HEADING 1, 2, DAN 3 (DIPAKSA BERBEDA & TAMPIL TEBAL) */
-        .prose h1, .prose h1 * {
+        .prose h1,
+        .prose h1 * {
             font-size: 2.25rem !important; /* text-4xl */
             color: #22d3ee !important; /* Cyan */
             font-weight: 700 !important;
@@ -180,7 +208,8 @@
             text-shadow: 0 0 10px rgba(34, 211, 238, 0.35) !important;
         }
 
-        .prose h2, .prose h2 * {
+        .prose h2,
+        .prose h2 * {
             font-size: 1.875rem !important; /* text-3xl */
             color: #22d3ee !important; /* Cyan */
             font-weight: 700 !important;
@@ -190,7 +219,8 @@
             text-shadow: 0 0 8px rgba(34, 211, 238, 0.2) !important;
         }
 
-        .prose h3, .prose h3 * {
+        .prose h3,
+        .prose h3 * {
             font-size: 1.5rem !important; /* text-2xl */
             color: #a78bfa !important; /* Ungu */
             font-weight: 600 !important;
@@ -200,17 +230,31 @@
             text-shadow: 0 0 8px rgba(167, 139, 250, 0.2) !important;
         }
 
-        /* 🚀 CYBERPUNK SYNTAX HIGHLIGHTING (Agar script/komentar // tidak berwarna hitam/invisible) */
+        /* 🚀 CYBERPUNK SYNTAX HIGHLIGHTING & ANTI-BREAK LAYOUT SMARTPHONE */
         .prose pre {
             background-color: #060411 !important;
             border: 1px solid rgba(168, 85, 247, 0.4) !important;
             border-radius: 0.75rem !important;
             padding: 0 !important;
+            /* Pastikan kontainer pre juga mengizinkan pembungkusan */
+            white-space: pre-wrap !important;
         }
 
-        .prose pre code {
-            color: #e2e8f0 !important; /* Warna dasar teks kode (Putih Terang) */
+        /* Tembak langsung selector pre code di dalam struktur terminal buatan kita */
+        .prose div pre code,
+        .prose pre code[id^="code-block-"],
+        .prose [id^="code-block-"] {
+            color: #e2e8f0 !important;
             font-family: 'Fira Code', monospace !important;
+            /* Paksa pembungkusan baris baru di level terdalam */
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: break-all !important;
+            display: block !important;
+            /* Trik Identasi Menggantung agar baris sambungan menjorok ke dalam */
+            padding-left: 1.5rem !important;
+            text-indent: -1.5rem !important;
         }
 
         /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
@@ -255,7 +299,6 @@
             color: #38bdf8 !important; /* Biru Langit */
         }
     </style>
-
 </head>
 <body class="bg-[#0b071e] text-gray-200 antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
@@ -287,7 +330,7 @@
 
         <!-- BANNER IMAGE -->
         <div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
-            @if($blog->image)
+            @if ($blog->image)
                 {{-- ✅ JALUR AMAN: Jika URL berisi http (Postimages), langsung tampilkan. Jika tidak, ambil dari storage lokal. --}}
                 <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
             @else
@@ -332,11 +375,15 @@
         </article>
 
         <!-- SUB-SEKSI: VIDEO DEMONSTRASI (Dipusatkan secara simetris ke tengah halaman dengan mx-auto) -->
-        @if($blog->video_url)
+        @if ($blog->video_url)
             <div class="pt-6 max-w-3xl mx-auto">
                 <div class="aspect-video bg-black/60 border border-cyan-500/30 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(6,182,212,0.1)]">
                     @php
-                        $embedUrl = str_replace(['watch?v=', 'youtu.be/'], ['embed/', 'youtube.com/embed/'], $blog->video_url);
+                        $embedUrl = str_replace(
+                            ['watch?v=', 'youtu.be/'],
+                            ['embed/', 'youtube.com/embed/'],
+                            $blog->video_url,
+                        );
                     @endphp
                     <iframe class="w-full h-full" src="{{ $embedUrl }}" title="Lab Video Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
@@ -344,7 +391,7 @@
         @endif
 
         <!-- SUB-SEKSI: DOKUMENTASI / REFERENSI DOWNLOAD -->
-        @if($blog->source_link)
+        @if ($blog->source_link)
             <div class="bg-[#130d31]/40 border border-cyan-500/30 backdrop-blur-md rounded-xl p-6 shadow-[0_0_20px_rgba(6,182,212,0.05)] flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
                 <div class="space-y-1 text-center md:text-left">
                     <span class="text-xs font-mono uppercase text-cyan-400">// INTEGRATED_RESOURCES</span>
@@ -356,7 +403,6 @@
                 </a>
             </div>
         @endif
-
     </main>
 
     <!-- FOOTER -->
@@ -403,7 +449,6 @@
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-20', 'opacity-0');
-
                 buttonElement.innerText = originalText;
                 buttonElement.style.backgroundColor = "";
                 buttonElement.style.color = "";
@@ -417,6 +462,5 @@
             }
         });
     </script>
-
 </body>
 </html>

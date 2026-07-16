@@ -116,19 +116,20 @@
 
         /* Responsive Breakpoint: Aturan Penempatan Gambar & Lampiran Berkas secara presisi */
         @media (min-width: 768px) {
-            /* 1. Gambar mandiri (tanpa figure) */
+            /* 1. Gambar mandiri (tanpa figure / hasil Postimages mentah) dipaksa 70% dan pas di tengah */
+            .prose img,
             .prose > img {
                 width: 50% !important;
-                margin: 2rem auto !important;
+                margin: 2.5rem auto !important;
             }
-            /* 2. Figure yang membungkus gambar (kita ciptakan wadah 50% di tengah) */
+            /* 2. Figure yang membungkus gambar (kita ciptakan wadah 70% di tengah) */
             .prose figure:has(img),
             .prose figure.attachment--preview {
-                width: 50% !important;
+                width: 70% !important;
                 margin: 2.5rem auto !important;
                 text-align: center !important;
             }
-            /* 3. Maksa gambar di dalam figure agar berukuran penuh 100% dari wadahnya (supaya sinkron dengan caption) */
+            /* 3. Maksa gambar di dalam figure agar berukuran penuh 100% dari wadah 70%-nya (supaya sinkron dengan caption) */
             .prose figure img {
                 width: 100% !important;
                 margin: 0 auto !important;
@@ -254,6 +255,7 @@
             color: #38bdf8 !important; /* Biru Langit */
         }
     </style>
+
 </head>
 <body class="bg-[#0b071e] text-gray-200 antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 

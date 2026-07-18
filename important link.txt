@@ -1,0 +1,6 @@
+supabase : https://supabase.com/dashboard/org/gbuqvyrvsmnfogkqkhza
+render : https://dashboard.render.com/web/srv-d9aqgm3tqb8s739p5fig/events
+postimg : https://postimages.org/
+local web : http://127.0.0.1:8080/
+deploy web : https://dandyfn.onrender.com/
+example migration cloud link : https://dandyfn.onrender.com/run-migration-cloud

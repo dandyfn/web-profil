@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dandy Al-Farisi N.</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/fotologo1.png') }}?v=2">
+    <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -256,7 +256,7 @@
                                 <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
                             </div>
                             <div class="mt-4">
-                                <h4 class="font-bold text-sm tracking-wide">Universitas Brawijaya</h4>
+                                <h4 class="font-bold text-sm text-cyan-300 tracking-wide">Universitas Brawijaya</h4>
                                  <span
                                     class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2026 - Sekarang</span>
                                 <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal"></p>

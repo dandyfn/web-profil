@@ -4,3 +4,5 @@ postimg : https://postimages.org/
 local web : http://127.0.0.1:8080/
 deploy web : https://dandyfn.onrender.com/
 example migration cloud link : https://dandyfn.onrender.com/run-migration-cloud
+optimerobot : https://dashboard.uptimerobot.com/monitors/803540520'
+status optimebot : https://stats.uptimerobot.com/LEMFTxTuza

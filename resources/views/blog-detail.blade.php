@@ -92,7 +92,8 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <title>{{ $blog->title }} - Cyberpunk Log</title>
+    <title>Dandy Al-Farisi Natanegara</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -526,17 +527,13 @@
         }
 
         // --- 3. MANAJEMEN KEPEMILIKAN KOMENTAR (EDIT & DELETE SECARA ANONYMOUS) ---
+        // --- 3. MANAJEMEN KEPEMILIKAN KOMENTAR (PRESISI PER ID KOMENTAR) ---
         function saveCommentOwnership(event) {
             // Simpan nama terakhir ke localStorage agar user tidak capek ketik nama lagi nanti
             localStorage.setItem('saved_handle_name', document.getElementById('commentorName').value);
 
-            // Catat tanda pengenal bahwa browser ini baru saja mengirim komentar di postingan ini
-            let myComments = JSON.parse(localStorage.getItem('my_shared_comments')) || [];
-            myComments.push({
-                blog_id: "{{ $blog->id }}",
-                timestamp: Date.now()
-            });
-            localStorage.setItem('my_shared_comments', JSON.stringify(myComments));
+            // Catat bahwa browser ini sedang mengirim komentar baru (kita beri flag sementara)
+            localStorage.setItem('just_submitted_comment', 'true');
         }
 
         // Jalankan pengecekan hak akses tombol edit/hapus sesaat setelah halaman dimuat
@@ -546,15 +543,34 @@
                 document.getElementById('commentorName').value = localStorage.getItem('saved_handle_name');
             }
 
-            let myComments = JSON.parse(localStorage.getItem('my_shared_comments')) || [];
+            // Ambil daftar ID komentar yang benar-benar milik browser ini
+            let myCommentIds = JSON.parse(localStorage.getItem('my_owned_comment_ids')) || [];
 
-            // Jika user memiliki riwayat komentar, buka kunci otorisasi tombol aksi edit & hapus secara instan
-            if(myComments.length > 0) {
-                document.querySelectorAll('.comment-actions').forEach(el => {
+            // FIX OTOMATIS: Jika user baru saja submit komentar, ambil ID komentar paling atas (terbaru) untuk diamankan
+            if (localStorage.getItem('just_submitted_comment') === 'true') {
+                let firstActionBox = document.querySelector('.comment-actions');
+                if (firstActionBox) {
+                    let newestId = parseInt(firstActionBox.getAttribute('data-id'));
+                    if (!myCommentIds.includes(newestId)) {
+                        myCommentIds.push(newestId);
+                        localStorage.setItem('my_owned_comment_ids', JSON.stringify(myCommentIds));
+                    }
+                }
+                localStorage.removeItem('just_submitted_comment'); // Reset flag
+            }
+
+            // loop semua tombol aksi di halaman, hanya tampilkan jika ID-nya terdaftar di localStorage browser ini
+            document.querySelectorAll('.comment-actions').forEach(el => {
+                let currentCommentId = parseInt(el.getAttribute('data-id'));
+
+                if (myCommentIds.includes(currentCommentId)) {
                     el.classList.remove('hidden');
                     el.classList.add('flex');
-                });
-            }
+                } else {
+                    el.classList.remove('flex');
+                    el.classList.add('hidden'); // Amankan total dari jangkauan orang asing!
+                }
+            });
         });
 
         function enableEditComment(id) {

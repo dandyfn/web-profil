@@ -61,4 +61,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::post('/blog/{id}/comment', [App\Http\Controllers\ProfileController::class, 'storeComment'])->name('blog.comment.store');
+Route::put('/comment/{id}', [App\Http\Controllers\ProfileController::class, 'updateComment'])->name('blog.comment.update');
+Route::delete('/comment/{id}', [App\Http\Controllers\ProfileController::class, 'destroyComment'])->name('blog.comment.destroy');
+
 require __DIR__.'/auth.php';

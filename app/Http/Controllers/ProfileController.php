@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+
 class ProfileController extends Controller
 {
     /**
@@ -56,5 +57,35 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function storeComment(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        \App\Models\Comment::create([
+            'post_id' => $id,
+            'name' => strip_tags($request->name),
+            'comment' => strip_tags($request->comment), // Aman dari serangan script inject
+        ]);
+
+        return back()->with('success', 'Komentar terkirim!');
+    }
+
+    public function updateComment(Request $request, $id)
+    {
+        $request->validate(['comment' => 'required|string|max:1000']);
+        $comment = \App\Models\Comment::findOrFail($id);
+        $comment->update(['comment' => strip_tags($request->comment)]);
+        return back()->with('success', 'Komentar berhasil diperbarui!');
+    }
+
+    public function destroyComment($id)
+    {
+        $comment = \App\Models\Comment::findOrFail($id);
+        $comment->delete();
+        return back()->with('success', 'Komentar berhasil dihapus!');
     }
 }

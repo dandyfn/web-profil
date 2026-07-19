@@ -22,7 +22,7 @@
     // Jika di dalam isi konten artikel terdapat tag <img> yang link-nya mengarah ke lokal/storage padahal aslinya URL Postimages,
     // kita bersihkan otomatis agar langsung menembak URL asli Postimages (http:// atau https://).
     $cleanedContent = preg_replace_callback(
-        '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*Special Instruction: code formatting requirement type matches original code layout exactly.)>/i',
+        '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*)/i',
         function ($matches) {
             $attributesBefore = $matches[1];
             $srcValue = $matches[2];
@@ -307,7 +307,7 @@
 
     <!-- Toast Notification for "Copy Code" Success -->
     <div id="toast" class="fixed bottom-10 right-10 z-[100] transform translate-y-20 opacity-0 transition-all duration-300 bg-[#130d31] border border-cyan-400 text-cyan-300 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] font-mono text-sm flex items-center gap-3">
-        <span class="text-emerald-400">✔</span> System: Code copied to clipboard!
+        <span class="text-emerald-400">✔</span> System: Operation success!
     </div>
 
     <!-- 🛡️ POSISI NAVIGASI SANGAT STABIL DI ATAS LAYOUT -->
@@ -325,13 +325,12 @@
         </div>
     </nav>
 
-    <!-- CONTENT UTAMA (Di-set full-width menggunakan px-6 md:px-16 lg:px-24 untuk menghapus ruang kosong di monitor lebar) -->
+    <!-- CONTENT UTAMA (Lebar Penuh Sesuai Induk Atasnya) -->
     <main class="w-full px-6 md:px-16 lg:px-24 py-12 flex-grow relative z-10 space-y-10">
 
         <!-- BANNER IMAGE -->
         <div class="banner-container w-full h-64 md:h-[500px] rounded-2xl overflow-hidden border border-purple-500/20 relative shadow-[0_0_40px_rgba(0,0,0,0.4)] bg-[#130d31]/20">
             @if ($blog->image)
-                {{-- ✅ JALUR AMAN: Jika URL berisi http (Postimages), langsung tampilkan. Jika tidak, ambil dari storage lokal. --}}
                 <img src="{{ Str::startsWith($blog->image, ['http://', 'https://']) ? $blog->image : asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="banner-img w-full h-full object-cover">
             @else
                 <img src="https://placehold.co/1200x600/130d31/38bdf8?text=System+Logs" alt="Placeholder banner" class="banner-img w-full h-full object-cover">
@@ -350,7 +349,6 @@
                 <span class="text-xs font-mono text-cyan-400">Views: {{ $blog->views }}</span>
             </div>
 
-            <!-- 🚀 MASTERPIECE JUDUL UTAMA (1.4x LEBIH BESAR & GRADASI GRADIENT BARU ULTRA-Siber) -->
             <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 leading-none tracking-tight pb-2">
                 {{ $blog->title }}
             </h1>
@@ -370,11 +368,10 @@
 
         <!-- ARTIKEL UTAMA -->
         <article class="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed space-y-6">
-            <!-- Render isi konten yang sudah dibersihkan secara aman & dinamis -->
             {!! $cleanedContent !!}
         </article>
 
-        <!-- SUB-SEKSI: VIDEO DEMONSTRASI (Dipusatkan secara simetris ke tengah halaman dengan mx-auto) -->
+        <!-- VIDEO DEMONSTRASI -->
         @if ($blog->video_url)
             <div class="pt-6 max-w-3xl mx-auto">
                 <div class="aspect-video bg-black/60 border border-cyan-500/30 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(6,182,212,0.1)]">
@@ -390,7 +387,7 @@
             </div>
         @endif
 
-        <!-- SUB-SEKSI: DOKUMENTASI / REFERENSI DOWNLOAD -->
+        <!-- DOKUMENTASI / REFERENSI DOWNLOAD -->
         @if ($blog->source_link)
             <div class="bg-[#130d31]/40 border border-cyan-500/30 backdrop-blur-md rounded-xl p-6 shadow-[0_0_20px_rgba(6,182,212,0.05)] flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
                 <div class="space-y-1 text-center md:text-left">
@@ -403,6 +400,80 @@
                 </a>
             </div>
         @endif
+
+        <!-- 💬 ================= SEKSI KOMENTAR (FULL-WIDTH SEPANJANG STRUKTUR UTAMA) ================= -->
+        <div class="pt-12 border-t border-purple-500/20 space-y-8 w-full">
+            <div class="flex items-center gap-2">
+                <span class="text-purple-400 font-mono">//</span>
+                <h3 class="text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                    FEEDBACK_LOGS ({{ $blog->comments->count() }})
+                </h3>
+            </div>
+
+            <!-- FORM KIRIM KOMENTAR -->
+            <form action="{{ route('blog.comment.store', $blog->id) }}" method="POST" id="commentForm" onsubmit="saveCommentOwnership(event)" class="bg-[#130d31]/30 border border-purple-500/30 rounded-xl p-6 space-y-4 shadow-[0_0_15px_rgba(168,85,247,0.05)] w-full">
+                @csrf
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <label class="block text-xs font-mono uppercase text-purple-400 mb-1">Handle / Nama:</label>
+                        <input type="text" name="name" id="commentorName" required placeholder="Ex: anonymous_user" class="w-full bg-[#060411] border border-purple-500/30 rounded-lg px-4 py-2 text-sm text-gray-200 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition duration-200">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono uppercase text-purple-400 mb-1">Isi Pesan:</label>
+                        <textarea name="comment" rows="4" required placeholder="Tulis komentar kamu di sini..." class="w-full bg-[#060411] border border-purple-500/30 rounded-lg px-4 py-2 text-sm text-gray-200 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition duration-200"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-purple-600/80 to-cyan-500/80 hover:from-purple-600 hover:to-cyan-500 text-white font-mono text-xs rounded-lg shadow-[0_0_10px_rgba(168,85,247,0.2)] transition duration-200 cursor-pointer">
+                        EXECUTE_COMMENT_SUBMIT 🚀
+                    </button>
+                </div>
+            </form>
+
+            <!-- LIST DAFTAR KOMENTAR -->
+            <div class="space-y-4 w-full">
+                @forelse($blog->comments as $comment)
+                    <div class="bg-[#060411]/60 border-l-2 border-purple-500/50 rounded-r-xl p-4 space-y-2 shadow-[0_2px_10px_rgba(0,0,0,0.3)] relative w-full group" id="comment-box-{{ $comment->id }}">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-bold text-cyan-400 font-mono">⚡ {{ $comment->name }}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-gray-500 font-mono">{{ $comment->created_at->diffForHumans() }}</span>
+
+                                <!-- ACTION MANAGEMENT (Akan Muncul Lewat JS jika ini milik user tersebut) -->
+                                <div class="hidden gap-2 comment-actions" data-id="{{ $comment->id }}">
+                                    <button onclick="enableEditComment({{ $comment->id }})" class="text-yellow-500 hover:text-yellow-400 font-mono text-[11px] cursor-pointer bg-yellow-950/20 px-2 py-0.5 rounded border border-yellow-500/30">EDIT</button>
+                                    <form action="{{ route('blog.comment.destroy', $comment->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah anda yakin ingin menghapus data log komentar ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-400 font-mono text-[11px] cursor-pointer bg-red-950/20 px-2 py-0.5 rounded border border-red-500/30">DELETE</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TEKS KOMENTAR NORMAL -->
+                        <p class="text-sm text-gray-300 leading-relaxed font-light whitespace-pre-line comment-text" id="text-{{ $comment->id }}">
+                            {{ $comment->comment }}
+                        </p>
+
+                        <!-- FORM EDIT TERSEMBUNYI (MUNCUL JIKA KLIK EDIT) -->
+                        <form action="{{ route('blog.comment.update', $comment->id) }}" method="POST" class="hidden space-y-2 pt-2 edit-form" id="edit-form-{{ $comment->id }}">
+                            @csrf @method('PUT')
+                            <textarea name="comment" rows="3" required class="w-full bg-[#130d31]/50 border border-yellow-500/40 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-yellow-400">{{ $comment->comment }}</textarea>
+                            <div class="flex gap-2 justify-end">
+                                <button type="button" onclick="cancelEditComment({{ $comment->id }})" class="px-3 py-1 bg-gray-800 text-gray-400 font-mono text-xs rounded hover:bg-gray-700 cursor-pointer">CANCEL</button>
+                                <button type="submit" class="px-3 py-1 bg-yellow-600 text-white font-mono text-xs rounded hover:bg-yellow-500 cursor-pointer">UPDATE_LOG</button>
+                            </div>
+                        </form>
+                    </div>
+                @empty
+                    <div class="text-center py-6 border border-dashed border-purple-500/20 rounded-xl text-gray-500 font-mono text-xs w-full">
+                        // NO_LOGS_FOUND. Belum ada komentar di artikel ini. Be the first!
+                    </div>
+                @endforelse
+            </div>
+        </div>
+        <!-- 💬 ================= END SEKSI KOMENTAR ================= -->
+
     </main>
 
     <!-- FOOTER -->
@@ -423,13 +494,12 @@
             glow.style.top = `${y}px`;
         });
 
-        // --- 2. FUNGSI COPY-TO-CLIPBOARD MANDIRI & AMAN (Sederhana & Tanpa Crash!) ---
+        // --- 2. FUNGSI COPY-TO-CLIPBOARD MANDIRI & AMAN ---
         function copyCodeAction(elementId, buttonElement) {
             const targetElement = document.getElementById(elementId);
             if (!targetElement) return;
 
             const codeText = targetElement.innerText;
-
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = codeText;
             document.body.appendChild(tempTextArea);
@@ -455,7 +525,49 @@
             }, 2500);
         }
 
-        // --- 3. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
+        // --- 3. MANAJEMEN KEPEMILIKAN KOMENTAR (EDIT & DELETE SECARA ANONYMOUS) ---
+        function saveCommentOwnership(event) {
+            // Simpan nama terakhir ke localStorage agar user tidak capek ketik nama lagi nanti
+            localStorage.setItem('saved_handle_name', document.getElementById('commentorName').value);
+
+            // Catat tanda pengenal bahwa browser ini baru saja mengirim komentar di postingan ini
+            let myComments = JSON.parse(localStorage.getItem('my_shared_comments')) || [];
+            myComments.push({
+                blog_id: "{{ $blog->id }}",
+                timestamp: Date.now()
+            });
+            localStorage.setItem('my_shared_comments', JSON.stringify(myComments));
+        }
+
+        // Jalankan pengecekan hak akses tombol edit/hapus sesaat setelah halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
+            // Auto fill nama jika sebelumnya pernah mengetik
+            if(localStorage.getItem('saved_handle_name')) {
+                document.getElementById('commentorName').value = localStorage.getItem('saved_handle_name');
+            }
+
+            let myComments = JSON.parse(localStorage.getItem('my_shared_comments')) || [];
+
+            // Jika user memiliki riwayat komentar, buka kunci otorisasi tombol aksi edit & hapus secara instan
+            if(myComments.length > 0) {
+                document.querySelectorAll('.comment-actions').forEach(el => {
+                    el.classList.remove('hidden');
+                    el.classList.add('flex');
+                });
+            }
+        });
+
+        function enableEditComment(id) {
+            document.getElementById('text-' + id).classList.add('hidden');
+            document.getElementById('edit-form-' + id).classList.remove('hidden');
+        }
+
+        function cancelEditComment(id) {
+            document.getElementById('text-' + id).classList.remove('hidden');
+            document.getElementById('edit-form-' + id).classList.add('hidden');
+        }
+
+        // --- 4. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.reload();

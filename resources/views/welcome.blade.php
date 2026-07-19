@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dandy Al-Farisi N.</title>
+    <title>Dandy Al-Farisi Natanegara</title>
     <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -485,7 +485,7 @@
                     <!-- MySQL (Cyan) -->
                     <div
                         class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-cyan-500/30 backdrop-blur-sm rounded-xl text-cyan-400 font-medium text-lg shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition duration-300">
-                        <img src="{{ asset('images/logos/mysql.png') }}" alt="MySQL"
+                        <img src="{{ asset('images/logos/MySQL.png') }}" alt="MySQL"
                             class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]"
                             onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/mysql.png';">
                         <span>MySQL</span>

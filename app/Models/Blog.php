@@ -25,4 +25,9 @@ class Blog extends Model
         'views',
         'author',
     ];
+
+    public function comments() {
+    return $this->hasMany(Comment::class, 'post_id')->latest(); // Otomatis urut dari yang terbaru
+}
+
 }

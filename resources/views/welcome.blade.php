@@ -115,6 +115,10 @@
             <a href="{{ route('home') }}" class="text-cyan-400 border-b-2 border-cyan-400 pb-1">HOME</a>
             <a href="{{ route('blog.index') }}"
                 class="text-gray-400 hover:text-purple-400 transition duration-300">BLOG</a>
+
+            <!-- 💬 TOMBOL CHAT (Gantilah link blog tadi dengan ini) -->
+            <a href="javascript:void(0)" onclick="toggleTawkChat()"
+                class="text-gray-400 hover:text-purple-400 transition duration-300 cursor-pointer">CHAT</a>
         </div>
     </nav>
 
@@ -223,7 +227,8 @@
                             <div class="mt-4">
                                 <h4 class="font-bold text-sm tracking-wide">SMAN 3 Kediri</h4>
                                 <span class="text-[10px] font-mono text-purple-400">2019 - 2022</span>
-                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">Kejuruan IPA</p>
+                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">Kejuruan IPA
+                                </p>
                             </div>
                         </div>
 
@@ -238,9 +243,11 @@
                             </div>
                             <div class="mt-4">
                                 <h4 class="font-bold text-cyan-300 text-sm tracking-wide">Universitas Brawijaya</h4>
-                                 <span
-                                    class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2023 - Sekarang</span>
-                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">S1 Pendidikan Teknologi Informasi</p>
+                                <span
+                                    class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2023
+                                    - Sekarang</span>
+                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">S1
+                                    Pendidikan Teknologi Informasi</p>
                             </div>
                         </div>
 
@@ -257,8 +264,9 @@
                             </div>
                             <div class="mt-4">
                                 <h4 class="font-bold text-sm text-cyan-300 tracking-wide">Universitas Brawijaya</h4>
-                                 <span
-                                    class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2026 - Sekarang</span>
+                                <span
+                                    class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2026
+                                    - Sekarang</span>
                                 <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal"></p>
                             </div>
                         </div>
@@ -888,6 +896,37 @@
             }, 300);
         }
     </script>
+
+    <!-- 💬 WIDGET LIVE CHAT TAWK.TO & API OPERATOR -->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+    // Sembunyikan gelembung bawaan Tawk.to agar navbar kamu tetap bersih
+    Tawk_API.onLoad = function(){
+        Tawk_API.hideWidget();
+    };
+
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6a5dc9a1096ab21d402a85fe/1jtv5n8jk';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+
+    // 🚀 Fungsi pemanggil saat tombol CHAT diklik
+    function toggleTawkChat() {
+        if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
+            Tawk_API.showWidget();
+            Tawk_API.maximize();
+        } else {
+            alert('Sistem chat sedang memuat, silakan tunggu 2 detik.');
+        }
+    }
+    </script>
+    <!--End of Tawk.to Script-->
 
 </body>
 

@@ -7,7 +7,8 @@
     <title>Dandy Al-Farisi Natanegara</title>
     <meta name="google-site-verification" content="-jYl02vRfX9c7z0DrW_VdqAdK3xfak84GK7KAWIuiSE" />
     <!-- 2. Deskripsi Singkat (Teks abu-abu yang muncul di bawah judul saat dicari di Google) -->
-    <meta name="description" content="Portfolio resmi Dandy Al-Farisi Natanegara. Mahasiswa Ilmu Komputer, Network Engineer, dan IT Enthusiast.">
+    <meta name="description"
+        content="Portfolio resmi Dandy Al-Farisi Natanegara. Mahasiswa Ilmu Komputer, Network Engineer, dan IT Enthusiast.">
 
     <!-- 3. Kata Kunci Variasi Nama Kamu -->
     <meta name="keywords" content="Dandy Al-Farisi Natanegara, Dandy Al Farisi, DandyFN, Network Engineer">
@@ -239,7 +240,8 @@
                             <div class="mt-4">
                                 <h4 class="font-bold text-sm tracking-wide">SMAN 3 Kediri</h4>
                                 <span class="text-[10px] font-mono text-purple-400">2019 - 2022</span>
-                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">Kejuruan IPA
+                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">Kejuruan
+                                    IPA
                                 </p>
                             </div>
                         </div>
@@ -673,6 +675,13 @@
                     SOCIAL_MEDIA_TERMINAL</span>
                 <div class="flex flex-wrap justify-center lg:justify-end gap-4">
 
+                    <a href="https://desty.page/dandynatanegara" target="_blank" title="Desty App"
+                        class="p-3 bg-[#130d31]/50 border border-blue-500/20 rounded-xl outline-none ring-0 focus:outline-none focus:ring-0 hover:border-blue-400 hover:shadow-[0_0_15px_rgba(96,165,250,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
+
+                        <img src="{{ asset('/images/logos/desty.png') }}" alt="Logo"
+                            class="w-6 h-6 object-contain pointer-events-none">
+                    </a>
+
                     <!-- WHATSAPP (Green Neon Glow) -->
                     <a href="https://wa.me/6285707593597" target="_blank" title="WhatsApp"
                         class="p-3 bg-[#130d31]/50 border border-emerald-500/20 rounded-xl text-emerald-400 hover:text-emerald-300 hover:border-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
@@ -912,31 +921,33 @@
     <!-- 💬 WIDGET LIVE CHAT TAWK.TO & API OPERATOR -->
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
 
-    // Sembunyikan gelembung bawaan Tawk.to agar navbar kamu tetap bersih
-    Tawk_API.onLoad = function(){
-        Tawk_API.hideWidget();
-    };
+        // Sembunyikan gelembung bawaan Tawk.to agar navbar kamu tetap bersih
+        Tawk_API.onLoad = function() {
+            Tawk_API.hideWidget();
+        };
 
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6a5dc9a1096ab21d402a85fe/1jtv5n8jk';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6a5dc9a1096ab21d402a85fe/1jtv5n8jk';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
 
-    // 🚀 Fungsi pemanggil saat tombol CHAT diklik
-    function toggleTawkChat() {
-        if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
-            Tawk_API.showWidget();
-            Tawk_API.maximize();
-        } else {
-            alert('Sistem chat sedang memuat, silakan tunggu 2 detik.');
+        // 🚀 Fungsi pemanggil saat tombol CHAT diklik
+        function toggleTawkChat() {
+            if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
+                Tawk_API.showWidget();
+                Tawk_API.maximize();
+            } else {
+                alert('Sistem chat sedang memuat, silakan tunggu 2 detik.');
+            }
         }
-    }
     </script>
     <!--End of Tawk.to Script-->
 

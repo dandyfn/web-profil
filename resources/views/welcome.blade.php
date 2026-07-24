@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dandy Al-Farisi Natanegara</title>
+    <meta name="google-site-verification" content="-jYl02vRfX9c7z0DrW_VdqAdK3xfak84GK7KAWIuiSE" />
+    <!-- 2. Deskripsi Singkat (Teks abu-abu yang muncul di bawah judul saat dicari di Google) -->
+    <meta name="description" content="Portfolio resmi Dandy Al-Farisi Natanegara. Mahasiswa Ilmu Komputer, Network Engineer, dan IT Enthusiast.">
+
+    <!-- 3. Kata Kunci Variasi Nama Kamu -->
+    <meta name="keywords" content="Dandy Al-Farisi Natanegara, Dandy Al Farisi, DandyFN, Network Engineer">
+
+    <!-- 4. Penulis Kode -->
+    <meta name="author" content="Dandy Al-Farisi Natanegara">
+
+    <!-- 5. Perintah agar Robot Google Mengindeks Halaman Ini -->
+    <meta name="robots" content="index, follow">
     <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

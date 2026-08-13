@@ -281,7 +281,7 @@
                                 <span
                                     class="inline-block px-1.5 py-0.5 text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded">2026
                                     - Sekarang</span>
-                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal"></p>
+                                <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">S2 Ilmu Komputer</p>
                             </div>
                         </div>
 
@@ -529,6 +529,15 @@
                             class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]"
                             onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/intellij-idea.png';">
                         <span>Intelej</span>
+                    </div>
+
+                     <!--  Python  -->
+                    <div
+                        class="flex items-center gap-4 px-6 py-3 bg-[#130d31]/50 border border-violet-500/30 backdrop-blur-sm rounded-xl text-violet-300 font-medium text-lg shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:border-violet-400 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition duration-300">
+                        <img src="{{ asset('images/logos/python.png') }}" alt="Intellij IDEA"
+                            class="w-8 h-8 object-contain filter drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]"
+                            onerror="this.onerror=null; this.src='https://img.icons8.com/color/48/intellij-idea.png';">
+                        <span>Python</span>
                     </div>
 
                     <div

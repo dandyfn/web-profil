@@ -238,10 +238,10 @@
                                 <div class="w-2 h-2 rounded-full bg-purple-400"></div>
                             </div>
                             <div class="mt-4">
-                                <h4 class="font-bold text-sm tracking-wide">SMAN 3 Kediri</h4>
+                                <h4 class="font-bold text-sm tracking-wide">SMKN 3 Kediri</h4>
                                 <span class="text-[10px] font-mono text-purple-400">2019 - 2022</span>
                                 <p class="text-[11px] text-gray-400 font-light mt-2 px-1 whitespace-normal">Kejuruan
-                                    IPA
+                                    TKJ
                                 </p>
                             </div>
                         </div>

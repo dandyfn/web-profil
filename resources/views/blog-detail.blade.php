@@ -32,6 +32,8 @@
         },
         $cleanedContent,
     );
+        // 4b. Buang tanda ">" nyasar tepat setelah tag <img> (bug dari editor Trix)
+    $cleanedContent = preg_replace('/(<img\b[^>]*>)\s*>/i', '$1', $cleanedContent);
 
     // 5. Blok kode dengan nomor baris dan tombol copy
     $cleanedContent = preg_replace_callback(

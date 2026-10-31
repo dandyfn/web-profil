@@ -46,7 +46,9 @@ class AppServiceProvider extends ServiceProvider
                 ];
             }
 
-            config(['achievements' => $data]);
+            if (! empty($data)) {
+                config(['achievements' => $data]);
+            }
         } catch (\Throwable $e) {
             // Abaikan, pakai config bawaan.
         }

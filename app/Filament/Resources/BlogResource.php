@@ -4,8 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
 use App\Models\Blog;
-use FilamentTiptapEditor\TiptapEditor;
-use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -50,16 +48,30 @@ class BlogResource extends Resource
                             ->rows(3)
                             ->maxLength(255),
 
-                        // Editor Tiptap: gambar bisa diatur ukurannya, upload ke Supabase Storage.
-                        TiptapEditor::make('content')
+                        // Editor bawaan Filament (Trix). Toolbar ukuran 30%-100% berasal dari AdminPanelProvider.
+                        Forms\Components\RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->disk('s3')
-                            ->directory('blog-attachments')
-                            ->visibility('public')
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'])
-                            ->maxSize(5120)
-                            ->output(TiptapOutput::Html),
+                            ->fileAttachmentsDisk('s3')
+                            ->fileAttachmentsDirectory('blog-attachments')
+                            ->fileAttachmentsVisibility('public')
+                            ->toolbarButtons([
+                                'attachFiles',
+                                'blockquote',
+                                'bold',
+                                'bulletList',
+                                'codeBlock',
+                                'h1',
+                                'h2',
+                                'h3',
+                                'italic',
+                                'link',
+                                'orderedList',
+                                'redo',
+                                'strike',
+                                'underline',
+                                'undo',
+                            ]),
 
                         Forms\Components\FileUpload::make('image')
                             ->label('Banner Image')

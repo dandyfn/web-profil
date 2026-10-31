@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /livewire
+Disallow: /chat
+
+Sitemap: https://dandyfn.onrender.com/sitemap.xml

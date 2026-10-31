@@ -82,7 +82,30 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <title>Dandy Al-Farisi Natanegara</title>
+    @php
+        $articleLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => \Illuminate\Support\Str::limit($blog->title, 110, ''),
+            'description' => \Illuminate\Support\Str::limit(strip_tags($blog->description), 200),
+            'image' => $blog->image ?: asset('images/fotoprofil.png'),
+            'datePublished' => $blog->created_at->toIso8601String(),
+            'dateModified' => $blog->updated_at->toIso8601String(),
+            'mainEntityOfPage' => url()->current(),
+            'author' => [
+                '@type' => 'Person',
+                'name' => 'Dandy Al-Farisi Natanegara',
+                'url' => url('/'),
+            ],
+        ];
+    @endphp
+    @include('partials.seo', [
+        'seoTitle' => $blog->title . ' | Dandy Al-Farisi',
+        'seoDescription' => \Illuminate\Support\Str::limit(strip_tags($blog->description), 155),
+        'seoImage' => $blog->image,
+        'seoType' => 'article',
+        'seoJsonLd' => $articleLd,
+    ])
     <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

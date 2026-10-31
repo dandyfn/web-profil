@@ -22,7 +22,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dandy Al-Farisi Natanegara</title>
+    @include('partials.seo', [
+        'seoTitle' => $data['title'] . ' | Sertifikasi Dandy Al-Farisi',
+        'seoDescription' => \Illuminate\Support\Str::limit(strip_tags($data['desc_1']), 155),
+        'seoImage' => $badgeUrl,
+    ])
     <link rel="icon" type="image/png" href="{{ asset('images/fotologo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

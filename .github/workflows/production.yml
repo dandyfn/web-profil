@@ -1,0 +1,26 @@
+name: Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://dandyfn.onrender.com
+    steps:
+      - name: Tunggu Render selesai deploy
+        run: sleep 90
+
+      - name: Cek website Production hidup
+        run: |
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" https://dandyfn.onrender.com/)
+            echo "Percobaan $i: HTTP $code"
+            if [ "$code" = "200" ]; then exit 0; fi
+            sleep 20
+          done
+          echo "Website tidak merespons"
+          exit 1

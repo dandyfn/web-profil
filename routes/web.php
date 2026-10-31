@@ -58,4 +58,56 @@ Route::prefix('chat')->middleware('throttle:60,1')->group(function () {
     Route::post('/send', [\App\Http\Controllers\ChatController::class, 'send']);
 });
 
+// Sitemap otomatis untuk Google
+Route::get('/sitemap.xml', function () {
+    $blogs = Blog::select('slug', 'updated_at')->latest('updated_at')->get();
+
+    $urls = [];
+
+    $urls[] = [
+        'loc' => url('/'),
+        'lastmod' => optional($blogs->first())->updated_at ?? now(),
+        'priority' => '1.0',
+    ];
+
+    $urls[] = [
+        'loc' => route('blog.index'),
+        'lastmod' => optional($blogs->first())->updated_at ?? now(),
+        'priority' => '0.9',
+    ];
+
+    foreach ($blogs as $blog) {
+        $urls[] = [
+            'loc' => route('blog.detail', ['slug' => $blog->slug]),
+            'lastmod' => $blog->updated_at,
+            'priority' => '0.8',
+        ];
+    }
+
+    foreach (array_keys(config('achievements') ?? []) as $slug) {
+        $urls[] = [
+            'loc' => route('achievement.detail', ['slug' => $slug]),
+            'lastmod' => null,
+            'priority' => '0.6',
+        ];
+    }
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+    foreach ($urls as $item) {
+        $xml .= "  <url>\n";
+        $xml .= '    <loc>' . e($item['loc']) . "</loc>\n";
+        if ($item['lastmod']) {
+            $xml .= '    <lastmod>' . $item['lastmod']->toAtomString() . "</lastmod>\n";
+        }
+        $xml .= '    <priority>' . $item['priority'] . "</priority>\n";
+        $xml .= "  </url>\n";
+    }
+
+    $xml .= '</urlset>';
+
+    return response($xml, 200)->header('Content-Type', 'application/xml');
+});
+
 require __DIR__.'/auth.php';

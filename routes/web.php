@@ -4,33 +4,19 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Blog;
 
-// 1. Route untuk Halaman Utama Beranda (Mengambil 3 artikel terbaru saja)
+// 1. Halaman Utama (3 artikel terbaru)
 Route::get('/', function () {
     $recentBlogs = Blog::latest()->take(3)->get();
     return view('welcome', compact('recentBlogs'));
 })->name('home');
 
-Route::get('/run-migration-cloud', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true]);
-        return 'Selamat Dandy, migrasi database Supabase berhasil dijalankan!';
-    } catch (\Exception $e) {
-        return 'Gagal migrasi: ' . $e->getMessage();
-    }
-});
-
-// Route::get('/', function () {
-//     return 'Laravel is running!';
-// });
-
-// 2. Route baru untuk Halaman Khusus Daftar Semua Blog
+// 2. Halaman daftar semua blog
 Route::get('/blog', function () {
-    // Ambil seluruh artikel tanpa batasan limit, diurutkan dari yang terbaru
     $blogs = Blog::latest()->get();
     return view('blog', compact('blogs'));
 })->name('blog.index');
 
-// 3. Route Dinamis untuk Detail Pencapaian
+// 3. Detail pencapaian
 Route::get('/achievement/{slug}', function ($slug) {
     $achievements = config('achievements');
 
@@ -42,15 +28,15 @@ Route::get('/achievement/{slug}', function ($slug) {
     return view('achievement-detail', compact('data'));
 })->name('achievement.detail');
 
-// 4. Route Dinamis untuk Detail Isi Blog (Views Tracker)
+// 4. Detail isi blog (views tracker)
 Route::get('/blog/{slug}', function ($slug) {
     $blog = Blog::where('slug', $slug)->firstOrFail();
-    $blog->increment('views'); // Counter otomatis pembaca
+    $blog->increment('views');
 
     return view('blog-detail', compact('blog'));
 })->name('blog.detail');
 
-// 5. Route Dashboard & Profile Bawaan Laravel Breeze
+// 5. Dashboard & Profile bawaan Laravel Breeze
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -61,8 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/blog/{id}/comment', [App\Http\Controllers\ProfileController::class, 'storeComment'])->name('blog.comment.store');
-Route::put('/comment/{id}', [App\Http\Controllers\ProfileController::class, 'updateComment'])->name('blog.comment.update');
-Route::delete('/comment/{id}', [App\Http\Controllers\ProfileController::class, 'destroyComment'])->name('blog.comment.destroy');
+Route::post('/blog/{id}/comment', [ProfileController::class, 'storeComment'])->name('blog.comment.store');
+Route::put('/comment/{id}', [ProfileController::class, 'updateComment'])->name('blog.comment.update');
+Route::delete('/comment/{id}', [ProfileController::class, 'destroyComment'])->name('blog.comment.destroy');
 
 require __DIR__.'/auth.php';

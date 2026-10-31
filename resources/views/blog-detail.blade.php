@@ -1,26 +1,22 @@
 @php
-    // 1. Ambil URL IP/Domain aktif saat ini secara dinamis (contoh: http://localhost:8080 atau http://127.0.0.1:8080)
+    // 1. Ambil URL IP/Domain aktif saat ini secara dinamis
     $currentHost = request()->getSchemeAndHttpHost();
 
-    // 2. Sapu bersih semua link lama yang masih mengunci port 8000 di database, ganti otomatis ke port aktif saat ini
+    // 2. Ganti link lama yang masih mengunci port 8000 di database ke host aktif
     $cleanedContent = preg_replace(
         '/http:\/\/(127\.0\.0\.1|localhost):8000/',
         $currentHost,
         $blog->content,
     );
 
-    // 🛠️ MANTRA AUTO-DETEKSI LINK MENTAH POSTIMAGES:
-    // Jika kamu cuma paste text mentah seperti https://i.postimg.cc/... di editor,
-    // script ini akan otomatis merubahnya menjadi tag <img> asli agar langsung muncul gambarnya!
+    // 3. Auto-deteksi link mentah Postimages menjadi tag <img>
     $cleanedContent = preg_replace(
         '/(?<!src=["\'])(https:\/\/i\.postimg\.cc\/[^\s<]+)/i',
         '<img src="$1" alt="Article Image">',
         $cleanedContent,
     );
 
-    // 🛠️ TAMBAHAN FIX GAMBAR HANCUR DI KONTEN:
-    // Jika di dalam isi konten artikel terdapat tag <img> yang link-nya mengarah ke lokal/storage padahal aslinya URL Postimages,
-    // kita bersihkan otomatis agar langsung menembak URL asli Postimages (http:// atau https://).
+    // 4. Rapikan src gambar yang terbungkus sub-path lokal padahal aslinya URL eksternal
     $cleanedContent = preg_replace_callback(
         '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*)/i',
         function ($matches) {
@@ -28,7 +24,6 @@
             $srcValue = $matches[2];
             $attributesAfter = $matches[3];
 
-            // Jika di dalam string SRC mengandung link eksternal (Postimages) tapi terbungkus sub-path lokal, potong jalurnya!
             if (preg_replace('/.*(https?:\/\/postimg|.*postimages)/i', '$1', $srcValue) !== $srcValue) {
                 $srcValue = preg_replace('/.*(https?:\/\/.*)/i', '$1', $srcValue);
             }
@@ -38,11 +33,7 @@
         $cleanedContent,
     );
 
-    // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX:
-    // Kita langsung bedah tag <pre><code> lewat PHP di server!
-    // Ini mematikan Javascript DOM Injector, sehingga DUPLIKASI TERMINAL DIJAMIN LENYAP SELAMANYA!
-    // 3. 🛡️ MANTRA BRUTAL SERVER-SIDE REGEX (DENGAN AUTO LINE NUMBERING):
-    // Memecah kode per baris secara dinamis agar baris sambungan bisa dibedakan dengan jelas!
+    // 5. Blok kode dengan nomor baris dan tombol copy
     $cleanedContent = preg_replace_callback(
         '/<pre><code([^>]*)>(.*?)<\/code><\/pre>/s',
         function ($matches) {
@@ -52,13 +43,11 @@
             $codeContent = $matches[2];
             $idUnik = 'code-block-' . $index;
 
-            // Pecah kode berdasarkan line break (\n)
             $lines = explode("\n", $codeContent);
             $formattedLines = '';
             $lineNumber = 1;
 
             foreach ($lines as $line) {
-                // Abaikan baris kosong terakhir akibat explode
                 if ($line === '' && end($lines) === $line) {
                     continue;
                 }
@@ -87,7 +76,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Meta tag untuk mencegah browser menyimpan cache halaman ini (Sangat penting agar tombol edit langsung sinkron saat logout) -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -106,124 +94,121 @@
             background-size: 40px 40px;
         }
 
-        /* 📸 EFEK HOVER GLOWING & ZOOM UNTUK BANNER UTAMA */
+        /* EFEK HOVER BANNER UTAMA */
         .banner-container {
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .banner-container:hover {
-            border-color: rgba(34, 211, 238, 0.8) !important; /* Cyan glow border */
+            border-color: rgba(34, 211, 238, 0.8) !important;
             box-shadow: 0 0 35px rgba(6, 182, 212, 0.4) !important;
         }
         .banner-img {
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .banner-container:hover .banner-img {
-            transform: scale(1.04); /* Efek zoom-in halus */
+            transform: scale(1.04);
         }
 
-        /* 🚀 ATURAN UKURAN GAMBAR OTOMATIS & INTEGRASI CAPTION (SINKRON 70% DI DESKTOP, 100% DI HP) */
+        /* ========== GAMBAR DI DALAM ARTIKEL ========== */
+        /* Ukuran dari editor dihormati, tapi tidak pernah melebihi lebar layar. */
         .prose img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 2rem auto;
             border-radius: 12px;
             border: 1.5px solid rgba(168, 85, 247, 0.4);
-            display: block;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .prose img:hover {
-            transform: translateY(-4px) scale(1.015); /* Melayang sedikit ke atas */
-            border-color: rgba(6, 182, 212, 0.8) !important; /* Berubah jadi Cyan Glow */
-            box-shadow: 0 12px 30px rgba(6, 182, 212, 0.35) !important;
+            transform: translateY(-4px) scale(1.015);
+            border-color: rgba(6, 182, 212, 0.8);
+            box-shadow: 0 12px 30px rgba(6, 182, 212, 0.35);
         }
 
-        /* 🔗 FIX TAMPILAN LINK PANJANG AGAR TIDAK MERUSAK LAYOUT PADA HP */
+        /* Figure pembungkus gambar */
+        .prose figure {
+            max-width: 100%;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .prose figure img {
+            margin: 0 auto;
+        }
+
+        /* Lampiran non-gambar (PDF, Word, PPT) rata kiri */
+        .prose figure:not(:has(img)) {
+            width: 100%;
+            text-align: left;
+        }
+
+        /* Caption gambar */
+        .prose figcaption,
+        .prose .attachment__caption {
+            text-align: center;
+            margin: 0.75rem auto 0 auto;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-style: italic;
+            display: block;
+            width: 100%;
+        }
+        .prose figure:not(:has(img)) figcaption,
+        .prose figure:not(:has(img)) .attachment__caption {
+            text-align: left;
+        }
+
+        /* ========== LIST (BULLET & NOMOR) ========== */
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.75rem;
+            margin: 1rem 0;
+        }
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.75rem;
+            margin: 1rem 0;
+        }
+        .prose li {
+            margin: 0.4rem 0;
+        }
+        .prose li::marker {
+            color: #22d3ee;
+        }
+
+        /* LINK PANJANG TIDAK MERUSAK LAYOUT HP */
         .prose a {
             word-wrap: break-word !important;
             word-break: break-all !important;
             overflow-wrap: break-word !important;
         }
 
-        /* Responsive Breakpoint: Aturan Penempatan Gambar & Lampiran Berkas secara presisi */
-        @media (min-width: 768px) {
-            /* 1. Gambar mandiri (tanpa figure / hasil Postimages mentah) dipaksa 70% dan pas di tengah */
-            .prose img,
-            .prose>img {
-                width: 50% !important;
-                margin: 2.5rem auto !important;
-            }
-            /* 2. Figure yang membungkus gambar (kita ciptakan wadah 70% di tengah) */
-            .prose figure:has(img),
-            .prose figure.attachment--preview {
-                width: 70% !important;
-                margin: 2.5rem auto !important;
-                text-align: center !important;
-            }
-            /* 3. Maksa gambar di dalam figure agar berukuran penuh 100% dari wadah 70%-nya (supaya sinkron dengan caption) */
-            .prose figure img {
-                width: 100% !important;
-                margin: 0 auto !important;
-            }
-            /* 4. Lampiran berkas non-gambar (seperti file PDF, Word, PPT) dipaksa tetap lebar 100% dan rata kiri */
-            .prose figure:not(:has(img)) {
-                width: 100% !important;
-                margin: 2rem 0 !important;
-                text-align: left !important;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .prose img,
-            .prose figure {
-                width: 100% !important;
-                margin: 1.5rem auto !important;
-            }
-        }
-
-        /* 🎨 CAPTION / KETERANGAN GAMBAR (Dipaksa simetris tepat di tengah bawah gambar) */
-        .prose figcaption,
-        .prose .attachment__caption {
-            text-align: center !important;
-            margin: 0.75rem auto 0 auto !important;
-            color: #94a3b8 !important; /* Abu-abu siber terang */
-            font-size: 0.875rem !important;
-            font-style: italic !important;
-            display: block !important;
-            width: 100% !important;
-        }
-
-        /* Teks keterangan lampiran non-gambar harus tetap mengikuti struktur rata kiri */
-        .prose figure:not(:has(img)) figcaption,
-        .prose figure:not(:has(img)) .attachment__caption {
-            text-align: left !important;
-            margin-left: 0 !important;
-        }
-
-        /* 🚀 PERBAIKAN UKURAN HEADING 1, 2, DAN 3 (DIPAKSA BERBEDA & TAMPIL TEBAL) */
+        /* HEADING 1, 2, 3 */
         .prose h1,
         .prose h1 * {
-            font-size: 2.25rem !important; /* text-4xl */
-            color: #22d3ee !important; /* Cyan */
+            font-size: 2.25rem !important;
+            color: #22d3ee !important;
             font-weight: 700 !important;
             margin-top: 2.5rem !important;
             margin-bottom: 1.25rem !important;
             display: block !important;
             text-shadow: 0 0 10px rgba(34, 211, 238, 0.35) !important;
         }
-
         .prose h2,
         .prose h2 * {
-            font-size: 1.875rem !important; /* text-3xl */
-            color: #22d3ee !important; /* Cyan */
+            font-size: 1.875rem !important;
+            color: #22d3ee !important;
             font-weight: 700 !important;
             margin-top: 2rem !important;
             margin-bottom: 1rem !important;
             display: block !important;
             text-shadow: 0 0 8px rgba(34, 211, 238, 0.2) !important;
         }
-
         .prose h3,
         .prose h3 * {
-            font-size: 1.5rem !important; /* text-2xl */
-            color: #a78bfa !important; /* Ungu */
+            font-size: 1.5rem !important;
+            color: #a78bfa !important;
             font-weight: 600 !important;
             margin-top: 1.75rem !important;
             margin-bottom: 0.75rem !important;
@@ -231,91 +216,72 @@
             text-shadow: 0 0 8px rgba(167, 139, 250, 0.2) !important;
         }
 
-        /* 🚀 CYBERPUNK SYNTAX HIGHLIGHTING & ANTI-BREAK LAYOUT SMARTPHONE */
+        /* BLOK KODE */
         .prose pre {
             background-color: #060411 !important;
             border: 1px solid rgba(168, 85, 247, 0.4) !important;
             border-radius: 0.75rem !important;
             padding: 0 !important;
-            /* Pastikan kontainer pre juga mengizinkan pembungkusan */
             white-space: pre-wrap !important;
         }
-
-        /* Tembak langsung selector pre code di dalam struktur terminal buatan kita */
         .prose div pre code,
         .prose pre code[id^="code-block-"],
         .prose [id^="code-block-"] {
             color: #e2e8f0 !important;
             font-family: 'Fira Code', monospace !important;
-            /* Paksa pembungkusan baris baru di level terdalam */
             white-space: pre-wrap !important;
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
             word-break: break-all !important;
             display: block !important;
-            /* Trik Identasi Menggantung agar baris sambungan menjorok ke dalam */
             padding-left: 1.5rem !important;
             text-indent: -1.5rem !important;
         }
-
-        /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
         .prose pre code .hljs-comment,
         .prose pre code .hljs-quote {
-            color: #94a3b8 !important; /* Slate gray terang, 100% terbaca di background gelap */
+            color: #94a3b8 !important;
             font-style: italic !important;
         }
-
-        /* Warna Keyword utama (php, composer, sudo, systemctl, dll) */
         .prose pre code .hljs-keyword,
         .prose pre code .hljs-selector-tag,
         .prose pre code .hljs-literal,
         .prose pre code .hljs-section,
         .prose pre code .hljs-link {
-            color: #22d3ee !important; /* Cyan Neon */
+            color: #22d3ee !important;
             font-weight: bold !important;
         }
-
-        /* Warna Atribut, Strings, dan Variabel */
         .prose pre code .hljs-string,
         .prose pre code .hljs-title,
         .prose pre code .hljs-name,
         .prose pre code .hljs-type,
         .prose pre code .hljs-attr,
         .prose pre code .hljs-attribute {
-            color: #a78bfa !important; /* Ungu Neon */
+            color: #a78bfa !important;
         }
-
-        /* Warna Angka dan Simbol */
         .prose pre code .hljs-number,
         .prose pre code .hljs-regexp,
         .prose pre code .hljs-symbol,
         .prose pre code .hljs-variable,
         .prose pre code .hljs-template-variable {
-            color: #f472b6 !important; /* Pink Neon */
+            color: #f472b6 !important;
         }
-
-        /* Warna Built-in */
         .prose pre code .hljs-built_in,
         .prose pre code .hljs-builtin-name {
-            color: #38bdf8 !important; /* Biru Langit */
+            color: #38bdf8 !important;
         }
     </style>
 </head>
 <body class="bg-[#0b071e] text-gray-200 antialiased min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-    <!-- 🛡️ HANCURKAN PERISAI HANTU: Glow dipaksa ke dasar terdalam z-[-10] agar mustahil menghalangi klik jarimu! -->
     <div id="cursor-glow" class="fixed top-0 left-0 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-full blur-[130px] pointer-events-none z-[-10] -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out opacity-0 md:opacity-100" style="z-index: -10 !important;"></div>
 
-    <!-- Toast Notification for "Copy Code" Success -->
     <div id="toast" class="fixed bottom-10 right-10 z-[100] transform translate-y-20 opacity-0 transition-all duration-300 bg-[#130d31] border border-cyan-400 text-cyan-300 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] font-mono text-sm flex items-center gap-3">
         <span class="text-emerald-400">✔</span> System: Operation success!
     </div>
 
-    <!-- 🛡️ POSISI NAVIGASI SANGAT STABIL DI ATAS LAYOUT -->
     <nav class="sticky top-0 z-[9999] bg-[#0b071e]/90 backdrop-blur-md border-b border-purple-500/30 shadow-[0_4px_20px_rgba(128,0,128,0.2)]" style="position: sticky; z-index: 9999 !important;">
         <div class="w-full px-6 md:px-16 lg:px-24 flex justify-between items-center py-5 gap-12 font-semibold tracking-wider text-base">
             <div class="flex gap-12">
-                <!-- Tombol Kembali Murni Tanpa Javascript Pengganggu & Kebal Cache -->
                 <a href="/blog" class="text-gray-400 hover:text-cyan-400 transition duration-300 flex items-center gap-2 cursor-pointer" style="position: relative; z-index: 99999 !important;">
                     <span>←</span> BACK TO MAIN NODE
                 </a>
@@ -326,7 +292,6 @@
         </div>
     </nav>
 
-    <!-- CONTENT UTAMA (Lebar Penuh Sesuai Induk Atasnya) -->
     <main class="w-full px-6 md:px-16 lg:px-24 py-12 flex-grow relative z-10 space-y-10">
 
         <!-- BANNER IMAGE -->
@@ -368,7 +333,7 @@
         <hr class="border-purple-500/20">
 
         <!-- ARTIKEL UTAMA -->
-        <article class="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed space-y-6">
+        <article class="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed">
             {!! $cleanedContent !!}
         </article>
 
@@ -402,7 +367,7 @@
             </div>
         @endif
 
-        <!-- 💬 ================= SEKSI KOMENTAR (FULL-WIDTH SEPANJANG STRUKTUR UTAMA) ================= -->
+        <!-- SEKSI KOMENTAR -->
         <div class="pt-12 border-t border-purple-500/20 space-y-8 w-full">
             <div class="flex items-center gap-2">
                 <span class="text-purple-400 font-mono">//</span>
@@ -411,7 +376,6 @@
                 </h3>
             </div>
 
-            <!-- FORM KIRIM KOMENTAR -->
             <form action="{{ route('blog.comment.store', $blog->id) }}" method="POST" id="commentForm" onsubmit="saveCommentOwnership(event)" class="bg-[#130d31]/30 border border-purple-500/30 rounded-xl p-6 space-y-4 shadow-[0_0_15px_rgba(168,85,247,0.05)] w-full">
                 @csrf
                 <div class="grid grid-cols-1 gap-4">
@@ -431,7 +395,6 @@
                 </div>
             </form>
 
-            <!-- LIST DAFTAR KOMENTAR -->
             <div class="space-y-4 w-full">
                 @forelse($blog->comments as $comment)
                     <div class="bg-[#060411]/60 border-l-2 border-purple-500/50 rounded-r-xl p-4 space-y-2 shadow-[0_2px_10px_rgba(0,0,0,0.3)] relative w-full group" id="comment-box-{{ $comment->id }}">
@@ -440,7 +403,6 @@
                             <div class="flex items-center gap-3">
                                 <span class="text-gray-500 font-mono">{{ $comment->created_at->diffForHumans() }}</span>
 
-                                <!-- ACTION MANAGEMENT (Akan Muncul Lewat JS jika ini milik user tersebut) -->
                                 <div class="hidden gap-2 comment-actions" data-id="{{ $comment->id }}">
                                     <button onclick="enableEditComment({{ $comment->id }})" class="text-yellow-500 hover:text-yellow-400 font-mono text-[11px] cursor-pointer bg-yellow-950/20 px-2 py-0.5 rounded border border-yellow-500/30">EDIT</button>
                                     <form action="{{ route('blog.comment.destroy', $comment->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah anda yakin ingin menghapus data log komentar ini?')">
@@ -451,12 +413,10 @@
                             </div>
                         </div>
 
-                        <!-- TEKS KOMENTAR NORMAL -->
                         <p class="text-sm text-gray-300 leading-relaxed font-light whitespace-pre-line comment-text" id="text-{{ $comment->id }}">
                             {{ $comment->comment }}
                         </p>
 
-                        <!-- FORM EDIT TERSEMBUNYI (MUNCUL JIKA KLIK EDIT) -->
                         <form action="{{ route('blog.comment.update', $comment->id) }}" method="POST" class="hidden space-y-2 pt-2 edit-form" id="edit-form-{{ $comment->id }}">
                             @csrf @method('PUT')
                             <textarea name="comment" rows="3" required class="w-full bg-[#130d31]/50 border border-yellow-500/40 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-yellow-400">{{ $comment->comment }}</textarea>
@@ -473,11 +433,9 @@
                 @endforelse
             </div>
         </div>
-        <!-- 💬 ================= END SEKSI KOMENTAR ================= -->
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-[#070414]/90 backdrop-blur-md border-t border-purple-900/40 py-10 px-8 text-center relative z-10 mt-20">
         <div class="w-full px-6 md:px-16 lg:px-24 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p class="text-sm text-gray-500">&copy; 2026 Dandy. Built with Laravel on Linux Mint.</p>
@@ -486,16 +444,14 @@
     </footer>
 
     <script>
-        // --- 1. Logika Kursor Glowing ---
+        // 1. Kursor glowing
         const glow = document.getElementById('cursor-glow');
         window.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            glow.style.left = `${x}px`;
-            glow.style.top = `${y}px`;
+            glow.style.left = `${e.clientX}px`;
+            glow.style.top = `${e.clientY}px`;
         });
 
-        // --- 2. FUNGSI COPY-TO-CLIPBOARD MANDIRI & AMAN ---
+        // 2. Copy code
         function copyCodeAction(elementId, buttonElement) {
             const targetElement = document.getElementById(elementId);
             if (!targetElement) return;
@@ -526,27 +482,19 @@
             }, 2500);
         }
 
-        // --- 3. MANAJEMEN KEPEMILIKAN KOMENTAR (EDIT & DELETE SECARA ANONYMOUS) ---
-        // --- 3. MANAJEMEN KEPEMILIKAN KOMENTAR (PRESISI PER ID KOMENTAR) ---
+        // 3. Kepemilikan komentar
         function saveCommentOwnership(event) {
-            // Simpan nama terakhir ke localStorage agar user tidak capek ketik nama lagi nanti
             localStorage.setItem('saved_handle_name', document.getElementById('commentorName').value);
-
-            // Catat bahwa browser ini sedang mengirim komentar baru (kita beri flag sementara)
             localStorage.setItem('just_submitted_comment', 'true');
         }
 
-        // Jalankan pengecekan hak akses tombol edit/hapus sesaat setelah halaman dimuat
         document.addEventListener("DOMContentLoaded", function() {
-            // Auto fill nama jika sebelumnya pernah mengetik
-            if(localStorage.getItem('saved_handle_name')) {
+            if (localStorage.getItem('saved_handle_name')) {
                 document.getElementById('commentorName').value = localStorage.getItem('saved_handle_name');
             }
 
-            // Ambil daftar ID komentar yang benar-benar milik browser ini
             let myCommentIds = JSON.parse(localStorage.getItem('my_owned_comment_ids')) || [];
 
-            // FIX OTOMATIS: Jika user baru saja submit komentar, ambil ID komentar paling atas (terbaru) untuk diamankan
             if (localStorage.getItem('just_submitted_comment') === 'true') {
                 let firstActionBox = document.querySelector('.comment-actions');
                 if (firstActionBox) {
@@ -556,19 +504,17 @@
                         localStorage.setItem('my_owned_comment_ids', JSON.stringify(myCommentIds));
                     }
                 }
-                localStorage.removeItem('just_submitted_comment'); // Reset flag
+                localStorage.removeItem('just_submitted_comment');
             }
 
-            // loop semua tombol aksi di halaman, hanya tampilkan jika ID-nya terdaftar di localStorage browser ini
             document.querySelectorAll('.comment-actions').forEach(el => {
                 let currentCommentId = parseInt(el.getAttribute('data-id'));
-
                 if (myCommentIds.includes(currentCommentId)) {
                     el.classList.remove('hidden');
                     el.classList.add('flex');
                 } else {
                     el.classList.remove('flex');
-                    el.classList.add('hidden'); // Amankan total dari jangkauan orang asing!
+                    el.classList.add('hidden');
                 }
             });
         });
@@ -583,7 +529,7 @@
             document.getElementById('edit-form-' + id).classList.add('hidden');
         }
 
-        // --- 4. JAVASCRIPT PROTEKSI BACK BUTTON ANTI-CACHE ---
+        // 4. Anti-cache tombol back
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.reload();

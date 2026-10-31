@@ -4,8 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
 use App\Models\Blog;
-use Awcodes\FilamentTiptapEditor\TiptapEditor;
-use Awcodes\FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\TiptapEditor;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

@@ -701,7 +701,7 @@
                     </a>
 
                     <!-- GMAIL (Red Neon Glow) -->
-                    <a href="dandy.alfarisi18@gmail.com" target="_blank" title="Gmail"
+                    <a href="mailto:dandy.alfarisi18@gmail.com" title="Gmail"
                         class="p-3 bg-[#130d31]/50 border border-red-500/20 rounded-xl text-red-400 hover:text-red-300 hover:border-red-400 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] active:scale-95 transition-all duration-300 flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

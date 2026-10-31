@@ -63,27 +63,6 @@
         <!-- GRID DAFTAR BLOG -->
         <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
 
-            <!-- SLOT TAMBAH BLOG BARU (Cyberpunk Create Card Slot) -->
-            <a href="/admin/blogs/create" class="w-full min-h-[420px] bg-[#130d31]/10 border-2 border-dashed border-purple-500/30 backdrop-blur-md rounded-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] active:scale-[0.98] transform transition duration-300 flex flex-col items-center justify-center p-8 group relative overflow-hidden">
-                <!-- Efek Grid Halus di Dalam Card -->
-                <div class="absolute inset-0 bg-[linear-gradient(rgba(18,10,50,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(18,10,50,0.1)_1px,transparent_1px)] bg-[size:20px_20px] opacity-30 pointer-events-none"></div>
-
-                <div class="flex flex-col items-center justify-center space-y-6 relative z-10 text-center">
-                    <!-- Lingkaran Pulsing Plus Icon -->
-                    <div class="w-20 h-20 rounded-full border border-purple-500/40 flex items-center justify-center bg-[#130d31]/40 group-hover:border-cyan-400 group-hover:bg-cyan-950/20 shadow-[0_0_15px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] transition-all duration-300 animate-pulse">
-                        <span class="text-4xl font-light text-purple-400 group-hover:text-cyan-300 transition duration-300">+</span>
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-mono uppercase tracking-widest text-purple-400 group-hover:text-cyan-300 transition duration-300">// DEPLOY_SLOT</span>
-                        <h4 class="font-bold text-gray-400 group-hover:text-gray-100 text-lg transition duration-300 mt-1 uppercase tracking-wider">
-                            Deploy New Node
-                        </h4>
-                        <p class="text-xs text-gray-500 font-mono mt-2 group-hover:text-gray-400 transition duration-300 max-w-[200px] mx-auto leading-relaxed">
-                            Hubungkan modul log artikel baru langsung ke database
-                        </p>
-                    </div>
-                </div>
-            </a>
 
             @forelse($blogs as $blog)
                 <!-- Kartu Blog Dinamis -->

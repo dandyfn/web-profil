@@ -17,10 +17,7 @@ class BlogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return false;
-    }
+    protected static ?string $navigationLabel = 'Blogs';
 
     public static function form(Form $form): Form
     {

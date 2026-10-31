@@ -130,7 +130,7 @@
                 class="text-gray-400 hover:text-purple-400 transition duration-300">BLOG</a>
 
             <!-- 💬 TOMBOL CHAT (Gantilah link blog tadi dengan ini) -->
-            <a href="javascript:void(0)" onclick="toggleTawkChat()"
+            <a href="javascript:void(0)" onclick="toggleChat()"
                 class="text-gray-400 hover:text-purple-400 transition duration-300 cursor-pointer">CHAT</a>
         </div>
     </nav>
@@ -928,37 +928,160 @@
     </script>
 
     <!-- 💬 WIDGET LIVE CHAT TAWK.TO & API OPERATOR -->
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
+    <!-- CHAT BUATAN SENDIRI -->
+    <style>
+        #chat-panel { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 90; display: none; flex-direction: column; width: 22rem; max-width: calc(100vw - 2rem); height: 30rem; max-height: 80vh; background: #130d31; border: 1px solid rgba(6,182,212,.4); border-radius: 1rem; box-shadow: 0 0 40px rgba(6,182,212,.25); overflow: hidden; font-family: 'Poppins', sans-serif; }
+        #chat-panel.open { display: flex; }
+        .cw-head { display: flex; align-items: center; justify-content: space-between; padding: .75rem 1rem; background: rgba(6,4,17,.8); border-bottom: 1px solid rgba(168,85,247,.3); color: #22d3ee; font-family: monospace; font-size: .8rem; letter-spacing: .05em; }
+        .cw-close { background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; }
+        .cw-view { flex: 1; display: none; flex-direction: column; min-height: 0; }
+        .cw-note { padding: .6rem 1rem; color: #94a3b8; font-size: .75rem; border-bottom: 1px solid rgba(168,85,247,.15); }
+        #chat-messages { flex: 1; overflow-y: auto; padding: .75rem 1rem; display: flex; flex-direction: column; gap: .5rem; }
+        .cw-row { display: flex; }
+        .cw-row.me { justify-content: flex-end; }
+        .cw-bubble { max-width: 80%; padding: .5rem .75rem; border-radius: .75rem; font-size: .85rem; color: #f1f5f9; white-space: pre-wrap; word-break: break-word; }
+        .cw-row.me .cw-bubble { background: rgba(6,182,212,.25); }
+        .cw-row.them .cw-bubble { background: rgba(168,85,247,.3); }
+        .cw-form { display: flex; gap: .5rem; padding: .75rem; border-top: 1px solid rgba(168,85,247,.3); }
+        .cw-input { flex: 1; min-width: 0; background: #0b071e; border: 1px solid rgba(168,85,247,.4); border-radius: .6rem; padding: .55rem .75rem; color: #67e8f9; font-size: .85rem; outline: none; }
+        .cw-input:focus { border-color: #22d3ee; }
+        .cw-btn { background: linear-gradient(to right, #06b6d4, #2563eb); color: #0b071e; font-weight: 700; font-family: monospace; font-size: .75rem; border: none; border-radius: .6rem; padding: 0 .9rem; cursor: pointer; }
+    </style>
 
-        // Sembunyikan gelembung bawaan Tawk.to agar navbar kamu tetap bersih
-        Tawk_API.onLoad = function() {
-            Tawk_API.hideWidget();
-        };
+    <div id="chat-panel">
+        <div class="cw-head">
+            <span>// LIVE_CHAT</span>
+            <button type="button" class="cw-close" onclick="toggleChat()">✕</button>
+        </div>
 
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/6a5dc9a1096ab21d402a85fe/1jtv5n8jk';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
+        <!-- Tampilan 1: isi nama -->
+        <div id="chat-name-view" class="cw-view">
+            <div class="cw-note">Halo! Masukkan namamu untuk mulai mengobrol langsung dengan Dandy.</div>
+            <form id="chat-name-form" class="cw-form" style="margin-top:auto;">
+                <input id="chat-name-input" class="cw-input" type="text" maxlength="50" placeholder="Namamu..." autocomplete="off">
+                <button type="submit" class="cw-btn">MULAI</button>
+            </form>
+        </div>
 
-        // 🚀 Fungsi pemanggil saat tombol CHAT diklik
-        function toggleTawkChat() {
-            if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
-                Tawk_API.showWidget();
-                Tawk_API.maximize();
-            } else {
-                alert('Sistem chat sedang memuat, silakan tunggu 2 detik.');
+        <!-- Tampilan 2: percakapan -->
+        <div id="chat-chat-view" class="cw-view">
+            <div class="cw-note">Tulis pesanmu, balasan akan muncul di sini.</div>
+            <div id="chat-messages"></div>
+            <form id="chat-send-form" class="cw-form">
+                <input id="chat-send-input" class="cw-input" type="text" maxlength="1000" placeholder="Ketik pesan..." autocomplete="off">
+                <button type="submit" class="cw-btn">KIRIM</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const panel = document.getElementById('chat-panel');
+            const nameView = document.getElementById('chat-name-view');
+            const chatView = document.getElementById('chat-chat-view');
+            const list = document.getElementById('chat-messages');
+            const csrf = '{{ csrf_token() }}';
+            let token = localStorage.getItem('chat_token');
+            let lastId = 0;
+            let timer = null;
+
+            function show(view) {
+                nameView.style.display = view === 'name' ? 'flex' : 'none';
+                chatView.style.display = view === 'chat' ? 'flex' : 'none';
             }
-        }
+
+            function addMessage(m) {
+                const row = document.createElement('div');
+                row.className = 'cw-row ' + (m.sender === 'visitor' ? 'me' : 'them');
+                const bubble = document.createElement('div');
+                bubble.className = 'cw-bubble';
+                bubble.textContent = m.body;
+                row.appendChild(bubble);
+                list.appendChild(row);
+            }
+
+            function resetChat() {
+                localStorage.removeItem('chat_token');
+                token = null;
+                lastId = 0;
+                list.innerHTML = '';
+                stopPolling();
+                show('name');
+            }
+
+            async function poll() {
+                if (!token) return;
+                try {
+                    const res = await fetch('/chat/messages?token=' + encodeURIComponent(token) + '&after=' + lastId, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (res.status === 404) { resetChat(); return; }
+                    const data = await res.json();
+                    if (data.messages.length) {
+                        data.messages.forEach(m => { addMessage(m); lastId = m.id; });
+                        list.scrollTop = list.scrollHeight;
+                    }
+                } catch (e) { /* abaikan, coba lagi di putaran berikutnya */ }
+            }
+
+            function startPolling() { stopPolling(); poll(); timer = setInterval(poll, 4000); }
+            function stopPolling() { if (timer) { clearInterval(timer); timer = null; } }
+
+            window.toggleChat = function () {
+                const isOpen = panel.classList.toggle('open');
+                if (!isOpen) { stopPolling(); return; }
+
+                if (token) {
+                    show('chat');
+                    startPolling();
+                } else {
+                    const saved = localStorage.getItem('cyberpunk_user');
+                    if (saved && saved !== 'GUEST') {
+                        document.getElementById('chat-name-input').value = saved;
+                    }
+                    show('name');
+                }
+            };
+
+            document.getElementById('chat-name-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const name = document.getElementById('chat-name-input').value.trim();
+                if (!name) return;
+
+                const res = await fetch('/chat/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+                    body: JSON.stringify({ name: name })
+                });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                token = data.token;
+                localStorage.setItem('chat_token', token);
+                lastId = 0;
+                list.innerHTML = '';
+                show('chat');
+                startPolling();
+            });
+
+            document.getElementById('chat-send-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const input = document.getElementById('chat-send-input');
+                const body = input.value.trim();
+                if (!body || !token) return;
+                input.value = '';
+
+                const res = await fetch('/chat/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+                    body: JSON.stringify({ token: token, body: body })
+                });
+                if (res.status === 404) { resetChat(); return; }
+                poll();
+            });
+        })();
     </script>
-    <!--End of Tawk.to Script-->
+    <!-- END CHAT BUATAN SENDIRI -->
 
 </body>
 

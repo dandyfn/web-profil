@@ -51,4 +51,11 @@ Route::post('/blog/{id}/comment', [ProfileController::class, 'storeComment'])->n
 Route::put('/comment/{id}', [ProfileController::class, 'updateComment'])->name('blog.comment.update');
 Route::delete('/comment/{id}', [ProfileController::class, 'destroyComment'])->name('blog.comment.destroy');
 
+// Chat pengunjung
+Route::prefix('chat')->middleware('throttle:60,1')->group(function () {
+    Route::post('/start', [\App\Http\Controllers\ChatController::class, 'start']);
+    Route::get('/messages', [\App\Http\Controllers\ChatController::class, 'messages']);
+    Route::post('/send', [\App\Http\Controllers\ChatController::class, 'send']);
+});
+
 require __DIR__.'/auth.php';

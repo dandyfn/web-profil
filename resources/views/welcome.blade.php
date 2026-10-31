@@ -132,6 +132,39 @@
             <!-- 💬 TOMBOL CHAT (Gantilah link blog tadi dengan ini) -->
             <a href="javascript:void(0)" onclick="toggleChat()"
                 class="text-gray-400 hover:text-purple-400 transition duration-300 cursor-pointer">CHAT</a>
+            {{-- IKON GEMBOK + TOMBOL ADMIN --}}
+            @auth
+                {{-- Gembok terbuka = logout --}}
+                <form method="POST" action="{{ Route::has('logout') ? route('logout') : url('/admin/logout') }}"
+                    style="display:inline-flex; align-items:center; margin:0 0 0 -1.5rem;">
+                    @csrf
+                    <button type="submit" title="Logout"
+                        class="text-cyan-400 hover:text-pink-400 transition duration-300 cursor-pointer"
+                        style="display:inline-flex; align-items:center; background:none; border:none; padding:0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor" style="width:1.35rem; height:1.35rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                    </button>
+                </form>
+
+                {{-- Tombol ADMIN = masuk ke panel admin --}}
+                <a href="/admin"
+                    class="text-gray-400 hover:text-purple-400 transition duration-300 cursor-pointer"
+                    style="margin-left:-1.5rem;">ADMIN</a>
+            @else
+                {{-- Gembok tertutup = login --}}
+                <a href="/admin/login" title="Login admin"
+                    class="text-gray-500 hover:text-cyan-400 transition duration-300 cursor-pointer"
+                    style="display:inline-flex; align-items:center; margin-left:-1.5rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                        stroke="currentColor" style="width:1.35rem; height:1.35rem;">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                </a>
+            @endauth
         </div>
     </nav>
 

@@ -497,9 +497,16 @@ class AdminPanelProvider extends PanelProvider
                 '),
             )
 
+            // Tombol kembali ke beranda (admin tetap login)
             ->renderHook(
                 PanelsRenderHook::TOPBAR_START,
-                fn (): string => '<a href="/blog" class="flex items-center gap-2 px-5 py-2 bg-[#130d31]/90 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-semibold rounded-xl hover:border-cyan-400 hover:text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.45)] transition-all duration-300 backdrop-blur-md">← RETURN TO MAIN BLOG</a>'
+                fn (): string => '<a href="/" style="display:inline-flex; align-items:center; gap:.5rem; padding:.5rem 1.25rem; background:rgba(19,13,49,.9); border:1px solid rgba(6,182,212,.35); color:#22d3ee; font-family:monospace; font-size:.75rem; font-weight:600; border-radius:.75rem; text-decoration:none;">← BERANDA</a>'
+            )
+
+            // Tombol kembali ke beranda (admin tetap login)
+            ->renderHook(
+                PanelsRenderHook::TOPBAR_START,
+                fn (): string => '<a href="/" style="display:inline-flex; align-items:center; gap:.5rem; padding:.5rem 1.25rem; background:rgba(19,13,49,.9); border:1px solid rgba(6,182,212,.35); color:#22d3ee; font-family:monospace; font-size:.75rem; font-weight:600; border-radius:.75rem; text-decoration:none;">← BERANDA</a>'
             )
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

@@ -39,7 +39,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->topNavigation()
             ->maxContentWidth(MaxWidth::Full)
-            ->userMenu(false)
 
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
@@ -283,6 +282,10 @@ class AdminPanelProvider extends PanelProvider
                     </script>
 
                     <style>
+                        /* Sembunyikan menu akun (lingkaran DA) di bar atas */
+                        .fi-user-menu {
+                            display: none !important;
+                        }
                         body {
                             background-color: #0b071e !important;
                             background-image:

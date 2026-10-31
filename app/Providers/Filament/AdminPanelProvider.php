@@ -11,8 +11,8 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Filament\Enums\ThemeMode;
-use Filament\View\PanelsRenderHook; // Import untuk menyisipkan kustomisasi HTML/CSS
-use Illuminate\Support\Facades\Blade; // Import untuk merender elemen kustom
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -30,35 +30,24 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-
-            // 1. TEMA UTAMA: Atur dark mode default
             ->defaultThemeMode(ThemeMode::Dark)
-
-            // 2. MATIKAN BRAND LOGO: Mengosongkan brand name agar tulisan "Laravel" hilang dari sistem
             ->brandName('')
-
             ->colors([
                 'primary' => Color::Cyan,
                 'gray' => Color::Slate,
             ])
-
-            // 3. NAVIGASI ATAS: Matikan sidebar kiri agar halaman lebih luas
             ->topNavigation()
 
-            // 4. INJEKSI STYLE & SCRIPT CYBERPUNK (Render Hook HEAD)
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
                 fn (): string => Blade::render('
-                    <!-- Memaksa dokumen mengaktifkan class dark mode Tailwind -->
                     <script>
                         document.documentElement.classList.add("dark");
                         document.documentElement.style.colorScheme = "dark";
                     </script>
 
-                    <!-- LOGIKA NEURAL NETWORK CANVAS DI BACKGROUND ADMIN & HALAMAN LOGIN -->
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
-                            // Deteksi jika canvas belum dibuat di body, buat baru secara otomatis
                             let canvas = document.getElementById("neural-canvas");
                             if (!canvas) {
                                 canvas = document.createElement("canvas");
@@ -68,8 +57,8 @@ class AdminPanelProvider extends PanelProvider
                                 canvas.style.left = "0";
                                 canvas.style.width = "100vw";
                                 canvas.style.height = "100vh";
-                                canvas.style.zIndex = "-1"; // Ditempatkan di dasar paling belakang
-                                canvas.style.pointerEvents = "none"; // Tidak memblokir klik kursor ke form
+                                canvas.style.zIndex = "-1";
+                                canvas.style.pointerEvents = "none";
                                 document.body.prepend(canvas);
                             }
 
@@ -83,8 +72,8 @@ class AdminPanelProvider extends PanelProvider
                             window.addEventListener("resize", setCanvasSize);
 
                             const particles = [];
-                            const particleCount = 75; // Jumlah titik saraf
-                            const mouseRadius = 150; // Radius tarikan kursor
+                            const particleCount = 75;
+                            const mouseRadius = 150;
                             const mouse = { x: null, y: null };
 
                             window.addEventListener("mousemove", (e) => {
@@ -104,7 +93,7 @@ class AdminPanelProvider extends PanelProvider
                                 draw() {
                                     ctx.beginPath();
                                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                                    ctx.fillStyle = "rgba(6, 182, 212, 0.6)"; // Warna biru cyan bercahaya
+                                    ctx.fillStyle = "rgba(6, 182, 212, 0.6)";
                                     ctx.fill();
                                 }
                                 update() {
@@ -131,14 +120,13 @@ class AdminPanelProvider extends PanelProvider
                             function connectParticles() {
                                 let opacity = 1;
                                 for (let a = 0; a < particles.length; a++) {
-                                    // Tarikan garis ke posisi mouse kursor
                                     const mouseDx = particles[a].x - mouse.x;
                                     const mouseDy = particles[a].y - mouse.y;
                                     const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
 
                                     if (mouse.x !== null && mouseDistance < mouseRadius) {
                                         opacity = 1 - (mouseDistance / mouseRadius);
-                                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`; // Garis ungu ke kursor
+                                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`;
                                         ctx.lineWidth = 1;
                                         ctx.beginPath();
                                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -146,7 +134,6 @@ class AdminPanelProvider extends PanelProvider
                                         ctx.stroke();
                                     }
 
-                                    // Garis penghubung antar titik terdekat
                                     for (let b = a; b < particles.length; b++) {
                                         const pdx = particles[a].x - particles[b].x;
                                         const pdy = particles[a].y - particles[b].y;
@@ -177,7 +164,7 @@ class AdminPanelProvider extends PanelProvider
                         });
                     </script>
 
-                    <!-- 🛠️ TRIX INTERACTIVE IMAGE RESIZER ENGINE (CYBERPUNK FLOATING TOOLBAR - SINKRONISASI AKTIF) -->
+                    <!-- TRIX IMAGE RESIZER 30%-100% (VERSI DIPERBAIKI: UKURAN BENAR-BENAR TERSIMPAN) -->
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             document.body.addEventListener("click", function(e) {
@@ -209,11 +196,11 @@ class AdminPanelProvider extends PanelProvider
 
                                     toolbar.innerHTML = "";
 
-                                    // 🚀 KELIPATAN BERURUTAN PRESISI DARI 30% SAMPAI 100%
                                     const sizes = ["30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"];
 
                                     sizes.forEach(size => {
                                         const btn = document.createElement("button");
+                                        btn.type = "button";
                                         btn.innerText = size;
                                         btn.style.background = "rgba(168, 85, 247, 0.2)";
                                         btn.style.border = "1px solid rgba(168, 85, 247, 0.5)";
@@ -243,27 +230,32 @@ class AdminPanelProvider extends PanelProvider
 
                                             if (trixEditor && figure) {
                                                 const trixId = parseInt(figure.getAttribute("data-trix-id"));
-                                                // Ambil objek attachment resmi dari dokumen internal Trix
                                                 const attachment = trixEditor.editor.getDocument().getAttachmentById(trixId);
 
                                                 if (attachment) {
-                                                    // Hitung lebar piksel target berdasarkan persentase
                                                     const percentage = parseInt(size) / 100;
-                                                    const originalWidth = img.naturalWidth || 800; // default ke 800 jika belum ter-render
-                                                    const targetWidth = Math.round(originalWidth * percentage);
+                                                    const naturalW = img.naturalWidth || 800;
+                                                    const naturalH = img.naturalHeight || 450;
+                                                    // 100% = lebar area artikel (1100px), tidak memperbesar gambar kecil
+                                                    const baseW = Math.min(naturalW, 1100);
+                                                    const targetW = Math.round(baseW * percentage);
+                                                    const targetH = Math.round(targetW * (naturalH / naturalW));
 
-                                                    // 🚀 UPDATE ATRIBUT INTERNAL TRIX (Agar diserialisasikan permanen ke database)
-                                                    trixEditor.editor.setAttributesForAttachment({ width: targetWidth }, attachment);
+                                                    // Simpan lebar DAN tinggi ke atribut lampiran Trix
+                                                    attachment.setAttributes({ width: targetW, height: targetH });
+
+                                                    // Beri tahu Filament/Livewire bahwa isi editor berubah
+                                                    trixEditor.dispatchEvent(new Event("trix-change", { bubbles: true }));
                                                 }
                                             }
 
-                                            // Sembunyikan kembali toolbar setelah modifikasi sukses
                                             toolbar.style.display = "none";
                                         };
                                         toolbar.appendChild(btn);
                                     });
 
                                     const closeBtn = document.createElement("button");
+                                    closeBtn.type = "button";
                                     closeBtn.innerText = "✕";
                                     closeBtn.style.color = "#ef4444";
                                     closeBtn.style.background = "none";
@@ -288,17 +280,15 @@ class AdminPanelProvider extends PanelProvider
                     </script>
 
                     <style>
-                        /* 1. Latar Belakang Gelap Utama Hanya di Body */
                         body {
                             background-color: #0b071e !important;
                             background-image:
                                 linear-gradient(rgba(18, 10, 50, 0.4) 1px, transparent 1px),
                                 linear-gradient(90deg, rgba(18, 10, 50, 0.4) 1px, transparent 1px) !important;
                             background-size: 40px 40px !important;
-                            color: #f1f5f9 !important; /* Warna teks default */
+                            color: #f1f5f9 !important;
                         }
 
-                        /* 2. PEMBERSIHAN LAYER CONTAINER: Dipaksa Transparan Agar Canvas Terlihat */
                         .fi-layout,
                         .fi-main,
                         .fi-topbar,
@@ -308,7 +298,6 @@ class AdminPanelProvider extends PanelProvider
                             background: transparent !important;
                         }
 
-                        /* 3. EFEK MELAYANG: Membuat Box Login / Box Form Menjadi Semi-Transparan Ber-blur */
                         .fi-card,
                         .fi-panel,
                         .fi-section {
@@ -318,7 +307,6 @@ class AdminPanelProvider extends PanelProvider
                             box-shadow: 0 0 35px rgba(168, 85, 247, 0.15) !important;
                         }
 
-                        /* 4. PEMBERSIHAN ELEMEN BAWAAN: Sembunyikan Logo & Breadcrumbs Tanpa Merusak Container */
                         .fi-topbar-header-container > a,
                         .fi-topbar-brand,
                         .fi-topbar-brand-name,
@@ -331,13 +319,11 @@ class AdminPanelProvider extends PanelProvider
                             pointer-events: none !important;
                         }
 
-                        /* Pastikan padding header seimbang dan rapi */
                         .fi-topbar-header-container {
                             padding-left: 1.5rem !important;
                             padding-right: 1.5rem !important;
                         }
 
-                        /* 3. PAKSA SEMUA HEADER & LABEL BERWARNA CYAN TERANG */
                         h1, h2, h3, h4, h5, h6,
                         .fi-header-title,
                         .fi-ta-header-title,
@@ -346,16 +332,14 @@ class AdminPanelProvider extends PanelProvider
                             text-shadow: 0 0 10px rgba(34, 211, 238, 0.3) !important;
                         }
 
-                        /* Memaksa warna label formulir di atas input agar terlihat jelas */
                         label,
                         .fi-fo-field-wrp-label span,
                         .fi-fo-placeholder,
                         span.text-sm {
-                            color: #a78bfa !important; /* Warna ungu neon terang */
+                            color: #a78bfa !important;
                             font-weight: 600 !important;
                         }
 
-                        /* 4. MODIFIKASI EXTRA KETAT UNTUK KOLOM INPUT, TEXTAREA & RICH EDITOR */
                         input,
                         textarea,
                         select,
@@ -363,12 +347,11 @@ class AdminPanelProvider extends PanelProvider
                         .choices__inner,
                         .fi-input-wrp {
                             background-color: rgba(19, 13, 49, 0.95) !important;
-                            border: 1px solid rgba(168, 85, 247, 0.5) !important; /* Border Ungu Neon */
-                            color: #22d3ee !important; /* Warna tulisan ketikan input dipaksa Cyan Terang */
+                            border: 1px solid rgba(168, 85, 247, 0.5) !important;
+                            color: #22d3ee !important;
                             border-radius: 0.75rem !important;
                         }
 
-                        /* Memaksa text input di dalam pembungkus Filament agar berwarna Cyan */
                         .fi-input-wrp input,
                         .fi-input-wrp select,
                         .fi-input-wrp textarea,
@@ -377,10 +360,9 @@ class AdminPanelProvider extends PanelProvider
                         input[type="email"],
                         input[type="password"] {
                             color: #22d3ee !important;
-                            -webkit-text-fill-color: #22d3ee !important; /* Paksa untuk Safari/Chrome */
+                            -webkit-text-fill-color: #22d3ee !important;
                         }
 
-                        /* Efek Fokus Input (Glow Cyan) */
                         input:focus,
                         textarea:focus,
                         .fi-fo-rich-editor:focus-within,
@@ -389,7 +371,6 @@ class AdminPanelProvider extends PanelProvider
                             box-shadow: 0 0 15px rgba(6, 182, 212, 0.5) !important;
                         }
 
-                        /* 5. SOLUSI TOTAL TULISAN WRITING CONTENT (Trix & TipTap Editor) & NEON SYNTAX HIGHLIGHTING */
                         trix-editor,
                         .trix-content,
                         .trix-editor *,
@@ -401,22 +382,19 @@ class AdminPanelProvider extends PanelProvider
                         .ProseMirror *,
                         .tiptap,
                         .tiptap * {
-                            color: #f1f5f9 !important; /* Teks artikel default dipaksa abu-abu terang */
+                            color: #f1f5f9 !important;
                             -webkit-text-fill-color: #f1f5f9 !important;
                         }
 
-                        /* 🚀 MEMAKSA TINGGI AREA KETIK TIPTAP DAN BERI PADDING AGAR LEBIH LEGA */
                         .ProseMirror, .tiptap {
                             min-height: 500px !important;
                             padding: 1.5rem !important;
                         }
 
-                        /* Mengubah kursor ketikan trix editor agar berwarna Cyan neon */
                         trix-editor {
                             caret-color: #22d3ee !important;
                         }
 
-                        /* 🚀 CYBERPUNK NEON SYNTAX HIGHLIGHTING (Mencegah Kode Menjadi Invisible) */
                         .ProseMirror pre, .tiptap pre, .prose pre {
                             background-color: #060411 !important;
                             border: 1px solid rgba(168, 85, 247, 0.4) !important;
@@ -424,21 +402,19 @@ class AdminPanelProvider extends PanelProvider
                         }
 
                         .ProseMirror pre code, .tiptap pre code, .prose pre code {
-                            color: #e2e8f0 !important; /* Warna teks dasar di dalam kode (Putih Terang) */
+                            color: #e2e8f0 !important;
                         }
 
-                        /* Warna Komentar (Simbol // dan komentarnya dipaksa abu-abu agar terbaca jelas) */
                         .ProseMirror pre code .hljs-comment,
                         .ProseMirror pre code .hljs-quote,
                         .tiptap pre code .hljs-comment,
                         .tiptap pre code .hljs-quote,
                         .hljs-comment,
                         .hljs-quote {
-                            color: #94a3b8 !important; /* Slate gray terang, 100% terbaca di background gelap */
+                            color: #94a3b8 !important;
                             font-style: italic !important;
                         }
 
-                        /* Warna Keyword utama (php, composer, sudo, systemctl, dll) */
                         .ProseMirror pre code .hljs-keyword,
                         .ProseMirror pre code .hljs-selector-tag,
                         .ProseMirror pre code .hljs-literal,
@@ -448,11 +424,10 @@ class AdminPanelProvider extends PanelProvider
                         .tiptap pre code .hljs-selector-tag,
                         .hljs-keyword,
                         .hljs-selector-tag {
-                            color: #22d3ee !important; /* Cyan Neon */
+                            color: #22d3ee !important;
                             font-weight: bold !important;
                         }
 
-                        /* Warna Atribut, Strings, dan Variabel */
                         .ProseMirror pre code .hljs-string,
                         .ProseMirror pre code .hljs-title,
                         .ProseMirror pre code .hljs-name,
@@ -464,10 +439,9 @@ class AdminPanelProvider extends PanelProvider
                         .hljs-string,
                         .hljs-title,
                         .hljs-name {
-                            color: #a78bfa !important; /* Ungu Neon */
+                            color: #a78bfa !important;
                         }
 
-                        /* Warna Angka dan Simbol */
                         .ProseMirror pre code .hljs-number,
                         .ProseMirror pre code .hljs-regexp,
                         .ProseMirror pre code .hljs-symbol,
@@ -476,18 +450,16 @@ class AdminPanelProvider extends PanelProvider
                         .tiptap pre code .hljs-number,
                         .hljs-number,
                         .hljs-symbol {
-                            color: #f472b6 !important; /* Pink Neon */
+                            color: #f472b6 !important;
                         }
 
-                        /* Warna Built-in Command */
                         .ProseMirror pre code .hljs-built_in,
                         .ProseMirror pre code .hljs-builtin-name,
                         .tiptap pre code .hljs-built_in,
                         .hljs-built_in {
-                            color: #38bdf8 !important; // Biru Langit
+                            color: #38bdf8 !important;
                         }
 
-                        /* Memasukkan pendaran tombol editor TipTap */
                         .trix-button-row button,
                         .trix-button-group button,
                         .fi-fo-rich-editor-toolbar button {
@@ -496,7 +468,6 @@ class AdminPanelProvider extends PanelProvider
                             border-color: rgba(168, 85, 247, 0.3) !important;
                         }
 
-                        /* 6. Tombol Utama (Save / Create) dengan Gradasi Pink-Cyan */
                         .fi-btn-color-primary,
                         .fi-ac-action {
                             background-image: linear-gradient(to right, #ec4899, #8b5cf6, #06b6d4) !important;
@@ -515,7 +486,6 @@ class AdminPanelProvider extends PanelProvider
                             transform: translateY(-1px) !important;
                         }
 
-                        /* Tombol Batal/Kembali */
                         .fi-btn-color-gray {
                             background-color: rgba(255, 255, 255, 0.05) !important;
                             border: 1px solid rgba(156, 163, 175, 0.3) !important;
@@ -525,8 +495,6 @@ class AdminPanelProvider extends PanelProvider
                 '),
             )
 
-            // 5. INJEKSI TOMBOL KEMBALI SECARA PRESISI (Render Hook TOPBAR START)
-            // Tombol ini ditempatkan di dalam jangkauan topbar di sebelah kiri, menggantikan logo Laravel secara bersih.
             ->renderHook(
                 PanelsRenderHook::TOPBAR_START,
                 fn (): string => '<a href="/blog" class="flex items-center gap-2 px-5 py-2 bg-[#130d31]/90 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-semibold rounded-xl hover:border-cyan-400 hover:text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.45)] transition-all duration-300 backdrop-blur-md">← RETURN TO MAIN BLOG</a>'
@@ -534,9 +502,7 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                // Mengosongkan dashboard agar menu dashboard tidak terdaftar
-            ])
+            ->pages([])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -555,7 +521,5 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
-
-
     }
 }

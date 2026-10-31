@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
 use App\Models\Blog;
+use Awcodes\FilamentTiptapEditor\TiptapEditor;
+use Awcodes\FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -48,32 +50,17 @@ class BlogResource extends Resource
                             ->rows(3)
                             ->maxLength(255),
 
-                        // Isi artikel. Gambar & lampiran yang di-upload disimpan di Supabase Storage.
-                        Forms\Components\RichEditor::make('content')
+                        // Editor Tiptap: gambar bisa diatur ukurannya, upload ke Supabase Storage.
+                        TiptapEditor::make('content')
                             ->required()
                             ->columnSpanFull()
-                            ->fileAttachmentsDisk('s3')
-                            ->fileAttachmentsDirectory('blog-attachments')
-                            ->fileAttachmentsVisibility('public')
-                            ->toolbarButtons([
-                                'attachFiles',
-                                'blockquote',
-                                'bold',
-                                'bulletList',
-                                'codeBlock',
-                                'h1',
-                                'h2',
-                                'h3',
-                                'italic',
-                                'link',
-                                'orderedList',
-                                'redo',
-                                'strike',
-                                'underline',
-                                'undo',
-                            ]),
+                            ->disk('s3')
+                            ->directory('blog-attachments')
+                            ->visibility('public')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'])
+                            ->maxSize(5120)
+                            ->output(TiptapOutput::Html),
 
-                        // Banner: upload langsung ke Supabase Storage.
                         Forms\Components\FileUpload::make('image')
                             ->label('Banner Image')
                             ->image()
